@@ -12,8 +12,9 @@ I have normally found the best way to learn a technology or language is to dive 
 
 So here is A2B a 3D puzzle game written in javascript using:-
 
-  [threejs]: https://github.com/mrdoob/three.js/ 
-  [physijs]: http://chandlerprall.github.com/Physijs/ 
+  threejs: https://github.com/mrdoob/three.js/ 
+
+  physijs: http://chandlerprall.github.com/Physijs/ 
 
 Installation
 ------------
