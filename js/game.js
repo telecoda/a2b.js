@@ -263,13 +263,23 @@ A2B.Game.prototype.mainMenuModeInitScene = function(currentScene) {
 			);
 		floor.receiveShadow = true;
 		currentScene.add( floor );
-		
+
+		var wood_material = this.materials["wood"];
+
+		var text_mesh = A2B.createTextMesh("A2B",wood_material);
+		//var text = new Physijs.Mesh(text_geo
+		//	,
+		//	wood_material,
+		//	0 // mass
+		//	);
+		text_mesh.receiveShadow = true;
+		currentScene.add( text_mesh );
 		
 	
 
 	// add directional light to scene
 	var dirLight = A2B.getDirectionalLight();
-	dirLight.position.set( 20, 40, -15 );
+	dirLight.position.set( 20, 40, 25 );
 	dirLight.target.position.copy( currentScene.position );
 
 	currentScene.add( dirLight );

@@ -79,23 +79,23 @@ A2B.initMaterials = function() {
  * This method creates a mesh from text to be added to a scene
  */
 
-/*
-A2B.createTextMesh = function(text) {
 
-	var height = 20,
-	var size = 70,
-	var hover = 30,
+A2B.createTextMesh = function(text, faceMaterial) {
 
-	var curveSegments = 4,
+	var height = 20;
+	var size = 70;
+	var hover = 30;
 
-	var bevelThickness = 2,
-	var bevelSize = 1.5,
-	var bevelSegments = 3,
-	var bevelEnabled = true,
-	var bend = true,
+	var curveSegments = 4;
 
-	var font = "optimer", 		// helvetiker, optimer, gentilis, droid sans, droid serif
-	var weight = "bold",		// normal bold
+	var bevelThickness = 2;
+	var bevelSize = 1.5;
+	var bevelSegments = 3;
+	var bevelEnabled = true;
+	var bend = true;
+
+	var font = "helvetiker"; 		// helvetiker, optimer, gentilis, droid sans, droid serif
+	var weight = "normal";		// normal bold
 	var style = "normal";		// normal italic
 
 	var	textMaterialFront = new THREE.MeshPhongMaterial( { color: 0xffffff, shading: THREE.FlatShading } );
@@ -170,18 +170,34 @@ A2B.createTextMesh = function(text) {
 
 	}
 
-	var centerOffset = -0.5 * ( textGeo.boundingBox.x[ 1 ] - textGeo.boundingBox.x[ 0 ] );
+	//var centerOffset = -0.5 * ( textGeo.boundingBox.x[ 1 ] - textGeo.boundingBox.x[ 0 ] );
+	var centerOffset = -0.5 * ( textGeo.boundingBox.min.x - textGeo.boundingBox.max.x );
 
+	//return textGeo;
+
+	/*var textMesh1 = new Physijs.Mesh(
+			textGeo,
+			faceMaterial,
+			1000 // mass
+			);
+*/
 	var textMesh1 = new THREE.Mesh( textGeo, faceMaterial );
-
-	textMesh1.position.x = centerOffset;
-	textMesh1.position.y = hover;
-	textMesh1.position.z = 0;
+	textMesh1.receiveShadow = true;
+	
+	//textMesh1.position.x = centerOffset;
+	textMesh1.position.x = -10;
+	//textMesh1.position.y = hover;
+	textMesh1.position.y = 10;
+	textMesh1.position.z = 10;
 
 	textMesh1.rotation.x = 0;
 	textMesh1.rotation.y = Math.PI * 2;
+	textMesh1.castShadow = true;
 
 	//	parent.addChild( textMesh1 );
+	textMesh1.scale = new THREE.Vector3(0.2,0.2,0.2);
+
+	//textMesh1.setAngularVelocity(new THREE.Vector3(0,10,0));
 
 	return textMesh1;
 
@@ -202,7 +218,7 @@ A2B.createTextMesh = function(text) {
 	}*/
 
 
-//};
+};
 
 
 
