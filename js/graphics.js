@@ -185,12 +185,12 @@ A2B.createTextMesh = function(text, faceMaterial) {
 	textMesh1.receiveShadow = true;
 	
 	//textMesh1.position.x = centerOffset;
-	textMesh1.position.x = -10;
+	textMesh1.position.x = -15;
 	//textMesh1.position.y = hover;
-	textMesh1.position.y = 10;
+	textMesh1.position.y = 5;
 	textMesh1.position.z = 10;
 
-	textMesh1.rotation.x = 0;
+	textMesh1.rotation.x = -30 * (Math.PI/180);
 	textMesh1.rotation.y = Math.PI * 2;
 	textMesh1.castShadow = true;
 
