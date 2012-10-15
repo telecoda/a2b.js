@@ -78,6 +78,8 @@ A2B.initMaterials = function() {
 /*
  * This method creates a mesh from text to be added to a scene
  */
+
+/*
 A2B.createTextMesh = function(text) {
 
 	var height = 20,
@@ -200,7 +202,9 @@ A2B.createTextMesh = function(text) {
 	}*/
 
 
-}
+//};
+
+
 
 A2B.getDirectionalLight = function() {
 	
