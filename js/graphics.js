@@ -80,50 +80,9 @@ A2B.initMaterials = function() {
  */
 
 
-A2B.createTextMesh = function(text, faceMaterial) {
+A2B.createTextMesh = function(text, faceMaterial, fontProps) {
 
-	var height = 20;
-	var size = 70;
-	var hover = 30;
-
-	var curveSegments = 4;
-
-	var bevelThickness = 2;
-	var bevelSize = 1.5;
-	var bevelSegments = 3;
-	var bevelEnabled = true;
-	var bend = true;
-
-	var font = "helvetiker"; 		// helvetiker, optimer, gentilis, droid sans, droid serif
-	var weight = "normal";		// normal bold
-	var style = "normal";		// normal italic
-
-	var	textMaterialFront = new THREE.MeshPhongMaterial( { color: 0xffffff, shading: THREE.FlatShading } );
-	var	textMaterialSide = new THREE.MeshPhongMaterial( { color: 0xffffff, shading: THREE.SmoothShading } );
-
-
-	var textGeo = new THREE.TextGeometry( text, {
-
-	
-
-		size: size,
-		height: height,
-		curveSegments: curveSegments,
-
-		font: font,
-		weight: weight,
-		style: style,
-
-		bevelThickness: bevelThickness,
-		bevelSize: bevelSize,
-		bevelEnabled: bevelEnabled,
-
-		bend: bend,
-
-		material: textMaterialFront,
-		extrudeMaterial: textMaterialSide
-
-	});
+	var textGeo = new THREE.TextGeometry( text, fontProps);
 
 	textGeo.computeBoundingBox();
 	textGeo.computeVertexNormals();
@@ -131,9 +90,9 @@ A2B.createTextMesh = function(text, faceMaterial) {
 	// "fix" side normals by removing z-component of normals for side faces
 	// (this doesn't work well for beveled geometry as then we lose nice curvature around z-axis)
 
-	if ( ! bevelEnabled ) {
+	if ( ! fontProps.bevelEnabled ) {
 
-		var triangleAreaHeuristics = 0.1 * ( height * size );
+		var triangleAreaHeuristics = 0.1 * ( fontProps.height * fontProps.size );
 
 		for ( var i = 0; i < textGeo.faces.length; i ++ ) {
 
@@ -182,20 +141,8 @@ A2B.createTextMesh = function(text, faceMaterial) {
 			);
 */
 	var textMesh1 = new THREE.Mesh( textGeo, faceMaterial );
-	textMesh1.receiveShadow = true;
 	
-	//textMesh1.position.x = centerOffset;
-	textMesh1.position.x = -15;
-	//textMesh1.position.y = hover;
-	textMesh1.position.y = 5;
-	textMesh1.position.z = 10;
-
-	textMesh1.rotation.x = -30 * (Math.PI/180);
-	textMesh1.rotation.y = Math.PI * 2;
-	textMesh1.castShadow = true;
-
 	//	parent.addChild( textMesh1 );
-	textMesh1.scale = new THREE.Vector3(0.2,0.2,0.2);
 
 	//textMesh1.setAngularVelocity(new THREE.Vector3(0,10,0));
 
@@ -257,3 +204,30 @@ A2B.getSpotLight = function() {
 		
 		return light;
 		};
+
+A2B.initFontProps = function() {
+
+		var	textMaterialFront = new THREE.MeshPhongMaterial( { color: 0xffffff, shading: THREE.FlatShading } );
+		var	textMaterialSide = new THREE.MeshPhongMaterial( { color: 0xffffff, shading: THREE.SmoothShading } );
+
+		return  {
+								size: 70,
+								height: 20,
+								curveSegments: 4,
+								font: "helvetiker",	// helvetiker, optimer, gentilis, droid sans, droid serif
+								weight: "bold",	    // normal bold
+								style: "normal",    // italic
+
+								bevelThickness: 2,
+								bevelSize: 1.5,
+								bevelEnabled: true,
+
+								bend: true,
+
+								material: textMaterialFront,
+								extrudeMaterial: textMaterialSide
+
+				};
+
+
+};

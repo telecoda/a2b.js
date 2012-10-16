@@ -266,14 +266,52 @@ A2B.Game.prototype.mainMenuModeInitScene = function(currentScene) {
 
 		var wood_material = this.materials["wood"];
 
-		var text_mesh = A2B.createTextMesh("A2B",wood_material);
+		var fontProps = A2B.initFontProps();
+		// create A2B title mesh
+		var a2bMesh = A2B.createTextMesh("A2B",wood_material,fontProps);
+		// scale
+		a2bMesh.scale = new THREE.Vector3(0.2,0.2,0.2);
+
+		// position
+		a2bMesh.position.x = -15;
+		a2bMesh.position.y = 5;
+		a2bMesh.position.z = 10;
+
+		a2bMesh.rotation.x = -30 * (Math.PI/180);
+		a2bMesh.rotation.y = 0;//Math.PI * 2;
+		a2bMesh.castShadow = true;
+
+
+		a2bMesh.receiveShadow = true;
+		currentScene.add( a2bMesh );
+
+		// create by Telecoda mesh
+		fontProps.bend= false;
+		fontProps.bendPath = undefined;
+		fontProps.size=20;
+		var telecodaMesh = A2B.createTextMesh("by Telecoda",wood_material,fontProps);
+		// scale
+		telecodaMesh.scale = new THREE.Vector3(0.2,0.2,0.2);
+
+		// position
+		telecodaMesh.position.x = -15;
+		telecodaMesh.position.y = 5;
+		telecodaMesh.position.z = 30;
+
+		telecodaMesh.rotation.x = -60 * (Math.PI/180);
+		telecodaMesh.rotation.y = 0;//Math.PI * 2;
+		telecodaMesh.castShadow = true;
+
+
+		telecodaMesh.receiveShadow = true;
+		currentScene.add( telecodaMesh );
+
+		
 		//var text = new Physijs.Mesh(text_geo
 		//	,
 		//	wood_material,
 		//	0 // mass
 		//	);
-		text_mesh.receiveShadow = true;
-		currentScene.add( text_mesh );
 		
 	
 
