@@ -30,6 +30,54 @@ A2B.Game	= function(renderer,scene, camera)
 	this._player = new A2B.Player(woodMaterial);
 	this._currentEventListener = null;
 }
+/*
+A2B.Game.prototype.animate = function () {
+
+	requestAnimationFrame( animate );
+	
+	if( meshes.length == 0 ) return;
+	
+	var i, l = meshes.length;
+	
+	for ( i = 0; i < l; i++ ) {
+
+		meshes[ i ].materials[ 0 ].color.setHex( 0x003300 );
+
+	}
+
+	var vector = new THREE.Vector3( mouse.x, mouse.y, 0.5 );
+	projector.unprojectVector( vector, camera );
+
+	var ray = new THREE.Ray( camera.position, vector.subSelf( camera.position ).normalize() );
+
+	var c = THREE.Collisions.rayCastNearest( ray );
+	
+	if( c ) {
+	
+		//info.innerHTML += "Found @ distance " + c.distance;
+		c.mesh.materials[ 0 ].color.setHex( 0xbb0000 );
+
+	} else {
+	
+		//info.innerHTML += "No intersection";
+
+	}
+
+	camera.position.x = camdist * Math.cos( theta );
+	camera.position.z = camdist * Math.sin( theta );
+	camera.position.y = camdist/2 * Math.sin( theta * 2) ;
+
+	sun.position.copy( camera.position );
+	sun.position.normalize();
+
+	theta += 0.005;		
+
+	renderer.render( scene, camera );
+	
+	stats.update();
+	
+};
+*/
 
 A2B.Game.prototype.getScore	= function()
 {
@@ -152,7 +200,7 @@ A2B.Game.prototype.clearSceneObjects = function(sceneObject)
     	for(var i = children.length-1;i>=0;i--){
         	var child = children[i];
         	this.clearSceneObjects(child);
-        	sceneObject.removeObject(child);
+        	sceneObject.remove(child);
     };
 }
 
@@ -271,40 +319,48 @@ A2B.Game.prototype.mainMenuModeInitScene = function(currentScene) {
 		var a2bMesh = A2B.createTextMesh("A2B",wood_material,fontProps);
 		// scale
 		a2bMesh.scale = new THREE.Vector3(0.2,0.2,0.2);
-
 		// position
-		a2bMesh.position.x = -15;
-		a2bMesh.position.y = 5;
-		a2bMesh.position.z = 10;
-
-		a2bMesh.rotation.x = -30 * (Math.PI/180);
-		a2bMesh.rotation.y = 0;//Math.PI * 2;
+		a2bMesh.position = new THREE.Vector3(-15,5,10);
+		a2bMesh.rotation = new THREE.Vector3(A2B.degreesToRadians(-30),0,0);
 		a2bMesh.castShadow = true;
-
-
 		a2bMesh.receiveShadow = true;
 		currentScene.add( a2bMesh );
 
 		// create by Telecoda mesh
+		var fontProps = A2B.initFontProps();
 		fontProps.bend= false;
-		fontProps.bendPath = undefined;
-		fontProps.size=20;
+		fontProps.size=25;
 		var telecodaMesh = A2B.createTextMesh("by Telecoda",wood_material,fontProps);
 		// scale
 		telecodaMesh.scale = new THREE.Vector3(0.2,0.2,0.2);
-
 		// position
-		telecodaMesh.position.x = -15;
-		telecodaMesh.position.y = 5;
-		telecodaMesh.position.z = 30;
-
-		telecodaMesh.rotation.x = -60 * (Math.PI/180);
-		telecodaMesh.rotation.y = 0;//Math.PI * 2;
+		telecodaMesh.position = new THREE.Vector3(-15,5,30);
+		telecodaMesh.rotation = new THREE.Vector3(A2B.degreesToRadians(-60),0,0);
 		telecodaMesh.castShadow = true;
-
-
 		telecodaMesh.receiveShadow = true;
 		currentScene.add( telecodaMesh );
+
+		// create by start mesh
+		var start_material = this.materials["brick"];
+
+		var fontProps = A2B.initFontProps();
+		fontProps.bend= false;
+		fontProps.size=25;
+		var startMesh = A2B.createTextMesh("Start Game!",start_material,fontProps);
+		// scale
+		startMesh.scale = new THREE.Vector3(0.2,0.2,0.2);
+		// position
+		startMesh.position = new THREE.Vector3(-15,5,50);
+		startMesh.rotation = new THREE.Vector3(A2B.degreesToRadians(-90),0,0);
+		startMesh.material.color.setHex(0x0000ff);
+
+		startMesh.castShadow = true;
+		startMesh.receiveShadow = true;
+		currentScene.add( startMesh );
+
+		//var mc = THREE.CollisionUtils.MeshColliderWBox(startMesh);
+		//THREE.Collisions.colliders.push( mc );
+	
 
 		
 		//var text = new Physijs.Mesh(text_geo
