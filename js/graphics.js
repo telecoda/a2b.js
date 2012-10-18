@@ -2,7 +2,9 @@
 /** @namespace */
 var A2B	= A2B 		|| {};
 
-
+/*
+ * Create a text mesh for rendering.  fontProps is an object from initFontProps()
+ */
 A2B.createTextMesh = function(text, faceMaterial, fontProps) {
 
 	var textGeo = new THREE.TextGeometry( text, fontProps);
@@ -90,11 +92,17 @@ A2B.createTextMesh = function(text, faceMaterial, fontProps) {
 
 };
 
+/*
+ * Convert degrees to radians
+ */
 A2B.degreesToRadians = function(degrees) {
 
 	return degrees * (Math.PI / 180);
 }
 
+/*
+ * Create a directional light
+ */
 A2B.getDirectionalLight = function() {
 	
 		// Light
@@ -113,6 +121,9 @@ A2B.getDirectionalLight = function() {
 		return light;
 		};
 
+/*
+ * Create a spotlight light
+ */
 A2B.getSpotLight = function() {
 	
 		// Light
@@ -131,6 +142,10 @@ A2B.getSpotLight = function() {
 		return light;
 		};
 
+
+/*
+ * returns fontProps object for use with createTextMesh
+ */
 A2B.initFontProps = function() {
 
 		var	textMaterialFront = new THREE.MeshPhongMaterial( { color: 0xffffff, shading: THREE.FlatShading } );
@@ -158,6 +173,10 @@ A2B.initFontProps = function() {
 
 };
 
+/*
+ * Initialise all materials for the game
+ * (may be initialised at start of level in future)
+ */
 A2B.initMaterials = function() {
 
 		var materials = {};
@@ -230,8 +249,3 @@ A2B.initMaterials = function() {
 		return materials;
 	
 	};
-
-/*
- * This method creates a mesh from text to be added to a scene
- */
-
