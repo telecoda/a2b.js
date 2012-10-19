@@ -2,85 +2,14 @@
 /** @namespace */
 var A2B	= A2B 		|| {};
 
-A2B.initMaterials = function() {
-
-		var materials = {};
-		// Materials
-		var ground_material = Physijs.createMaterial(
-			new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( 'images/grass.png' ) }),
-			.8, // high friction
-			.4 // low restitution
-		);
-		ground_material.map.wrapS = ground_material.map.wrapT = THREE.RepeatWrapping;
-		ground_material.map.repeat.set( 3, 3 );
-		
-		materials["ground"]=ground_material;
-
-		var rock_material = Physijs.createMaterial(
-			new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( 'images/rocks.jpg' ) }),
-			.8, // low friction
-			.6 // high restitution
-		);
-		rock_material.map.wrapS = rock_material.map.wrapT = THREE.RepeatWrapping;
-		rock_material.map.repeat.set( .25, .25 );
-
-		materials["rock"]=rock_material;
-
-		var brick_material = Physijs.createMaterial(
-			new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( 'images/plywood.jpg' ) }),
-			.8, // low friction
-			.6 // high restitution
-		);
-		brick_material.map.wrapS = brick_material.map.wrapT = THREE.RepeatWrapping;
-		brick_material.map.repeat.set( .25, .25 );
-
-		materials["brick"]=brick_material;
-
-
-		var wood_material = Physijs.createMaterial(
-			new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( 'images/wood.jpg' ) }),
-			.8, // low friction
-			.6 // high restitution
-		);
-
-		wood_material.map.wrapS = wood_material.map.wrapT = THREE.RepeatWrapping;
-		wood_material.map.repeat.set( .25, .25 );
-
-		materials["wood"]=wood_material;
-
-		var blockA_material = Physijs.createMaterial(
-			new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( 'images/a_block.png' ) }),
-			.1, // low friction
-			.6 // high restitution
-		);
-
-		blockA_material.map.wrapS = blockA_material.map.wrapT = THREE.RepeatWrapping;
-		blockA_material.map.repeat.set( 1, 1 );
-
-		materials["blockA"]=blockA_material;
-
-		var blockB_material = Physijs.createMaterial(
-			new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( 'images/b_block.png' ) }),
-			.8, // low friction
-			.6 // high restitution
-		);
-
-		blockB_material.map.wrapS = blockB_material.map.wrapT = THREE.RepeatWrapping;
-		blockB_material.map.repeat.set( 1, 1 );
-
-		materials["blockB"]=blockB_material;
-
-
-		return materials;
-	
-	};
-
 /*
- * This method creates a mesh from text to be added to a scene
+ * Create a text mesh for rendering.  fontProps is an object from initFontProps()
  */
-
-
 A2B.createTextMesh = function(text, faceMaterial, fontProps) {
+
+
+
+
 
 	var textGeo = new THREE.TextGeometry( text, fontProps);
 
@@ -167,8 +96,17 @@ A2B.createTextMesh = function(text, faceMaterial, fontProps) {
 
 };
 
+/*
+ * Convert degrees to radians
+ */
+A2B.degreesToRadians = function(degrees) {
 
+	return degrees * (Math.PI / 180);
+}
 
+/*
+ * Create a directional light
+ */
 A2B.getDirectionalLight = function() {
 	
 		// Light
@@ -187,6 +125,9 @@ A2B.getDirectionalLight = function() {
 		return light;
 		};
 
+/*
+ * Create a spotlight light
+ */
 A2B.getSpotLight = function() {
 	
 		// Light
@@ -205,6 +146,10 @@ A2B.getSpotLight = function() {
 		return light;
 		};
 
+
+/*
+ * returns fontProps object for use with createTextMesh
+ */
 A2B.initFontProps = function() {
 
 		var	textMaterialFront = new THREE.MeshPhongMaterial( { color: 0xffffff, shading: THREE.FlatShading } );
@@ -231,3 +176,80 @@ A2B.initFontProps = function() {
 
 
 };
+
+/*
+ * Initialise all materials for the game
+ * (may be initialised at start of level in future)
+ */
+A2B.initMaterials = function() {
+
+		var materials = {};
+		// Materials
+		var ground_material = Physijs.createMaterial(
+			new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( 'images/grass.png' ) }),
+			.8, // high friction
+			.4 // low restitution
+		);
+		ground_material.map.wrapS = ground_material.map.wrapT = THREE.RepeatWrapping;
+		ground_material.map.repeat.set( 3, 3 );
+		
+		materials["ground"]=ground_material;
+
+		var rock_material = Physijs.createMaterial(
+			new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( 'images/rocks.jpg' ) }),
+			.8, // low friction
+			.6 // high restitution
+		);
+		rock_material.map.wrapS = rock_material.map.wrapT = THREE.RepeatWrapping;
+		rock_material.map.repeat.set( .25, .25 );
+
+		materials["rock"]=rock_material;
+
+		var brick_material = Physijs.createMaterial(
+			new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( 'images/plywood.jpg' ) }),
+			.8, // low friction
+			.6 // high restitution
+		);
+		brick_material.map.wrapS = brick_material.map.wrapT = THREE.RepeatWrapping;
+		brick_material.map.repeat.set( .25, .25 );
+
+		materials["brick"]=brick_material;
+
+
+		var wood_material = Physijs.createMaterial(
+			new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( 'images/wood.jpg' ) }),
+			.8, // low friction
+			.6 // high restitution
+		);
+
+		wood_material.map.wrapS = wood_material.map.wrapT = THREE.RepeatWrapping;
+		wood_material.map.repeat.set( .25, .25 );
+
+		materials["wood"]=wood_material;
+
+		var blockA_material = Physijs.createMaterial(
+			new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( 'images/a_block.png' ) }),
+			.1, // low friction
+			.6 // high restitution
+		);
+
+		blockA_material.map.wrapS = blockA_material.map.wrapT = THREE.RepeatWrapping;
+		blockA_material.map.repeat.set( 1, 1 );
+
+		materials["blockA"]=blockA_material;
+
+		var blockB_material = Physijs.createMaterial(
+			new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( 'images/b_block.png' ) }),
+			.8, // low friction
+			.6 // high restitution
+		);
+
+		blockB_material.map.wrapS = blockB_material.map.wrapT = THREE.RepeatWrapping;
+		blockB_material.map.repeat.set( 1, 1 );
+
+		materials["blockB"]=blockB_material;
+
+
+		return materials;
+	
+	};

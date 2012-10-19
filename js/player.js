@@ -23,6 +23,39 @@ A2B.Player	= function(playerMaterial)
 	
 };
 
+/*
+ * Return current mesh of player
+ */
+A2B.Player.prototype.getMesh = function() {
+	return this._playersMesh;
+};
+
+/*
+ * Return x position of player
+ */
+A2B.Player.prototype.getX = function() {
+	return this._playersMesh.position.x;
+};
+
+/*
+ * Return y position of player
+ */
+A2B.Player.prototype.getY = function() {
+	return this._playersMesh.position.y;
+};
+
+/*
+ * Return z position of player
+ */
+A2B.Player.prototype.getZ = function() {
+	return this._playersMesh.position.z;
+};
+
+
+
+/*
+ * collision handling callback for player
+ */
 A2B.Player.prototype.handleCollision = function( collided_with, linearVelocity, angularVelocity ) {
 				if(collided_with.name=="startBlock")
 				{
@@ -60,35 +93,51 @@ A2B.Player.prototype.handleCollision = function( collided_with, linearVelocity, 
 				}*/
 			};
 
+/*
+ * move player backwarss when key pressed
+ */
+A2B.Player.prototype.moveBackwards = function(cameraPosition) {
 
+	var angle =0;
 
-A2B.Player.prototype.getMesh = function() {
-	return this._playersMesh;
-};
-
-A2B.Player.prototype.getX = function() {
-	return this._playersMesh.position.x;
-};
-
-A2B.Player.prototype.getY = function() {
-	return this._playersMesh.position.y;
-};
-
-A2B.Player.prototype.getZ = function() {
-	return this._playersMesh.position.z;
+	this.pushPlayer(cameraPosition,angle);
 };
 
 
-A2B.Player.prototype.rotateVectorAboutY = function(vector,angle){
+/*
+ * move player forwards when key pressed
+ */
+A2B.Player.prototype.moveForwards = function(cameraPosition) {
+	var angle =180;
 
-	var axis = new THREE.Vector3(0,1,0);
-	var angle = angle * (Math.PI/180);
-	var matrix = new THREE.Matrix4().setRotationAxis(axis,angle);
+	this.pushPlayer(cameraPosition,angle);
 
-	matrix.multiplyVector3(vector);
-	return vector;
-}
 
+	
+};
+
+/*
+ * move player left when key pressed
+ */
+A2B.Player.prototype.moveLeft = function(cameraPosition) {
+	var angle =270;
+
+	this.pushPlayer(cameraPosition,angle);
+};
+
+/*
+ * move player right when key pressed
+ */
+A2B.Player.prototype.moveRight = function(cameraPosition) {
+	var angle =90;
+
+	this.pushPlayer(cameraPosition,angle);
+
+};
+
+/*
+ * apply force to player relative to direction camera is facing
+ */
 A2B.Player.prototype.pushPlayer = function(cameraPosition,angle){
 	var strength=1;
 	
@@ -105,31 +154,12 @@ A2B.Player.prototype.pushPlayer = function(cameraPosition,angle){
 
 }
 
-A2B.Player.prototype.moveForwards = function(cameraPosition) {
-	var angle =180;
 
-	this.pushPlayer(cameraPosition,angle);
+A2B.Player.prototype.rotateVectorAboutY = function(vector,angle){
 
-
-	
-};
-
-A2B.Player.prototype.moveBackwards = function(cameraPosition) {
-
-	var angle =0;
-
-	this.pushPlayer(cameraPosition,angle);
-};
-
-A2B.Player.prototype.moveLeft = function(cameraPosition) {
-	var angle =270;
-
-	this.pushPlayer(cameraPosition,angle);
-};
-
-A2B.Player.prototype.moveRight = function(cameraPosition) {
-	var angle =90;
-
-	this.pushPlayer(cameraPosition,angle);
-
-};
+	var angle = A2B.degreesToRadians(angle);
+	var matrix = new THREE.Matrix4();
+	matrix = matrix.makeRotationY(angle);
+	matrix.multiplyVector3(vector);
+	return vector;
+}
