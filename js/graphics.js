@@ -7,6 +7,10 @@ var A2B	= A2B 		|| {};
  */
 A2B.createTextMesh = function(text, faceMaterial, fontProps) {
 
+
+
+
+
 	var textGeo = new THREE.TextGeometry( text, fontProps);
 
 	textGeo.computeBoundingBox();
