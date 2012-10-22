@@ -1,23 +1,23 @@
 <html>
   <head>
-    <script language="JavaScript" src="jsunit/app/jsUnitCore.js"></script>
+    <script language="JavaScript" src="../jsunit/app/jsUnitCore.js"></script>
 
-    <script src="vendor/three.js/three.min.js"></script>
-    <script type="text/javascript" src="vendor/physi.js/physi.js"></script>
+    <script src="../vendor/three.js/three.min.js"></script>
+    <script type="text/javascript" src="../vendor/physi.js/physi.js"></script>
     
-    <script type="text/javascript" src="fonts/gentilis_bold.typeface.js"></script>
-    <script type="text/javascript" src="fonts/gentilis_regular.typeface.js"></script>
-    <script type="text/javascript" src="fonts/optimer_bold.typeface.js"></script>
-    <script type="text/javascript" src="fonts/optimer_regular.typeface.js"></script>
-    <script type="text/javascript" src="fonts/helvetiker_bold.typeface.js"></script>
-    <script type="text/javascript" src="fonts/helvetiker_regular.typeface.js"></script>
-    <script type="text/javascript" src="fonts/droid/droid_sans_regular.typeface.js"></script>
-    <script type="text/javascript" src="fonts/droid/droid_sans_bold.typeface.js"></script>
-    <script type="text/javascript" src="fonts/droid/droid_serif_regular.typeface.js"></script>
-    <script type="text/javascript" src="fonts/droid/droid_serif_bold.typeface.js"></script>
+    <script type="text/javascript" src="../fonts/gentilis_bold.typeface.js"></script>
+    <script type="text/javascript" src="../fonts/gentilis_regular.typeface.js"></script>
+    <script type="text/javascript" src="../fonts/optimer_bold.typeface.js"></script>
+    <script type="text/javascript" src="../fonts/optimer_regular.typeface.js"></script>
+    <script type="text/javascript" src="../fonts/helvetiker_bold.typeface.js"></script>
+    <script type="text/javascript" src="../fonts/helvetiker_regular.typeface.js"></script>
+    <script type="text/javascript" src="../fonts/droid/droid_sans_regular.typeface.js"></script>
+    <script type="text/javascript" src="../fonts/droid/droid_sans_bold.typeface.js"></script>
+    <script type="text/javascript" src="../fonts/droid/droid_serif_regular.typeface.js"></script>
+    <script type="text/javascript" src="../fonts/droid/droid_serif_bold.typeface.js"></script>
 
-    <script language="JavaScript" src="js/graphics.js"></script>
-    <script language="JavaScript" src="js/game.js"></script>
+    <script language="JavaScript" src="../js/graphics.js"></script>
+    <script language="JavaScript" src="../js/game.js"></script>
     <script language="JavaScript">
 
 /***********************
@@ -26,6 +26,7 @@
 function testCreateTextMesh() {
   // 
   var materials = A2B.initMaterials();
+  //log.info("Starting createTextMesh test");
   assertNotNull("Should initialise an array of materials for the game", materials);
   var rockMaterial = materials["rock"];
 
