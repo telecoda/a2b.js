@@ -76,6 +76,9 @@ var materials;
 var cameraControls;
 
 var game;
+
+var mouse = { x: 0, y: 0 }, INTERSECTED;
+
 startGame = function() {
 
 		// hide start button
@@ -164,6 +167,9 @@ startGame = function() {
 
 setMousePosition = function( evt ) {
 		// Find where mouse cursor intersects the ground plane
+		mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+		mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
 		var vector = new THREE.Vector3(
 			( evt.clientX / renderer.domElement.clientWidth ) * 2 - 1,
 			-( ( evt.clientY / renderer.domElement.clientHeight ) * 2 - 1 ),
@@ -184,6 +190,36 @@ render = function() {
 		
 		// update camera controls
 		cameraControls.update();
+
+		// check for intersects
+		var vector = new THREE.Vector3( mouse.x, mouse.y, 1 );
+		projector.unprojectVector( vector, camera );
+
+		var ray = new THREE.Ray( camera.position, vector.subSelf( camera.position ).normalize() );
+
+		var intersects = ray.intersectObjects( scene.children );
+
+		if ( intersects.length > 0 ) {
+
+			if ( INTERSECTED != intersects[ 0 ].object ) {
+
+				if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
+
+				INTERSECTED = intersects[ 0 ].object;
+				INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
+				INTERSECTED.material.emissive.setHex( 0xff0000 );
+
+			}
+
+		} else {
+
+			if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
+
+			INTERSECTED = null;
+
+		}
+
+
 		//game.animate();
 		//applyForce();
 		scene.simulate(undefined, 2);
