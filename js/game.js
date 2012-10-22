@@ -16,7 +16,7 @@ var DISPLAY_HIGHSCORES = 10;
 
 
 
-A2B.Game	= function(renderer,scene, camera)
+A2B.Game	= function(scene, camera)
 {
 	// to store the current state
 	this._level=1;
