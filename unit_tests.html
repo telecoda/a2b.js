@@ -1,0 +1,53 @@
+<html>
+  <head>
+    <script language="JavaScript" src="jsunit/app/jsUnitCore.js"></script>
+
+    <script src="vendor/three.js/three.min.js"></script>
+    
+    <script language="JavaScript" src="js/graphics.js"></script>
+    <script language="JavaScript">
+
+/* graphics.js tests */
+function testDegreesToRadians() {
+  assertEquals("Should 0 degrees to radians" ,0, A2B.degreesToRadians(0));
+  assertEquals("Should 90 degrees to radians" ,1.5707963267948966, A2B.degreesToRadians(90));
+}
+
+function testGetDirectionalLight() {
+  var light = A2B.getDirectionalLight();
+  assertNotNull("Should create a directional light", light);
+  // check light properties here..
+}
+
+/* just example code beyond here... */
+
+function multiplyAndAddFive(arg1, arg2) {
+  return arg1*arg2+5;
+}
+
+
+function multiplyAndAddFive(arg1, arg2) {
+	return arg1*arg2+5;
+}
+
+function testWithValidArguments() {
+	assertEquals("2 times 3 plus 5 is 11", 11, multiplyAndAddFive(2, 3));
+	assertEquals("Should work with negative numbers", -15, multiplyAndAddFive(-4, 5));
+}
+
+function testWithInvalidArguments() {
+	assertEquals(5, multiplyAndAddFive(2, null));
+	//assertNaN(NaN, multiplyAndAddFive(2, "a string"));
+	//assertNaN("undefined argument", multiplyAndAddFive(2, JSUNIT_UNDEFINED_VALUE));
+}
+
+function testStrictReturnType() {
+	assertNotEquals("Should return a number, not a string", "11", multiplyAndAddFive(2, 3));
+}
+
+    </script>
+  </head>
+  <body>
+    This is a Test Page for multiplyAndAddFive(arg1, arg2).
+  </body>
+</html>
