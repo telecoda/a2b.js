@@ -69,7 +69,7 @@
 // methods
 var startGame, render, setMousePosition, mouse_position
 // vars
-var  projector, renderer, stats, gamestats, scene, camera;
+var  projector, stats, gamestats, scene, camera;
 
 var materials;
 	
@@ -87,21 +87,7 @@ startGame = function() {
 		
 		projector = new THREE.Projector;
 		
-	
-		renderer = new THREE.WebGLRenderer({
-					antialias		: true,	// to get smoother output
-					preserveDrawingBuffer	: true	// to allow screenshot
-				});
-		renderer.setClearColorHex( 0xBBBBBB, 1 );
-
-		renderer.setSize( window.innerWidth, window.innerHeight );
-		// ground does not appear with shadows enabled?
-		// can we check card capabilities?
-
-		renderer.shadowMapEnabled = true;
-		renderer.shadowMapSoft = true;
-		document.getElementById( 'viewport' ).appendChild( renderer.domElement );
-		 
+	 
 		stats = new Stats();
 		stats.domElement.style.position = 'absolute';
 		stats.domElement.style.top = '0px';
@@ -141,7 +127,7 @@ startGame = function() {
 
 		scene.add( camera );
 	
-		game = new A2B.Game(renderer,scene,camera);
+		game = new A2B.Game(scene,camera);
 
 		//game.addWebUI();
 
@@ -149,9 +135,9 @@ startGame = function() {
 			
 		// add keyboard controls
 		// transparently support window resize
-			THREEx.WindowResize.bind(renderer, camera);
+			THREEx.WindowResize.bind(game.getRenderer(), camera);
 			// allow 'p' to make screenshot
-			THREEx.Screenshot.bindKey(renderer);
+			THREEx.Screenshot.bindKey(game.getRenderer());
 			// allow 'f' to go fullscreen where this feature is supported
 			if( THREEx.FullScreen.available() ){
 				THREEx.FullScreen.bindKey();		
@@ -160,7 +146,7 @@ startGame = function() {
 
 
 		requestAnimationFrame( render );
-		renderer.domElement.addEventListener( 'mousemove', setMousePosition );
+		game.getRenderer().domElement.addEventListener( 'mousemove', setMousePosition );
 	
 
 	};
@@ -171,8 +157,8 @@ setMousePosition = function( evt ) {
 		mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 
 		var vector = new THREE.Vector3(
-			( evt.clientX / renderer.domElement.clientWidth ) * 2 - 1,
-			-( ( evt.clientY / renderer.domElement.clientHeight ) * 2 - 1 ),
+			( evt.clientX / game.getRenderer().domElement.clientWidth ) * 2 - 1,
+			-( ( evt.clientY / game.getRenderer().domElement.clientHeight ) * 2 - 1 ),
 			.5
 		);
 		projector.unprojectVector( vector, camera );
@@ -224,7 +210,7 @@ render = function() {
 		//applyForce();
 		scene.simulate(undefined, 2);
 		requestAnimationFrame( render );
-		renderer.render( scene, camera);
+		game.getRenderer().render( scene, camera);
 		stats.update();
 		gamestats.update();
 	};

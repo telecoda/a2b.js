@@ -22,7 +22,7 @@ A2B.Game	= function(renderer,scene, camera)
 	this._level=1;
 	this._lives=3;
 	this._score=0;
-	this._renderer=renderer;
+	this._renderer=this.initRenderer();
 	this._scene=scene;
 	this._camera=camera;
 	this.materials = A2B.initMaterials();
@@ -37,6 +37,7 @@ A2B.Game	= function(renderer,scene, camera)
 A2B.Game.prototype.addPlayerToScene = function(currentScene,levelNumber) {
 	currentScene.add(this._player.getMesh());
 }
+
 
 
 A2B.Game.prototype.addWebUI = function()
@@ -158,10 +159,34 @@ A2B.Game.prototype.getPlayer	= function()
 	return this._player;
 }
 
+A2B.Game.prototype.getRenderer	= function()
+{
+	return this._renderer;
+}
+
 A2B.Game.prototype.getScore	= function()
 {
 	return this._score;
 }
+
+A2B.Game.prototype.initRenderer = function() {
+
+	var renderer = new THREE.WebGLRenderer({
+					antialias		: true,	// to get smoother output
+					preserveDrawingBuffer	: true	// to allow screenshot
+				});
+	renderer.setClearColorHex( 0xBBBBBB, 1 );
+
+	renderer.setSize( window.innerWidth, window.innerHeight );
+	// ground does not appear with shadows enabled?
+	// can we check card capabilities?
+
+	renderer.shadowMapEnabled = true;
+	renderer.shadowMapSoft = true;
+	document.getElementById( 'viewport' ).appendChild( renderer.domElement );
+	
+	return renderer;	
+};
 
 
 /**
@@ -435,28 +460,28 @@ A2B.Game.prototype.mainMenuModeInitScene = function(currentScene) {
 
 		var wood_material = this.materials["wood"];
 
-		var fontProps = A2B.Graphics.initFontProps();
+		var fontProps = A2B.initFontProps();
 		// create A2B title mesh
-		var a2bMesh = A2B.Graphics.createTextMesh("A2B",wood_material,fontProps);
+		var a2bMesh = A2B.createTextMesh("A2B",wood_material,fontProps);
 		// scale
 		a2bMesh.scale = new THREE.Vector3(0.2,0.2,0.2);
 		// position
 		a2bMesh.position = new THREE.Vector3(-15,5,10);
-		a2bMesh.rotation = new THREE.Vector3(A2B.Graphics.degreesToRadians(-30),0,0);
+		a2bMesh.rotation = new THREE.Vector3(A2B.degreesToRadians(-30),0,0);
 		a2bMesh.castShadow = true;
 		a2bMesh.receiveShadow = true;
 		currentScene.add( a2bMesh );
 
 		// create by Telecoda mesh
-		var fontProps = A2B.Graphics.initFontProps();
+		var fontProps = A2B.initFontProps();
 		fontProps.bend= false;
 		fontProps.size=25;
-		var telecodaMesh = A2B.Graphics.createTextMesh("by Telecoda",wood_material,fontProps);
+		var telecodaMesh = A2B.createTextMesh("by Telecoda",wood_material,fontProps);
 		// scale
 		telecodaMesh.scale = new THREE.Vector3(0.2,0.2,0.2);
 		// position
 		telecodaMesh.position = new THREE.Vector3(-15,5,30);
-		telecodaMesh.rotation = new THREE.Vector3(A2B.Graphics.degreesToRadians(-60),0,0);
+		telecodaMesh.rotation = new THREE.Vector3(A2B.degreesToRadians(-60),0,0);
 		telecodaMesh.castShadow = true;
 		telecodaMesh.receiveShadow = true;
 		currentScene.add( telecodaMesh );
@@ -464,15 +489,15 @@ A2B.Game.prototype.mainMenuModeInitScene = function(currentScene) {
 		// create by start mesh
 		var start_material = this.materials["brick"];
 
-		var fontProps = A2B.Graphics.initFontProps();
+		var fontProps = A2B.initFontProps();
 		fontProps.bend= false;
 		fontProps.size=25;
-		var startMesh = A2B.Graphics.createTextMesh("Start Game!",start_material,fontProps);
+		var startMesh = A2B.createTextMesh("Start Game!",start_material,fontProps);
 		// scale
 		startMesh.scale = new THREE.Vector3(0.2,0.2,0.2);
 		// position
 		startMesh.position = new THREE.Vector3(-15,5,50);
-		startMesh.rotation = new THREE.Vector3(A2B.Graphics.degreesToRadians(-90),0,0);
+		startMesh.rotation = new THREE.Vector3(A2B.degreesToRadians(-90),0,0);
 		startMesh.material.color.setHex(0x0000ff);
 
 		startMesh.castShadow = true;
@@ -493,7 +518,7 @@ A2B.Game.prototype.mainMenuModeInitScene = function(currentScene) {
 	
 
 	// add directional light to scene
-	var dirLight = A2B.Graphics.getDirectionalLight();
+	var dirLight = A2B.getDirectionalLight();
 	dirLight.position.set( 20, 40, 25 );
 	dirLight.target.position.copy( currentScene.position );
 
