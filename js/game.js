@@ -25,6 +25,7 @@ A2B.Game	= function(scene)
 	this._renderer=this.initRenderer();
 	this._scene=this.initScene();
 	this._camera=this.initCamera();
+	this._cameraControls=this.initCameraControls();
 	this.materials = A2B.initMaterials();
 	var woodMaterial = this.materials['wood'];
 	this._player = new A2B.Player(woodMaterial);
@@ -161,6 +162,12 @@ A2B.Game.prototype.getCamera	= function()
 	return this._camera;
 }
 
+A2B.Game.prototype.getCameraControls	= function()
+{
+	return this._cameraControls;
+}
+
+
 A2B.Game.prototype.getLives	= function()
 {
 	return this._lives;
@@ -199,6 +206,16 @@ A2B.Game.prototype.initCamera = function() {
 	
 	return camera;	
 };
+
+A2B.Game.prototype.initCameraControls = function() {
+
+	var	cameraControls	= new THREE.TrackballControls(this.getCamera());
+		
+	cameraControls.target.set(0,0,0);
+
+	return cameraControls;	
+};
+
 
 A2B.Game.prototype.initRenderer = function() {
 
