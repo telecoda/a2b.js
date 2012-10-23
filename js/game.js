@@ -23,12 +23,19 @@ A2B.Game	= function(scene)
 	this._lives=3;
 	this._score=0;
 	this._renderer=this.initRenderer();
-	this._scene=scene;
+	this._scene=this.initScene();
 	this._camera=this.initCamera();
 	this.materials = A2B.initMaterials();
 	var woodMaterial = this.materials['wood'];
 	this._player = new A2B.Player(woodMaterial);
 	this._currentEventListener = null;
+
+	// position camera
+	this.getCamera().lookAt( this.getScene().position );
+	// add camera to scene
+	this.getScene().add(this.getCamera());
+
+
 }
 
 /*
@@ -169,6 +176,11 @@ A2B.Game.prototype.getRenderer	= function()
 	return this._renderer;
 }
 
+A2B.Game.prototype.getScene	= function()
+{
+	return this._scene;
+}
+
 A2B.Game.prototype.getScore	= function()
 {
 	return this._score;
@@ -207,7 +219,13 @@ A2B.Game.prototype.initRenderer = function() {
 	return renderer;	
 };
 
+A2B.Game.prototype.initScene = function() {
 
+	var	scene = new Physijs.Scene;
+	scene.setGravity({ x: 0, y: -20, z: 0 });	
+
+	return scene;
+}
 /**
  * Bind a keys for running level
  */

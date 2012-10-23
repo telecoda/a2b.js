@@ -69,7 +69,7 @@
 // methods
 var startGame, render, setMousePosition, mouse_position
 // vars
-var  projector, stats, gamestats, scene;
+var  projector, stats, gamestats;
 
 var materials;
 	
@@ -102,19 +102,15 @@ startGame = function() {
 		document.getElementById( 'viewport' ).appendChild( gamestats.domElement );
 
 
-		scene = new Physijs.Scene;
-		scene.setGravity({ x: 0, y: -20, z: 0 });	
 	
 	
-		game = new A2B.Game(scene);
+		game = new A2B.Game();
 
-		game.getCamera().lookAt( scene.position );
 
 		cameraControls	= new THREE.TrackballControls(game.getCamera());
 		
 		cameraControls.target.set(0,0,0);
 
-		scene.add(game.getCamera());
 	
 		//game.addWebUI();
 
@@ -122,14 +118,14 @@ startGame = function() {
 			
 		// add keyboard controls
 		// transparently support window resize
-			THREEx.WindowResize.bind(game.getRenderer(),game.getCamera());
-			// allow 'p' to make screenshot
-			THREEx.Screenshot.bindKey(game.getRenderer());
-			// allow 'f' to go fullscreen where this feature is supported
-			if( THREEx.FullScreen.available() ){
-				THREEx.FullScreen.bindKey();		
-				document.getElementById('inlineDoc').innerHTML	+= "- <i>f</i> for fullscreen";
-			}
+		THREEx.WindowResize.bind(game.getRenderer(),game.getCamera());
+		// allow 'p' to make screenshot
+		THREEx.Screenshot.bindKey(game.getRenderer());
+		// allow 'f' to go fullscreen where this feature is supported
+		if( THREEx.FullScreen.available() ){
+			THREEx.FullScreen.bindKey();		
+			document.getElementById('inlineDoc').innerHTML	+= "- <i>f</i> for fullscreen";
+		}
 
 
 		requestAnimationFrame( render );
@@ -170,7 +166,7 @@ render = function() {
 
 		var ray = new THREE.Ray( game.getCamera().position, vector.subSelf( game.getCamera().position ).normalize() );
 
-		var intersects = ray.intersectObjects( scene.children );
+		var intersects = ray.intersectObjects( game.getScene().children );
 
 		if ( intersects.length > 0 ) {
 
@@ -195,9 +191,9 @@ render = function() {
 
 		//game.animate();
 		//applyForce();
-		scene.simulate(undefined, 2);
+		game.getScene().simulate(undefined, 2);
 		requestAnimationFrame( render );
-		game.getRenderer().render( scene, game.getCamera());
+		game.getRenderer().render( game.getScene(), game.getCamera());
 		stats.update();
 		gamestats.update();
 	};
