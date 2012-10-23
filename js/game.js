@@ -16,7 +16,7 @@ var DISPLAY_HIGHSCORES = 10;
 
 
 
-A2B.Game	= function(scene, camera)
+A2B.Game	= function(scene)
 {
 	// to store the current state
 	this._level=1;
@@ -24,7 +24,7 @@ A2B.Game	= function(scene, camera)
 	this._score=0;
 	this._renderer=this.initRenderer();
 	this._scene=scene;
-	this._camera=camera;
+	this._camera=this.initCamera();
 	this.materials = A2B.initMaterials();
 	var woodMaterial = this.materials['wood'];
 	this._player = new A2B.Player(woodMaterial);
@@ -149,6 +149,11 @@ A2B.Game.prototype.clearSceneObjects = function(sceneObject)
 }
 
 
+A2B.Game.prototype.getCamera	= function()
+{
+	return this._camera;
+}
+
 A2B.Game.prototype.getLives	= function()
 {
 	return this._lives;
@@ -168,6 +173,20 @@ A2B.Game.prototype.getScore	= function()
 {
 	return this._score;
 }
+
+A2B.Game.prototype.initCamera = function() {
+
+	var	camera = new THREE.PerspectiveCamera(
+			35,
+			window.innerWidth / window.innerHeight,
+			1,
+			1000
+		);
+
+	camera.position.set( 0, 50, 120 );
+	
+	return camera;	
+};
 
 A2B.Game.prototype.initRenderer = function() {
 

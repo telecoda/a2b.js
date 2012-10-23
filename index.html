@@ -69,7 +69,7 @@
 // methods
 var startGame, render, setMousePosition, mouse_position
 // vars
-var  projector, stats, gamestats, scene, camera;
+var  projector, stats, gamestats, scene;
 
 var materials;
 	
@@ -105,37 +105,24 @@ startGame = function() {
 		scene = new Physijs.Scene;
 		scene.setGravity({ x: 0, y: -20, z: 0 });	
 	
-/*		camera = new THREE.PerspectiveCamera(
-			35,
-			window.innerWidth / window.innerHeight,
-			1,
-			1000
-		); */
-		camera = new THREE.PerspectiveCamera(
-			35,
-			window.innerWidth / window.innerHeight,
-			1,
-			1000
-		);
-		camera.position.set( 0, 50, 120 );
-		//camera.position.set( 60, 50, 120 );
-		camera.lookAt( scene.position );
+	
+		game = new A2B.Game(scene);
 
-		cameraControls	= new THREE.TrackballControls(camera);
+		game.getCamera().lookAt( scene.position );
+
+		cameraControls	= new THREE.TrackballControls(game.getCamera());
 		
 		cameraControls.target.set(0,0,0);
 
-		scene.add( camera );
+		scene.add(game.getCamera());
 	
-		game = new A2B.Game(scene,camera);
-
 		//game.addWebUI();
 
 		game.startGame();
 			
 		// add keyboard controls
 		// transparently support window resize
-			THREEx.WindowResize.bind(game.getRenderer(), camera);
+			THREEx.WindowResize.bind(game.getRenderer(),game.getCamera());
 			// allow 'p' to make screenshot
 			THREEx.Screenshot.bindKey(game.getRenderer());
 			// allow 'f' to go fullscreen where this feature is supported
@@ -161,14 +148,14 @@ setMousePosition = function( evt ) {
 			-( ( evt.clientY / game.getRenderer().domElement.clientHeight ) * 2 - 1 ),
 			.5
 		);
-		projector.unprojectVector( vector, camera );
-		vector.subSelf( camera.position ).normalize();
+		projector.unprojectVector( vector, game.getCamera());
+		vector.subSelf( game.getCamera().position ).normalize();
 		
 		if(game._player._playersMesh == undefined)
 			return;
 
-		var coefficient = (game._player._playersMesh.position.y - camera.position.y) / vector.y
-		game.setMousePosition(camera.position.clone().addSelf( vector.multiplyScalar( coefficient ) ));
+		var coefficient = (game._player._playersMesh.position.y - game.getCamera().position.y) / vector.y
+		game.setMousePosition(game.getCamera().position.clone().addSelf( vector.multiplyScalar( coefficient ) ));
 	};
 
 	
@@ -179,9 +166,9 @@ render = function() {
 
 		// check for intersects
 		var vector = new THREE.Vector3( mouse.x, mouse.y, 1 );
-		projector.unprojectVector( vector, camera );
+		projector.unprojectVector( vector, game.getCamera() );
 
-		var ray = new THREE.Ray( camera.position, vector.subSelf( camera.position ).normalize() );
+		var ray = new THREE.Ray( game.getCamera().position, vector.subSelf( game.getCamera().position ).normalize() );
 
 		var intersects = ray.intersectObjects( scene.children );
 
@@ -210,7 +197,7 @@ render = function() {
 		//applyForce();
 		scene.simulate(undefined, 2);
 		requestAnimationFrame( render );
-		game.getRenderer().render( scene, camera);
+		game.getRenderer().render( scene, game.getCamera());
 		stats.update();
 		gamestats.update();
 	};
