@@ -16,16 +16,16 @@ var DISPLAY_HIGHSCORES = 10;
 
 
 
-A2B.Game	= function(scene)
+A2B.Game	= function(displayGraphicStats,displayGameStats)
 {
-	// to store the current state
-	this._level=1;
-	this._lives=3;
-	this._score=0;
+	this._displayGraphicStats=displayGraphicStats;
+	this._displayGameStats=displayGameStats;
+	
 	this._renderer=this.initRenderer();
 	this._scene=this.initScene();
 	this._camera=this.initCamera();
 	this._cameraControls=this.initCameraControls();
+	
 	this.materials = A2B.initMaterials();
 	var woodMaterial = this.materials['wood'];
 	this._player = new A2B.Player(woodMaterial);
@@ -36,6 +36,17 @@ A2B.Game	= function(scene)
 	// add camera to scene
 	this.getScene().add(this.getCamera());
 
+	if(this._displayGraphicStats)
+	{
+		// graphic stats
+		this._graphicStats = this.initGraphicStats();
+	}
+
+	if(this._displayGameStats)
+	{
+		// game stats
+		this._gameStats = this.initGameStats();
+	}
 
 }
 
@@ -79,54 +90,6 @@ A2B.Game.prototype.addWebUI = function()
 }
 
 
-/*
-A2B.Game.prototype.animate = function () {
-
-	requestAnimationFrame( animate );
-	
-	if( meshes.length == 0 ) return;
-	
-	var i, l = meshes.length;
-	
-	for ( i = 0; i < l; i++ ) {
-
-		meshes[ i ].materials[ 0 ].color.setHex( 0x003300 );
-
-	}
-
-	var vector = new THREE.Vector3( mouse.x, mouse.y, 0.5 );
-	projector.unprojectVector( vector, camera );
-
-	var ray = new THREE.Ray( camera.position, vector.subSelf( camera.position ).normalize() );
-
-	var c = THREE.Collisions.rayCastNearest( ray );
-	
-	if( c ) {
-	
-		//info.innerHTML += "Found @ distance " + c.distance;
-		c.mesh.materials[ 0 ].color.setHex( 0xbb0000 );
-
-	} else {
-	
-		//info.innerHTML += "No intersection";
-
-	}
-
-	camera.position.x = camdist * Math.cos( theta );
-	camera.position.z = camdist * Math.sin( theta );
-	camera.position.y = camdist/2 * Math.sin( theta * 2) ;
-
-	sun.position.copy( camera.position );
-	sun.position.normalize();
-
-	theta += 0.005;		
-
-	renderer.render( scene, camera );
-	
-	stats.update();
-	
-};
-*/
 
 /*
  * change current mode
@@ -165,6 +128,16 @@ A2B.Game.prototype.getCamera	= function()
 A2B.Game.prototype.getCameraControls	= function()
 {
 	return this._cameraControls;
+}
+
+A2B.Game.prototype.getGameStats	= function()
+{
+	return this._gameStats;
+}
+
+A2B.Game.prototype.getGraphicStats	= function()
+{
+	return this._graphicStats;
 }
 
 
@@ -214,6 +187,31 @@ A2B.Game.prototype.initCameraControls = function() {
 	cameraControls.target.set(0,0,0);
 
 	return cameraControls;	
+};
+
+A2B.Game.prototype.initGameStats = function() {
+
+	var	gameStats = new GameStats();
+	gameStats.domElement.style.position = 'absolute';
+	gameStats.domElement.style.top = '0px';
+	gameStats.domElement.style.right = '0px';
+	gameStats.domElement.style.zIndex = 100;
+	document.getElementById( 'viewport' ).appendChild( gameStats.domElement );
+
+	return gameStats;	
+
+};
+
+A2B.Game.prototype.initGraphicStats = function() {
+
+	var stats = new Stats();
+	stats.domElement.style.position = 'absolute';
+	stats.domElement.style.top = '0px';
+	stats.domElement.style.zIndex = 100;
+	document.getElementById( 'viewport' ).appendChild( stats.domElement );
+
+	return stats;	
+
 };
 
 
@@ -618,6 +616,11 @@ A2B.Game.prototype.setMousePosition	= function(position){
 
 A2B.Game.prototype.startGame = function()
 {
+		// to store the current state
+	this._level=1;
+	this._lives=3;
+	this._score=0;
+
 	this.changeMode(MAINMENU_MODE);
 	//this.changeMode(LEVEL_RUNNING_MODE);
 

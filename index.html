@@ -69,9 +69,7 @@
 // methods
 var startGame, render, setMousePosition, mouse_position
 // vars
-var  projector, stats, gamestats;
-
-var materials;
+var  projector;
 	
 var game;
 
@@ -86,21 +84,12 @@ startGame = function() {
 		projector = new THREE.Projector;
 		
 	 
-		stats = new Stats();
-		stats.domElement.style.position = 'absolute';
-		stats.domElement.style.top = '0px';
-		stats.domElement.style.zIndex = 100;
-		document.getElementById( 'viewport' ).appendChild( stats.domElement );
-		
-		gamestats = new GameStats();
-		gamestats.domElement.style.position = 'absolute';
-		gamestats.domElement.style.top = '0px';
-		gamestats.domElement.style.right = '0px';
-		gamestats.domElement.style.zIndex = 100;
-		document.getElementById( 'viewport' ).appendChild( gamestats.domElement );
+			
 
+		var displayGraphicStats=true;
+		var displayGameStats=true;
 
-		game = new A2B.Game();
+		game = new A2B.Game(displayGameStats,displayGameStats);
 		//game.addWebUI();
 
 		game.startGame();
@@ -183,8 +172,8 @@ render = function() {
 		game.getScene().simulate(undefined, 2);
 		requestAnimationFrame( render );
 		game.getRenderer().render( game.getScene(), game.getCamera());
-		stats.update();
-		gamestats.update();
+		game.getGraphicStats().update();
+		game.getGameStats().update();
 	};
 	
 	//window.onload = initGame;
