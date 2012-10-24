@@ -63,26 +63,19 @@
 	<script type="text/javascript">
 		'use strict';
 	
-		Physijs.scripts.worker = 'vendor/physi.js/physijs_worker.js';
-		Physijs.scripts.ammo = 'ammo.js';
+	Physijs.scripts.worker = 'vendor/physi.js/physijs_worker.js';
+	Physijs.scripts.ammo = 'ammo.js';
 
-// methods
-var startGame, render, setMousePosition, mouse_position
-// vars
+	// methods
+	var startGame
 	
-var game;
+	// vars
+	var game;
 
-var INTERSECTED;
-
-startGame = function() {
+	startGame = function() {
 
 		// hide start button
 		document.getElementById( 'startButtonDiv' ).style.display='none';
-
-		
-		
-	 
-			
 
 		var displayGraphicStats=true;
 		var displayGameStats=true;
@@ -90,61 +83,7 @@ startGame = function() {
 		game = new A2B.Game(displayGameStats,displayGameStats);
 	
 		game.startGame();
-			
-		
-
-
-		requestAnimationFrame( render );
-	
-
 	};
-
-
-
-	
-render = function() {
-		
-		// update camera controls
-		game.getCameraControls().update();
-
-		// check for intersects
-		var mouse = game.getMousePosition();
-		var vector = new THREE.Vector3( mouse.x, mouse.y, 1 );
-		game.getProjector().unprojectVector( vector, game.getCamera() );
-
-		var ray = new THREE.Ray( game.getCamera().position, vector.subSelf( game.getCamera().position ).normalize() );
-
-		var intersects = ray.intersectObjects( game.getScene().children );
-
-		if ( intersects.length > 0 ) {
-
-			if ( INTERSECTED != intersects[ 0 ].object ) {
-
-				if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
-
-				INTERSECTED = intersects[ 0 ].object;
-				INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
-				INTERSECTED.material.emissive.setHex( 0xff0000 );
-
-			}
-
-		} else {
-
-			if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
-
-			INTERSECTED = null;
-
-		}
-
-
-		game.getScene().simulate(undefined, 2);
-		requestAnimationFrame( render );
-		game.getRenderer().render( game.getScene(), game.getCamera());
-		game.getGraphicStats().update();
-		game.getGameStats().update();
-	};
-	
-	
 	</script>
 </head>
 

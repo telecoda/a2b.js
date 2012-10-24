@@ -14,7 +14,7 @@ var DISPLAY_CREDITS = 9;
 var DISPLAY_HIGHSCORES = 10;
 
 var mouse;
-
+var INTERSECTED;
 
 A2B.Game	= function(displayGraphicStats,displayGameStats)
 {
@@ -53,6 +53,8 @@ A2B.Game	= function(displayGraphicStats,displayGameStats)
 		// game stats
 		this._gameStats = this.initGameStats();
 	}
+
+	this.startRenderCallback();
 
 }
 
@@ -643,7 +645,48 @@ A2B.Game.prototype.mainMenuModeInitScene = function(currentScene) {
 };
 
 
+A2B.Game.prototype.render = function() {
+		
+		// update camera controls
+		game.getCameraControls().update();
 
+		// check for intersects
+		var vector = new THREE.Vector3( mouse.x, mouse.y, 1 );
+		game.getProjector().unprojectVector( vector, game.getCamera() );
+
+		var ray = new THREE.Ray( game.getCamera().position, vector.subSelf( game.getCamera().position ).normalize() );
+
+		var intersects = ray.intersectObjects( game.getScene().children );
+
+		if ( intersects.length > 0 ) {
+
+			if ( INTERSECTED != intersects[ 0 ].object ) {
+
+				if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
+
+				INTERSECTED = intersects[ 0 ].object;
+				INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
+				INTERSECTED.material.emissive.setHex( 0xff0000 );
+
+			}
+
+		} else {
+
+			if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
+
+			INTERSECTED = null;
+
+		}
+
+
+		game.getScene().simulate(undefined, 2);
+		requestAnimationFrame( game.render );
+		game.getRenderer().render( game.getScene(), game.getCamera());
+		game.getGraphicStats().update();
+		game.getGameStats().update();
+	};
+	
+	
 
 /*
  This function will initialise the scene and controls for the current mode
@@ -690,6 +733,12 @@ A2B.Game.prototype.startGame = function()
 
 }
 
+A2B.Game.prototype.startRenderCallback = function()
+{
+
+	requestAnimationFrame( this.render );
+
+};
 /*
  This function will tidys up anything for current mode
  */
