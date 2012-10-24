@@ -181,12 +181,12 @@ A2B.initFontProps = function() {
  * Initialise all materials for the game
  * (may be initialised at start of level in future)
  */
-A2B.initMaterials = function() {
+A2B.initMaterials = function(path) {
 
 		var materials = {};
 		// Materials
 		var ground_material = Physijs.createMaterial(
-			new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( 'images/grass.png' ) }),
+			new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( path +'/grass.png' ) }),
 			.8, // high friction
 			.4 // low restitution
 		);
@@ -196,7 +196,7 @@ A2B.initMaterials = function() {
 		materials["ground"]=ground_material;
 
 		var rock_material = Physijs.createMaterial(
-			new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( 'images/rocks.jpg' ) }),
+			new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( path +'/rocks.jpg' ) }),
 			.8, // low friction
 			.6 // high restitution
 		);
@@ -206,7 +206,7 @@ A2B.initMaterials = function() {
 		materials["rock"]=rock_material;
 
 		var brick_material = Physijs.createMaterial(
-			new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( 'images/plywood.jpg' ) }),
+			new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( path +'/plywood.jpg' ) }),
 			.8, // low friction
 			.6 // high restitution
 		);
@@ -217,7 +217,7 @@ A2B.initMaterials = function() {
 
 
 		var wood_material = Physijs.createMaterial(
-			new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( 'images/wood.jpg' ) }),
+			new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( path +'/wood.jpg' ) }),
 			.8, // low friction
 			.6 // high restitution
 		);
@@ -228,7 +228,7 @@ A2B.initMaterials = function() {
 		materials["wood"]=wood_material;
 
 		var blockA_material = Physijs.createMaterial(
-			new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( 'images/a_block.png' ) }),
+			new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( path +'/a_block.png' ) }),
 			.1, // low friction
 			.6 // high restitution
 		);
@@ -239,7 +239,7 @@ A2B.initMaterials = function() {
 		materials["blockA"]=blockA_material;
 
 		var blockB_material = Physijs.createMaterial(
-			new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( 'images/b_block.png' ) }),
+			new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( path +'/b_block.png' ) }),
 			.8, // low friction
 			.6 // high restitution
 		);

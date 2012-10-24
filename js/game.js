@@ -16,7 +16,11 @@ var DISPLAY_HIGHSCORES = 10;
 var mouse;
 var INTERSECTED;
 
-A2B.Game	= function(displayGraphicStats,displayGameStats)
+A2B.Game	= function()
+{
+};
+
+A2B.Game.prototype.initGame = function(displayGraphicStats,displayGameStats)
 {
 	this._displayGraphicStats=displayGraphicStats;
 	this._displayGameStats=displayGameStats;
@@ -32,7 +36,7 @@ A2B.Game	= function(displayGraphicStats,displayGameStats)
 	this.initFullscreenCapability();
 	mouse = this.initMouseMoveListener();
 
-	this.materials = A2B.initMaterials();
+	this.materials = A2B.initMaterials('images');
 	var woodMaterial = this.materials['wood'];
 	this._player = new A2B.Player(woodMaterial);
 	this._currentEventListener = null;
@@ -59,10 +63,11 @@ A2B.Game	= function(displayGraphicStats,displayGameStats)
 }
 
 /*
- * Adds player to a different location dependant on level (only one level now..)
+ * Adds player to a different location dependent on level (only one level now..)
  */
-A2B.Game.prototype.addPlayerToScene = function(currentScene,levelNumber) {
-	currentScene.add(this._player.getMesh());
+A2B.Game.prototype.addPlayerToScene = function(player,levelNumber) {
+	this._player = player;
+	this._scene.add(player.getMesh());
 }
 
 
@@ -703,7 +708,7 @@ A2B.Game.prototype.setupMode = function()
 		case LEVEL_RUNNING_MODE:
 			this.levelRunningInitScene(this._scene,this._level);
 			this._currentEventListener =this.levelRunningBindKeys(this._renderer);
-			this._playerMesh = this.addPlayerToScene(this._scene,this._level);
+			this._playerMesh = this.addPlayerToScene(this._player,this._level);
 			break;
 
 	}

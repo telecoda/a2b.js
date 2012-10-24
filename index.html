@@ -80,7 +80,8 @@
 		var displayGraphicStats=true;
 		var displayGameStats=true;
 
-		game = new A2B.Game(displayGameStats,displayGameStats);
+		game = new A2B.Game();
+		game.initGame(displayGameStats,displayGameStats);
 	
 		game.startGame();
 	};

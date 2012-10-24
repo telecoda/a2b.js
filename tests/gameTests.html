@@ -37,6 +37,11 @@ function setUp() {
   var newdiv = document.createElement('div');
   newdiv.setAttribute("id","viewport");
   document.getElementById('placeholder' ).appendChild(newdiv);
+
+  Physijs.scripts.worker = '../vendor/physi.js/physijs_worker.js';
+  Physijs.scripts.ammo = 'ammo.js';
+
+  A2B.initMaterials('../images');
   
 }
 
@@ -53,12 +58,25 @@ function testCreateGame() {
   inform("testCreateGame - started");
   var game = new A2B.Game(false,false);
 	assertNotNull("Should have created an instance of Game class", game);
+
+
   inform("testCreateGame - ended");
 };
 
 function testAddPlayerToScene() {
   inform("testAddPlayerToScene - started");
-  assertFalse("test not written", true);
+  // create a game 
+  var game = new A2B.Game(false,false);
+  assertNotNull("Should have created an instance of a Game", game);
+  // create a scene
+  var scene = game.initScene();
+  assertNotNull("Should have created an instance of a Scene", scene);
+  // create a player
+  var player = new A2B.Player();
+  assertNotNull("Should have created an instance of a Player", player);
+  assertNotNull("A player should have a mesh", player.getMesh());
+
+  game.addPlayerToScene(player,1);
   inform("testAddPlayerToScene - ended");
 };
 
