@@ -10,12 +10,13 @@
         function gameSuite() {
             var result = new JsUnitTestSuite();
             result.addTestPage("../tests/gameTests.html");
+            result.addTestPage("../tests/playerTests.html");
             return result;
         }
 
         function graphicUtilsSuite() {
             var result = new JsUnitTestSuite();
-            result.addTestPage("../tests/graphicUtilsTests.html");
+            result.addTestPage("../tests/graphicsTests.html");
             return result;
         }
 

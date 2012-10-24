@@ -37,6 +37,19 @@ Point your browser to:-
 
     http://localhost:9000
 
+Running the tests
+-----------------
+To run all the unit test you can launch the jsunit test runner.
+
+Point your browser to:-
+
+    http://localhost:9000/jsunit/testRunner.html
+
+Enter the location of the Test Page/Test Suite Page to be run:
+
+	localhost:9000/tests/testSuite.html
+
+Click run.
 
 Browser tips
 ------------

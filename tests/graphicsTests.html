@@ -25,6 +25,7 @@
  ***********************/
 function testCreateTextMesh() {
   // 
+  inform("testCreateTextMesh - started");
   var materials = A2B.initMaterials();
   //log.info("Starting createTextMesh test");
   assertNotNull("Should initialise an array of materials for the game", materials);
@@ -35,77 +36,72 @@ function testCreateTextMesh() {
   var textMesh = A2B.createTextMesh("test text", rockMaterial, fontProps );
   assertNotNull("Should create a graphic mesh for given text", textMesh);
 
+  inform("testCreateTextMesh - ended");
 }
 
 
 function testDegreesToRadians() {
+  inform("testDegreesToRadians - started");
+
   assertEquals("Should 0 degrees to radians" ,0, A2B.degreesToRadians(0));
   assertEquals("Should 90 degrees to radians" ,1.5707963267948966, A2B.degreesToRadians(90));
+
+  inform("testDegreesToRadians - ended");
+
 }
 
 function testGetDirectionalLight() {
+  inform("testGetDirectionalLight - started");
+
   // pointless methods at the moment as there are no config parms..
   var light = A2B.getDirectionalLight();
   assertNotNull("Should create a directional light", light);
   // check light properties here..
   assertTrue(light.castShadow);
+
+  inform("testGetDirectionalLight - ended");
+
 }
 
 function testGetSpotLight() {
+  inform("testGetSpotLight - started");
+
   // pointless methods at the moment as there are no config parms..
   var light = A2B.getSpotLight();
   assertNotNull("Should create a spot light", light);
   // check light properties here..
   assertTrue(light.castShadow);
+
+  inform("testGetSpotLight - ended");
+
 }
 
 function testInitFontProps() {
+  inform("testInitFontProps - started");
   // 
   var fontProps = A2B.initFontProps();
   assertNotNull("Should initialise properties for fonts", fontProps);
   // check font properties here..
   assertEquals(70,fontProps.size);
+
+  inform("testInitFontProps - ended");
 }
 
 function testInitMaterials() {
+  inform("testInitMaterials - started");
   // 
   var materials = A2B.initMaterials();
   assertNotNull("Should initialise an array of materials for the game", materials);
   var rockMaterial = materials["rock"];
   // check materials properties here..
   assertNotNull(materials["rock"]);
-}
 
-
-/* just example code beyond here... */
-
-function multiplyAndAddFive(arg1, arg2) {
-  return arg1*arg2+5;
-}
-
-
-function multiplyAndAddFive(arg1, arg2) {
-	return arg1*arg2+5;
-}
-
-function testWithValidArguments() {
-	assertEquals("2 times 3 plus 5 is 11", 11, multiplyAndAddFive(2, 3));
-	assertEquals("Should work with negative numbers", -15, multiplyAndAddFive(-4, 5));
-}
-
-function testWithInvalidArguments() {
-	assertEquals(5, multiplyAndAddFive(2, null));
-	//assertNaN(NaN, multiplyAndAddFive(2, "a string"));
-	//assertNaN("undefined argument", multiplyAndAddFive(2, JSUNIT_UNDEFINED_VALUE));
-}
-
-function testStrictReturnType() {
-	assertNotEquals("Should return a number, not a string", "11", multiplyAndAddFive(2, 3));
+  inform("testInitMaterials - ended");
 }
 
     </script>
   </head>
   <body>
-    This is a Test Page for multiplyAndAddFive(arg1, arg2).
+    This is a Test Page for graphics.js functions.
   </body>
 </html>

@@ -67,6 +67,7 @@ A2B.Game.prototype.addPlayerToScene = function(currentScene,levelNumber) {
 
 
 
+/*
 A2B.Game.prototype.addWebUI = function()
 {
 
@@ -96,7 +97,7 @@ A2B.Game.prototype.addWebUI = function()
 	document.getElementById( 'viewport' ).appendChild( webUIDiv );
     
 }
-
+*/
 
 
 /*
