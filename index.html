@@ -90,20 +90,10 @@ startGame = function() {
 		var displayGameStats=true;
 
 		game = new A2B.Game(displayGameStats,displayGameStats);
-		//game.addWebUI();
-
+	
 		game.startGame();
 			
-		// add keyboard controls
-		// transparently support window resize
-		THREEx.WindowResize.bind(game.getRenderer(),game.getCamera());
-		// allow 'p' to make screenshot
-		THREEx.Screenshot.bindKey(game.getRenderer());
-		// allow 'f' to go fullscreen where this feature is supported
-		if( THREEx.FullScreen.available() ){
-			THREEx.FullScreen.bindKey();		
-			document.getElementById('inlineDoc').innerHTML	+= "- <i>f</i> for fullscreen";
-		}
+		
 
 
 		requestAnimationFrame( render );
@@ -167,8 +157,6 @@ render = function() {
 		}
 
 
-		//game.animate();
-		//applyForce();
 		game.getScene().simulate(undefined, 2);
 		requestAnimationFrame( render );
 		game.getRenderer().render( game.getScene(), game.getCamera());
@@ -176,7 +164,6 @@ render = function() {
 		game.getGameStats().update();
 	};
 	
-	//window.onload = initGame;
 	
 	</script>
 </head>

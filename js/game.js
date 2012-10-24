@@ -25,7 +25,11 @@ A2B.Game	= function(displayGraphicStats,displayGameStats)
 	this._scene=this.initScene();
 	this._camera=this.initCamera();
 	this._cameraControls=this.initCameraControls();
-	
+
+	this.initWindowResize();
+	this.initScreenshotCapability();
+	this.initFullscreenCapability();
+
 	this.materials = A2B.initMaterials();
 	var woodMaterial = this.materials['wood'];
 	this._player = new A2B.Player(woodMaterial);
@@ -189,6 +193,18 @@ A2B.Game.prototype.initCameraControls = function() {
 	return cameraControls;	
 };
 
+A2B.Game.prototype.initFullscreenCapability = function() {
+
+	// allow 'f' to go fullscreen where this feature is supported
+	if( THREEx.FullScreen.available() ){
+		THREEx.FullScreen.bindKey();		
+		document.getElementById('inlineDoc').innerHTML	+= "- <i>f</i> for fullscreen";
+	}
+
+};
+
+
+
 A2B.Game.prototype.initGameStats = function() {
 
 	var	gameStats = new GameStats();
@@ -241,6 +257,24 @@ A2B.Game.prototype.initScene = function() {
 
 	return scene;
 }
+
+
+A2B.Game.prototype.initScreenshotCapability = function() {
+
+	// allow 'p' to make screenshot
+	THREEx.Screenshot.bindKey(this.getRenderer());
+	
+};
+
+
+A2B.Game.prototype.initWindowResize = function() {
+
+	// transparently support window resize
+	THREEx.WindowResize.bind(this.getRenderer(),this.getCamera());
+	
+};
+
+
 /**
  * Bind a keys for running level
  */
