@@ -25,6 +25,7 @@ A2B.Game	= function(displayGraphicStats,displayGameStats)
 	this._scene=this.initScene();
 	this._camera=this.initCamera();
 	this._cameraControls=this.initCameraControls();
+	this._projector=this.initProjector();
 
 	this.initWindowResize();
 	this.initScreenshotCapability();
@@ -155,6 +156,11 @@ A2B.Game.prototype.getPlayer	= function()
 	return this._player;
 }
 
+A2B.Game.prototype.getProjector	= function()
+{
+	return this._projector;
+}
+
 A2B.Game.prototype.getRenderer	= function()
 {
 	return this._renderer;
@@ -230,6 +236,13 @@ A2B.Game.prototype.initGraphicStats = function() {
 
 };
 
+A2B.Game.prototype.initProjector = function() {
+
+	var projector = new THREE.Projector;
+		
+	return projector;
+
+}
 
 A2B.Game.prototype.initRenderer = function() {
 

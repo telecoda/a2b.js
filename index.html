@@ -69,7 +69,6 @@
 // methods
 var startGame, render, setMousePosition, mouse_position
 // vars
-var  projector;
 	
 var game;
 
@@ -81,7 +80,6 @@ startGame = function() {
 		document.getElementById( 'startButtonDiv' ).style.display='none';
 
 		
-		projector = new THREE.Projector;
 		
 	 
 			
@@ -112,7 +110,7 @@ setMousePosition = function( evt ) {
 			-( ( evt.clientY / game.getRenderer().domElement.clientHeight ) * 2 - 1 ),
 			.5
 		);
-		projector.unprojectVector( vector, game.getCamera());
+		game.getProjector().unprojectVector( vector, game.getCamera());
 		vector.subSelf( game.getCamera().position ).normalize();
 		
 		if(game._player._playersMesh == undefined)
@@ -130,7 +128,7 @@ render = function() {
 
 		// check for intersects
 		var vector = new THREE.Vector3( mouse.x, mouse.y, 1 );
-		projector.unprojectVector( vector, game.getCamera() );
+		game.getProjector().unprojectVector( vector, game.getCamera() );
 
 		var ray = new THREE.Ray( game.getCamera().position, vector.subSelf( game.getCamera().position ).normalize() );
 
