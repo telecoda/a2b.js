@@ -13,7 +13,7 @@ var ENTER_HIGHSCORE_MODE = 8;
 var DISPLAY_CREDITS = 9;
 var DISPLAY_HIGHSCORES = 10;
 
-
+var mouse;
 
 
 A2B.Game	= function(displayGraphicStats,displayGameStats)
@@ -30,6 +30,7 @@ A2B.Game	= function(displayGraphicStats,displayGameStats)
 	this.initWindowResize();
 	this.initScreenshotCapability();
 	this.initFullscreenCapability();
+	mouse = this.initMouseMoveListener();
 
 	this.materials = A2B.initMaterials();
 	var woodMaterial = this.materials['wood'];
@@ -151,6 +152,11 @@ A2B.Game.prototype.getLives	= function()
 	return this._lives;
 }
 
+A2B.Game.prototype.getMousePosition	= function()
+{
+	return mouse;
+}
+
 A2B.Game.prototype.getPlayer	= function()
 {
 	return this._player;
@@ -235,6 +241,15 @@ A2B.Game.prototype.initGraphicStats = function() {
 	return stats;	
 
 };
+
+A2B.Game.prototype.initMouseMoveListener = function() {
+
+	var mouse = { x: 0, y: 0 };
+	this.getRenderer().domElement.addEventListener( 'mousemove', this.setMousePosition );
+
+	return mouse;
+};
+
 
 A2B.Game.prototype.initProjector = function() {
 
@@ -656,10 +671,12 @@ A2B.Game.prototype.setupMode = function()
 
 }
 
-A2B.Game.prototype.setMousePosition	= function(position){
- this._mousePosition = position;
-};
+A2B.Game.prototype.setMousePosition = function( evt ) {
+		// Find where mouse cursor intersects the ground plane
+		mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+		mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 
+};
 
 A2B.Game.prototype.startGame = function()
 {

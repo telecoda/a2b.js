@@ -72,7 +72,7 @@ var startGame, render, setMousePosition, mouse_position
 	
 var game;
 
-var mouse = { x: 0, y: 0 }, INTERSECTED;
+var INTERSECTED;
 
 startGame = function() {
 
@@ -95,30 +95,11 @@ startGame = function() {
 
 
 		requestAnimationFrame( render );
-		game.getRenderer().domElement.addEventListener( 'mousemove', setMousePosition );
 	
 
 	};
 
-setMousePosition = function( evt ) {
-		// Find where mouse cursor intersects the ground plane
-		mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-		mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 
-		var vector = new THREE.Vector3(
-			( evt.clientX / game.getRenderer().domElement.clientWidth ) * 2 - 1,
-			-( ( evt.clientY / game.getRenderer().domElement.clientHeight ) * 2 - 1 ),
-			.5
-		);
-		game.getProjector().unprojectVector( vector, game.getCamera());
-		vector.subSelf( game.getCamera().position ).normalize();
-		
-		if(game._player._playersMesh == undefined)
-			return;
-
-		var coefficient = (game._player._playersMesh.position.y - game.getCamera().position.y) / vector.y
-		game.setMousePosition(game.getCamera().position.clone().addSelf( vector.multiplyScalar( coefficient ) ));
-	};
 
 	
 render = function() {
@@ -127,6 +108,7 @@ render = function() {
 		game.getCameraControls().update();
 
 		// check for intersects
+		var mouse = game.getMousePosition();
 		var vector = new THREE.Vector3( mouse.x, mouse.y, 1 );
 		game.getProjector().unprojectVector( vector, game.getCamera() );
 
