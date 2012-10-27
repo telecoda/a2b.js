@@ -253,3 +253,39 @@ A2B.initMaterials = function(path) {
 		return materials;
 	
 	};
+
+A2B.loadImage = function(path, filename) {
+
+	var fullPath = path+filename;
+	var image =THREE.ImageUtils.loadTexture( fullPath );
+
+	return image;		
+
+}
+
+A2B.loadImages = function(path, filenames) {
+
+	var images={};
+	// iterate through a list of image
+	for (var filename = filenames.length - 1; i >= 0; i--) 
+	{
+		images[filename]=A2B.loadImages(path,filename);
+	};
+
+	return images;		
+
+}
+
+
+A2B.loadMaterial = function(friction, restitution, texture) {
+
+		var material = Physijs.createMaterial(
+			new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( path +'/grass.png' ) }),
+			.8, // high friction
+			.4 // low restitution
+		);
+		ground_material.map.wrapS = ground_material.map.wrapT = THREE.RepeatWrapping;
+		ground_material.map.repeat.set( 3, 3 );
+		
+
+}

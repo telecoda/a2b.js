@@ -22,6 +22,9 @@ A2B.Game	= function()
 
 A2B.Game.prototype.initGame = function(displayGraphicStats,displayGameStats)
 {
+
+	var ok = this._loadResources()
+
 	this._displayGraphicStats=displayGraphicStats;
 	this._displayGameStats=displayGameStats;
 	
@@ -530,6 +533,20 @@ A2B.Game.prototype.levelRunningInitScene = function(currentScene,levelNumber) {
 	//currentScene.add( spotLight );
 
 };
+
+/**
+ * load main resources for game at start
+ */
+ A2B.Game.prototype.loadResources	= function(resourcePath){
+
+ 	// load material
+ 	var successful = true;
+
+ 	
+
+ 	return successful;
+}
+
 
 /**
  * Bind a keys for main menu
