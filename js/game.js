@@ -23,7 +23,7 @@ A2B.Game	= function()
 A2B.Game.prototype.initGame = function(displayGraphicStats,displayGameStats)
 {
 
-	var ok = this._loadResources()
+	var ok = this.loadResources("images/")
 
 	this._displayGraphicStats=displayGraphicStats;
 	this._displayGameStats=displayGameStats;
@@ -542,7 +542,9 @@ A2B.Game.prototype.levelRunningInitScene = function(currentScene,levelNumber) {
  	// load material
  	var successful = true;
 
+ 	console.log("Loading resources - started");
  	
+ 	console.log("Loading resources - completed");
 
  	return successful;
 }

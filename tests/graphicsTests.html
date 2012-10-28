@@ -115,8 +115,10 @@ function testLoadImages() {
   // 
   var path = "../images/";
   var filenames = ["rocks.jpg","wood.jpg"];
-  var image = A2B.loadImage(path, filename);
-  assertNotNull("Should load an array of images from path", image);
+  var images = A2B.loadImages(path, filenames);
+  assertNotNull("Should load an array of images from path", images);
+
+  inform(images);
 
   inform("testLoadImages - ended");
 }
