@@ -15,7 +15,7 @@ var DISPLAY_HIGHSCORES = 10;
 
 var mouse;
 var INTERSECTED;
-
+ 
 A2B.Game = function() {
 };
 
@@ -110,7 +110,7 @@ A2B.Game.prototype.changeMode = function(newMode) {
 	// set up new mode
 	this._currentMode = newMode;
 	this.setupMode();
-}
+} 
 /*
  * clear all objects from a scene, iterate through child objects
  */
@@ -122,7 +122,7 @@ A2B.Game.prototype.clearSceneObjects = function(sceneObject) {
 		sceneObject.remove(child);
 	};
 }
-
+ 
 A2B.Game.prototype.getCamera = function() {
 	return this._camera;
 }

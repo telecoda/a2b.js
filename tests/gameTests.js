@@ -65,7 +65,9 @@ GameTest.prototype.testClearSceneObject = function() {
 
 GameTest.prototype.testGetCamera = function() {
   console.log("GameTest","testGetCamera - started");
-  assertFalse("test not written", true);
+  var game = new A2B.Game(false,false);
+  var camera = game.initCamera();
+  assertNotNull("Should create an instance of a camera", camera);
   console.log("GameTest","testGetCamera - ended");
 };
 

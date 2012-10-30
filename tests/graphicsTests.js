@@ -93,7 +93,7 @@ GraphicsTest.prototype.testLoadImage = function() {
 
 	console.log("GraphicsTest", "testLoadImage - ended");
 }
-
+ 
 GraphicsTest.prototype.testLoadImages = function() {
 	console.log("GraphicsTest", "testLoadImages - started");
 	//
