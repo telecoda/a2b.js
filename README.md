@@ -39,21 +39,25 @@ Point your browser to:-
 
 Running the tests
 -----------------
-To run all the unit test you can launch the jsunit test runner.
+The project is using http://code.google.com/p/js-test-driver/ for its test.
 
-Point your browser to:-
+It is being coded in Eclipse using the Aptana Studio plugin.
 
-    http://localhost:9000/jsunit/testRunner.html
+Install the jstestdriver plugin from:-
 
-Enter the location of the Test Page/Test Suite Page to be run:
+    http://js-test-driver.googlecode.com/svn/update/
+    
+Install the aptana studio plugin from:-
 
-	localhost:9000/tests/testSuite.html
+    http://download.aptana.com/studio3/plugin/install
 
-Click run.
+Config for the tests is held in jsTestDriver.conf
+
+Test run everytime a file is saved.
 
 Browser tips
 ------------
-I have been developing and testing the code in Google Chrome on linux but is "should" run just as well on other browsers.
+I have been developing and testing the code in Google Chrome on linux but it "should" run just as well on other browsers.
 
 If your browser claims that it cannot run WebGL is may be worth forcing Chrome to ignore your blacklisted gpu drivers.
 
