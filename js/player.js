@@ -8,47 +8,44 @@ A2B.Player	= function(playerMaterial)
 	// Add players ball //
 	//////////////////////
 
-	this._playersMesh = new Physijs.SphereMesh(
+	this.playersMesh = new Physijs.SphereMesh(
 		new THREE.SphereGeometry( 5, 16, 16 ),
 		playerMaterial,50
 		);
-	//this._playersMesh.position.set(35,10,35);
-	this._playersMesh.position.set(0,10,0);
-	this._playersMesh.rotation.set(0,0,0);
-	this._playersMesh.castShadow = true;
-	this._playersMesh.receiveShadow = true;
+	//this.playersMesh.position.set(35,10,35);
+	this.playersMesh.position.set(0,10,0);
+	this.playersMesh.rotation.set(0,0,0);
+	this.playersMesh.castShadow = true;
+	this.playersMesh.receiveShadow = true;
 
-	this._playersMesh.collisions=0;
-	this._playersMesh.addEventListener( 'collision', this.handleCollision );
+	this.playersMesh.collisions=0;
+	this.playersMesh.addEventListener( 'collision', this.handleCollision );
 	
 };
 
-/*
- * Return current mesh of player
- */
 A2B.Player.prototype.getMesh = function() {
-	return this._playersMesh;
-};
+	return this.playersMesh;
+}
 
 /*
  * Return x position of player
  */
 A2B.Player.prototype.getX = function() {
-	return this._playersMesh.position.x;
+	return this.playersMesh.position.x;
 };
 
 /*
  * Return y position of player
  */
 A2B.Player.prototype.getY = function() {
-	return this._playersMesh.position.y;
+	return this.playersMesh.position.y;
 };
 
 /*
  * Return z position of player
  */
 A2B.Player.prototype.getZ = function() {
-	return this._playersMesh.position.z;
+	return this.playersMesh.position.z;
 };
 
 
@@ -149,7 +146,7 @@ A2B.Player.prototype.pushPlayer = function(cameraPosition,angle){
 	forceVector = this.rotateVectorAboutY(forceVector,angle);
 
 	forceVector = forceVector.multiplyScalar(strength);
-	this._playersMesh.applyCentralImpulse(forceVector);
+	this.playersMesh.applyCentralImpulse(forceVector);
 
 
 }

@@ -6,10 +6,6 @@ GraphicsTest.prototype.setUp = function setUp() {
 	console.log("GraphicsTest", "Setup finished");
 };
 
-GraphicsTest.prototype.testCreateGame = function() {
-	var game = new A2B.Game(false, false);
-	assertNotNull("Should create an instance of the Game class", game);
-};
 
 GraphicsTest.prototype.testCreateTextMesh = function() {
 	//
@@ -83,36 +79,42 @@ GraphicsTest.prototype.testInitMaterials = function() {
 	console.log("GraphicsTest", "testInitMaterials - ended");
 }
 
-GraphicsTest.prototype.testLoadImage = function() {
-	console.log("GraphicsTest", "testLoadImage - started");
+/* Texture loading test removed due to bug in jstestloader not serving images correctly
+ * http://code.google.com/p/js-test-driver/issues/detail?id=321
+ */
 
-	var path = "../images/";
+/* GraphicsTest.prototype.testLoadTexture = function() {
+	console.log("GraphicsTest", "testLoadTexture - started");
+
+	var path = "test/images/";
 	var filename = "rocks.jpg";
-	var image = A2B.loadImage(path, filename);
-	assertNotNull("Should load an image from path", image);
+	var image = A2B.loadTexture(path, filename);
+	assertNotNull("Should load a texture from path", image);
 
-	console.log("GraphicsTest", "testLoadImage - ended");
+	console.log("GraphicsTest", "testLoadTexture - ended");
 }
  
-GraphicsTest.prototype.testLoadImages = function() {
-	console.log("GraphicsTest", "testLoadImages - started");
+GraphicsTest.prototype.testLoadTextures = function() {
+	console.log("GraphicsTest", "testLoadTextures - started");
 	//
-	var path = "../images/";
+	var path = "test/images/";
 	var filenames = ["rocks.jpg", "wood.jpg"];
-	var images = A2B.loadImages(path, filenames);
-	assertNotNull("Should load an array of images from path", images);
+	var images = A2B.loadTextures(path, filenames);
+	assertNotNull("Should load an array of Textures from path", images);
 
-	console.log("GraphicsTest", "testLoadImages - ended");
+	console.log("GraphicsTest", "testLoadTextures - ended");
 }
 
-GraphicsTest.prototype.testLoadMissingImage = function() {
+GraphicsTest.prototype.testLoadMissingTexture = function() {
 
-	console.log("GraphicsTest", "testLoadMissingImage - started");
+	console.log("GraphicsTest", "testLoadMissingTexture - started");
 	//
-	var path = "../images/";
+	var path = "test/images/";
 	var filename = "missing.jpg";
-	var image = A2B.loadImage(path, filename);
-	assertNull("Should fail to load an image from path", image);
+	var image = A2B.loadTexture(path, filename);
+	assertNull("Should fail to load a texture from path", image);
 
-	console.log("GraphicsTest", "testLoadMissingImage - ended");
+	console.log("GraphicsTest", "testLoadMissingTexture - ended");
 }
+
+*/

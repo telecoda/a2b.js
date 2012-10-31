@@ -254,37 +254,35 @@ A2B.initMaterials = function(path) {
 	
 	};
 
-A2B.loadImage = function(path, filename) {
+var onload = function(event) {
+    console.log("Loaded texture worked.");
+	
+}
+
+var onError = function(event) {
+    console.log("Loaded texture failed.");
+ 
+}
+
+A2B.loadTexture = function(path, filename) {
 
 	var fullPath = path+filename;
 
 
 	var loadStatus = "not loaded";
 	console.log("Starting loading texture.");
-	var loader = new THREE.ImageUtils();
-	// add listeners 
-	loader.addEventListener("load", function(a) {
-            // this is called when its been loaded
-            console.log("Loaded texture worked.");
-            loadStatus ="loaded";
-        });
-
-	loader.addEventListener("error", function(a) {
-            // this is called when its failed        
-    	    console.log("Loaded texture failed.");
-    
-            loadStatus = "failed";
-        });
-
-
-
-	var image =loader.loadTexture( fullPath );
-
+	
+	var image = THREE.ImageUtils.loadTexture(fullPath,null, onload, onError);
+	
+	
 	return image;		
 
 }
 
-A2B.loadImages = function(path, filenames) {
+
+
+
+A2B.loadTextures = function(path, filenames) {
 
 	var images={};
 
@@ -293,7 +291,7 @@ A2B.loadImages = function(path, filenames) {
 
 	for(var i=0; i<len; i++) {
 		var filename = filenames[i];
-		images[filename]=A2B.loadImage(path,filename);
+		images[filename]=A2B.loadTexture(path,filename);
 	}
 
 	return images;		

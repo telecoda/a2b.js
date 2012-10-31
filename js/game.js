@@ -21,16 +21,16 @@ A2B.Game = function() {
 
 A2B.Game.prototype.initGame = function(displayGraphicStats, displayGameStats) {
 
-	var ok = this.loadResources("images/")
+	
 
 	this._displayGraphicStats = displayGraphicStats;
 	this._displayGameStats = displayGameStats;
 
-	this._renderer = this.initRenderer();
-	this._scene = this.initScene();
-	this._camera = this.initCamera();
-	this._cameraControls = this.initCameraControls();
-	this._projector = this.initProjector();
+	this.initRenderer();
+	this.initScene();
+	this.initCamera();
+	this.initCameraControls();
+	this.initProjector();
 
 	this.initWindowResize();
 	this.initScreenshotCapability();
@@ -39,13 +39,13 @@ A2B.Game.prototype.initGame = function(displayGraphicStats, displayGameStats) {
 
 	this.materials = A2B.initMaterials('images');
 	var woodMaterial = this.materials['wood'];
-	this._player = new A2B.Player(woodMaterial);
+	this.player = new A2B.Player(woodMaterial);
 	this._currentEventListener = null;
 
 	// position camera
-	this.getCamera().lookAt(this.getScene().position);
+	this.camera.lookAt(this.scene.position);
 	// add camera to scene
-	this.getScene().add(this.getCamera());
+	this.scene.add(this.camera);
 
 	if (this._displayGraphicStats) {
 		// graphic stats
@@ -64,8 +64,8 @@ A2B.Game.prototype.initGame = function(displayGraphicStats, displayGameStats) {
  * Adds player to a different location dependent on level (only one level now..)
  */
 A2B.Game.prototype.addPlayerToScene = function(player, levelNumber) {
-	this._player = player;
-	this._scene.add(player.getMesh());
+	this.player = player;
+	this.scene.add(player.getMesh());
 }
 /*
  A2B.Game.prototype.addWebUI = function()
@@ -109,7 +109,7 @@ A2B.Game.prototype.changeMode = function(newMode) {
 	}
 	// set up new mode
 	this._currentMode = newMode;
-	this.setupMode();
+	this.setupMode(); 
 } 
 /*
  * clear all objects from a scene, iterate through child objects
@@ -123,49 +123,18 @@ A2B.Game.prototype.clearSceneObjects = function(sceneObject) {
 	};
 }
  
-A2B.Game.prototype.getCamera = function() {
-	return this._camera;
-}
-
-A2B.Game.prototype.getCameraControls = function() {
-	return this._cameraControls;
-}
-
-A2B.Game.prototype.getGameStats = function() {
-	return this._gameStats;
-}
-
-A2B.Game.prototype.getGraphicStats = function() {
-	return this._graphicStats;
-}
-
 A2B.Game.prototype.getLives = function() {
-	return this._lives;
+	return this.lives;
 }
 
 A2B.Game.prototype.getMousePosition = function() {
 	return mouse;
 }
 
-A2B.Game.prototype.getPlayer = function() {
-	return this._player;
-}
-
-A2B.Game.prototype.getProjector = function() {
-	return this._projector;
-}
-
-A2B.Game.prototype.getRenderer = function() {
-	return this._renderer;
-}
-
-A2B.Game.prototype.getScene = function() {
-	return this._scene;
-}
-
 A2B.Game.prototype.getScore = function() {
-	return this._score;
+	return this.score;
 }
+
 
 A2B.Game.prototype.initCamera = function() {
 
@@ -173,16 +142,16 @@ A2B.Game.prototype.initCamera = function() {
 
 	camera.position.set(0, 50, 120);
 
-	return camera;
+	this.camera= camera;
 };
 
 A2B.Game.prototype.initCameraControls = function() {
 
-	var cameraControls = new THREE.TrackballControls(this.getCamera());
+	var cameraControls = new THREE.TrackballControls(this.camera);
 
 	cameraControls.target.set(0, 0, 0);
 
-	return cameraControls;
+	this.cameraControls=cameraControls;
 };
 
 A2B.Game.prototype.initFullscreenCapability = function() {
@@ -226,8 +195,7 @@ A2B.Game.prototype.initMouseMoveListener = function() {
 		x : 0,
 		y : 0
 	};
-	this.getRenderer().domElement.addEventListener('mousemove', this.setMousePosition);
-
+	this.renderer.domElement.addEventListener('mousemove', this.setMousePosition);
 	return mouse;
 };
 
@@ -235,7 +203,7 @@ A2B.Game.prototype.initProjector = function() {
 
 	var projector = new THREE.Projector;
 
-	return projector;
+	this["projector"]=projector;
 
 }
 
@@ -255,8 +223,9 @@ A2B.Game.prototype.initRenderer = function() {
 	renderer.shadowMapSoft = true;
 	document.getElementById('viewport').appendChild(renderer.domElement);
 
-	return renderer;
-};
+	this.renderer = renderer;
+
+}; 
 
 A2B.Game.prototype.initScene = function() {
 
@@ -267,20 +236,20 @@ A2B.Game.prototype.initScene = function() {
 		z : 0
 	});
 
-	return scene;
+	this.scene = scene;
 }
 
 A2B.Game.prototype.initScreenshotCapability = function() {
 
 	// allow 'p' to make screenshot
-	THREEx.Screenshot.bindKey(this.getRenderer());
+	THREEx.Screenshot.bindKey(this.renderer);
 
 };
 
 A2B.Game.prototype.initWindowResize = function() {
 
 	// transparently support window resize
-	THREEx.WindowResize.bind(this.getRenderer(), this.getCamera());
+	THREEx.WindowResize.bind(this.renderer, this.camera);
 
 };
 
@@ -306,16 +275,16 @@ A2B.Game.prototype.levelRunningBindKeys = function(opts) {
 		// return now if the KeyPress isnt for the proper charCode
 		switch(event.which) {
 			case downKey:
-				this._player.moveBackwards(this._camera.position);
+				this.player.moveBackwards(this.camera.position);
 				break;
 			case upKey:
-				this._player.moveForwards(this._camera.position);
+				this.player.moveForwards(this.camera.position);
 				break;
 			case leftKey:
-				this._player.moveLeft(this._camera.position);
+				this.player.moveLeft(this.camera.position);
 				break;
 			case rightKey:
-				this._player.moveRight(this._camera.position);
+				this.player.moveRight(this.camera.position);
 				break;
 
 		}
@@ -460,20 +429,6 @@ A2B.Game.prototype.levelRunningInitScene = function(currentScene, levelNumber) {
 };
 
 /**
- * load main resources for game at start
- */
-A2B.Game.prototype.loadResources = function(resourcePath) {
-
-	// load material
-	var successful = true;
-
-	console.log("Loading resources - started");
-
-	console.log("Loading resources - completed");
-
-	return successful;
-}
-/**
  * Bind a keys for main menu
  */
 A2B.Game.prototype.mainMenuModeBindKeys = function(opts) {
@@ -588,15 +543,15 @@ A2B.Game.prototype.mainMenuModeInitScene = function(currentScene) {
 A2B.Game.prototype.render = function() {
 
 	// update camera controls
-	game.getCameraControls().update();
+	game.cameraControls.update();
 
 	// check for intersects
 	var vector = new THREE.Vector3(mouse.x, mouse.y, 1);
-	game.getProjector().unprojectVector(vector, game.getCamera());
+	game.projector.unprojectVector(vector, game.camera);
 
-	var ray = new THREE.Ray(game.getCamera().position, vector.subSelf(game.getCamera().position).normalize());
+	var ray = new THREE.Ray(game.camera.position, vector.subSelf(game.camera.position).normalize());
 
-	var intersects = ray.intersectObjects(game.getScene().children);
+	var intersects = ray.intersectObjects(game.scene.children);
 
 	if (intersects.length > 0) {
 
@@ -620,9 +575,9 @@ A2B.Game.prototype.render = function() {
 
 	}
 
-	game.getScene().simulate(undefined, 2);
+	game.scene.simulate(undefined, 2);
 	requestAnimationFrame(game.render);
-	game.getRenderer().render(game.getScene(), game.getCamera());
+	game.renderer.render(game.scene, game.camera);
 	game.getGraphicStats().update();
 	game.getGameStats().update();
 };
@@ -633,19 +588,19 @@ A2B.Game.prototype.render = function() {
 A2B.Game.prototype.setupMode = function() {
 	switch(this._currentMode) {
 		case MAINMENU_MODE:
-			this.mainMenuModeInitScene(this._scene);
+			this.mainMenuModeInitScene(this.scene);
 			this._currentEventListener = this.mainMenuModeBindKeys();
 			break;
 		case LEVEL_RUNNING_MODE:
-			this.levelRunningInitScene(this._scene, this._level);
-			this._currentEventListener = this.levelRunningBindKeys(this._renderer);
-			this._playerMesh = this.addPlayerToScene(this._player, this._level);
+			this.levelRunningInitScene(this.scene, this._level);
+			this._currentEventListener = this.levelRunningBindKeys(this.renderer);
+			this.playerMesh = this.addPlayerToScene(this.player, this._level);
 			break;
 
 	}
 	/*
-	 this.initLevel(this._level,this._scene);
-	 this._playerMesh = this.addPlayerToScene(this._level,this._scene);
+	 this.initLevel(this._level,this.scene);
+	 this.playerMesh = this.addPlayerToScene(this._level,this.scene);
 	 this.bindKeys(this._renderer);
 	 */
 
@@ -658,11 +613,14 @@ A2B.Game.prototype.setMousePosition = function(evt) {
 
 };
 
-A2B.Game.prototype.startGame = function() {
+/*
+ * This method is called when a new game starts
+ */
+A2B.Game.prototype.startNewGame = function() {
 	// to store the current state
-	this._level = 1;
-	this._lives = 3;
-	this._score = 0;
+	this.level = 1;
+	this.lives = 3;
+	this.score = 0;
 
 	this.changeMode(MAINMENU_MODE);
 	//this.changeMode(LEVEL_RUNNING_MODE);
@@ -679,8 +637,8 @@ A2B.Game.prototype.startRenderCallback = function() {
  */
 A2B.Game.prototype.teardownMode = function() {
 	this._currentEventListener.unbind();
-	//this._scene.remove();
-	this.clearSceneObjects(this._scene);
+	//this.scene.remove();
+	this.clearSceneObjects(this.scene);
 
 	switch(this._currentMode) {
 		case MAINMENU_MODE:
