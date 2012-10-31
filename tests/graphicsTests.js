@@ -12,13 +12,13 @@ GraphicsTest.prototype.testCreateTextMesh = function() {
 	console.log("GraphicsTest", "testCreateTextMesh - started");
 	var materials = A2B.initMaterials();
 	//log.info("Starting createTextMesh test");
-	assertNotNull("Should initialise an array of materials for the game", materials);
+	assertNotUndefined("Should initialise an array of materials for the game", materials);
 	var rockMaterial = materials["rock"];
 
 	var fontProps = A2B.initFontProps();
 
 	var textMesh = A2B.createTextMesh("test text", rockMaterial, fontProps);
-	assertNotNull("Should create a graphic mesh for given text", textMesh);
+	assertNotUndefined("Should create a graphic mesh for given text", textMesh);
 
 	console.log("GraphicsTest", "testCreateTextMesh - ended");
 };
@@ -37,7 +37,7 @@ GraphicsTest.prototype.testGetDirectionalLight = function() {
 
 	// pointless methods at the moment as there are no config parms..
 	var light = A2B.getDirectionalLight();
-	assertNotNull("Should create a directional light", light);
+	assertNotUndefined("Should create a directional light", light);
 	// check light properties here..
 	assertTrue(light.castShadow);
 
@@ -49,7 +49,7 @@ GraphicsTest.prototype.testGetSpotLight = function() {
 	
 	// pointless methods at the moment as there are no config parms..
 	var light = A2B.getSpotLight();
-	assertNotNull("Should create a spot light", light);
+	assertNotUndefined("Should create a spot light", light);
 	// check light properties here..
 	assertTrue(light.castShadow);
 
@@ -60,7 +60,7 @@ GraphicsTest.prototype.testInitFontProps = function() {
 	console.log("GraphicsTest", "testInitFontProps - started");
 	//
 	var fontProps = A2B.initFontProps();
-	assertNotNull("Should initialise properties for fonts", fontProps);
+	assertNotUndefined("Should initialise properties for fonts", fontProps);
 	// check font properties here..
 	assertEquals(70, fontProps.size);
 
@@ -71,10 +71,10 @@ GraphicsTest.prototype.testInitMaterials = function() {
 	console.log("GraphicsTest", "testInitMaterials - started");
 
 	var materials = A2B.initMaterials();
-	assertNotNull("Should initialise an array of materials for the game", materials);
+	assertNotUndefined("Should initialise an array of materials for the game", materials);
 	var rockMaterial = materials["rock"];
 	// check materials properties here..
-	assertNotNull(materials["rock"]);
+	assertNotUndefined(materials["rock"]);
 
 	console.log("GraphicsTest", "testInitMaterials - ended");
 }
@@ -89,7 +89,7 @@ GraphicsTest.prototype.testInitMaterials = function() {
 	var path = "test/images/";
 	var filename = "rocks.jpg";
 	var image = A2B.loadTexture(path, filename);
-	assertNotNull("Should load a texture from path", image);
+	assertNotUndefined("Should load a texture from path", image);
 
 	console.log("GraphicsTest", "testLoadTexture - ended");
 }
@@ -100,7 +100,7 @@ GraphicsTest.prototype.testLoadTextures = function() {
 	var path = "test/images/";
 	var filenames = ["rocks.jpg", "wood.jpg"];
 	var images = A2B.loadTextures(path, filenames);
-	assertNotNull("Should load an array of Textures from path", images);
+	assertNotUndefined("Should load an array of Textures from path", images);
 
 	console.log("GraphicsTest", "testLoadTextures - ended");
 }

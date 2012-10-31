@@ -8,7 +8,7 @@ GameTest.prototype.setUp = function setUp() {
 
 	// this adds an inlineDoc div for control details
 	/*:DOC += <div id="inlineDoc"></div> */
-	assertNotNull(document.getElementById('viewport'));
+	assertNotUndefined(document.getElementById('viewport'));
 
 	Physijs.scripts.worker = '../vendor/physi.js/physijs_worker.js';
 	Physijs.scripts.ammo = 'ammo.js';
@@ -20,20 +20,20 @@ GameTest.prototype.setUp = function setUp() {
 
 GameTest.prototype.testCreateGame = function() {
 	var game = new A2B.Game(false, false);
-	assertNotNull("Should create an instance of the Game class", game);
+	assertNotUndefined("Should create an instance of the Game class", game);
 };
 
 GameTest.prototype.testAddGameToPage = function() {
 	var game = new A2B.Game(false, false);
 
-	assertNotNull("Should add an instance of Game to current page", game);
+	assertNotUndefined("Should add an instance of Game to current page", game);
 	var viewportBefore = document.getElementById('viewport').innerHTML;
 	console.log("GameTest", "viewportBefore:" + viewportBefore);
 
 	game.initRenderer();
 	var viewportAfter = document.getElementById('viewport').innerHTML;
 	console.log("GameTest", "viewportAfter:" + viewportAfter);
-	assertNotNull(document.getElementById('viewport'));
+	assertNotUndefined(document.getElementById('viewport'));
 	assertNotEquals("viewport div should look different after call", viewportBefore, viewportAfter);
 };
 
@@ -41,13 +41,13 @@ GameTest.prototype.testAddPlayerToScene = function() {
 	console.log("GameTest", "testAddPlayerToScene - started");
 	// create a game
 	var game = new A2B.Game(false, false);
-	assertNotNull("Should have created an instance of a Game", game);
+	assertNotUndefined("Should have created an instance of a Game", game);
 	// create a scene
 	game.initScene();
 	// create a player
 	var player = new A2B.Player();
-	assertNotNull("Should have created an instance of a Player", player);
-	assertNotNull("A player should have a mesh", player.getMesh());
+	assertNotUndefined("Should have created an instance of a Player", player);
+	assertNotUndefined("A player should have a mesh", player.getMesh());
 
 	game.addPlayerToScene(player, 1);
 	console.log("GameTest", "testAddPlayerToScene - ended");
@@ -62,9 +62,9 @@ GameTest.prototype.testChangeMode = function() {
 GameTest.prototype.testClearSceneObject = function() {
 	console.log("GameTest", "testClearSceneObject - started");
 	var game = new A2B.Game(false, false);
-	assertNotNull("Should have created an instance of a Game", game);
+	assertNotUndefined("Should have created an instance of a Game", game);
 	game.initScene();
-	assertNotNull("Should have created an instance of a game.scene", game.scene);
+	assertNotUndefined("Should have created an instance of a game.scene", game.scene);
 	// count objects
 	assertEquals("Empty scene should have 0 objects",0,game.scene.__objects.length);
 	assertEquals("Empty scene should have 0 lights",0,game.scene.__lights.length);
@@ -93,7 +93,7 @@ GameTest.prototype.testGetLives = function() {
 	console.log("GameTest", "testGetLives - started");
 	// create a game
 	var game = new A2B.Game(false, false);
-	assertNotNull("Should have created an instance of a Game", game);
+	assertNotUndefined("Should have created an instance of a Game", game);
 	game.initGame();
 	game.startNewGame();
 	var lives = game.getLives();
@@ -104,9 +104,9 @@ GameTest.prototype.testGetLives = function() {
 GameTest.prototype.testInitCamera = function() {
 	console.log("GameTest", "testInitCamera - started");
 	var game = new A2B.Game(false, false);
-	assertNotNull("Should have created an instance of a Game", game);
+	assertNotUndefined("Should have created an instance of a Game", game);
 	game.initCamera();
-	assertNotNull("Should have created an instance of a game.camera", game.camera);
+	assertNotUndefined("Should have created an instance of a game.camera", game.camera);
 
 	console.log("GameTest", "testInitCamera - ended");
 };
@@ -114,11 +114,11 @@ GameTest.prototype.testInitCamera = function() {
 GameTest.prototype.testInitCameraControls = function() {
 	console.log("GameTest", "testInitCameraControls - started");
 	var game = new A2B.Game(false, false);
-	assertNotNull("Should have created an instance of a Game", game);
+	assertNotUndefined("Should have created an instance of a Game", game);
 	game.initCamera();
-	assertNotNull("Should have created an instance of a game.camera", game.camera);
+	assertNotUndefined("Should have created an instance of a game.camera", game.camera);
 	game.initCameraControls();
-	assertNotNull("Should have created an instance of a game.cameraControls", game.cameraControls);
+	assertNotUndefined("Should have created an instance of a game.cameraControls", game.cameraControls);
 	console.log("GameTest", "testInitCameraControls - ended");
 };
 
@@ -126,24 +126,24 @@ GameTest.prototype.testInitGame = function() {
 	console.log("GameTest", "testInitGameStats - started");
 
 	var game = new A2B.Game(false, false);
-	assertNotNull("Should create an instance of the Game class", game);
+	assertNotUndefined("Should create an instance of the Game class", game);
 
 	//game.initGame();
 	// test everything is intialised
 
 	game.initRenderer();
-	assertNotNull("Should create an instance of the game.renderer class", game.renderer);
+	assertNotUndefined("Should create an instance of the game.renderer class", game.renderer);
 	game.initScene();
-	assertNotNull("Should create an instance of the game.scene class", game.scene);
+	assertNotUndefined("Should create an instance of the game.scene class", game.scene);
 	game.initCamera();
-	assertNotNull("Should create an instance of the game.camera class", game.camera);
+	assertNotUndefined("Should create an instance of the game.camera class", game.camera);
 	game.initCameraControls();
-	assertNotNull("Should create an instance of the game.cameraControls class", game.cameraControls);
+	assertNotUndefined("Should create an instance of the game.cameraControls class", game.cameraControls);
 	game.initProjector();
-	assertNotNull("Should create an instance of the game.projector class", game.projector);
+	assertNotUndefined("Should create an instance of the game.projector class", game.projector);
 
 	game.initWindowResize();
-	assertNotNull("Should create an instance of the Game class", game);
+	assertNotUndefined("Should create an instance of the Game class", game);
  
 	console.log("GameTest", "testInitGameStats - ended");
 };
@@ -152,27 +152,27 @@ GameTest.prototype.testInitGame = function() {
 GameTest.prototype.testInitProjector = function() {
 	console.log("GameTest", "testInitProjector - started");
 	var game = new A2B.Game(false, false);
-	assertNotNull("Should have created an instance of a Game", game);
+	assertNotUndefined("Should have created an instance of a Game", game);
 	game.initProjector();
-	assertNotNull("Should have created an instance of a game.projector", game["projector"]);
+	assertNotUndefined("Should have created an instance of a game.projector", game.projector);
 	console.log("GameTest", "testInitProjector - ended");
 };
 
 GameTest.prototype.testInitRenderer = function() {
 	console.log("GameTest", "testInitRenderer - started");
 	var game = new A2B.Game(false, false);
-	assertNotNull("Should have created an instance of a Game", game);
+	assertNotUndefined("Should have created an instance of a Game", game);
 	game.initRenderer();
-	assertNotNull("Should have created an instance of a game.renderer", game.renderer);
+	assertNotUndefined("Should have created an instance of a game.renderer", game.renderer);
 	console.log("GameTest", "testInitRenderer - ended");
 };
 
 GameTest.prototype.testInitScene = function() {
 	console.log("GameTest", "testInitScene - started");
 	var game = new A2B.Game(false, false);
-	assertNotNull("Should have created an instance of a Game", game);
+	assertNotUndefined("Should have created an instance of a Game", game);
 	game.initScene();
-	assertNotNull("Should have created an instance of a game.scene", game.scene);
+	assertNotUndefined("Should have created an instance of a game.scene", game.scene);
 	console.log("GameTest", "testInitScene - ended");
 };
 
