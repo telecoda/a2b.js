@@ -49,8 +49,8 @@ var GameStats = function() {
 
     return {domElement: mainDiv,update: function() {
             scoreDiv.textContent = "Score:"+game.getScore()+"\n"+"Lives:"+game.getLives();
-            cameraDiv.textContent = "Camera x:"+game.getCamera().position.x+" y:"+game.getCamera().position.y+" z:"+game.getCamera().position.z;
-            playerDiv.textContent = "Player x:"+game.getPlayer().getX()+" y:"+game.getPlayer().getY()+" z:"+game.getPlayer().getZ();
+            cameraDiv.textContent = "Camera x:"+game.camera.position.x+" y:"+game.camera.position.y+" z:"+game.camera.position.z;
+            playerDiv.textContent = "Player x:"+game.player.getX()+" y:"+game.player.getY()+" z:"+game.player.getZ();
             mouseDiv.textContent = "Mouse x:"+game.getMousePosition().x+" y:"+game.getMousePosition().y;
         }}
 };

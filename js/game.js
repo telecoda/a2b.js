@@ -32,6 +32,8 @@ A2B.Game.prototype.initGame = function(displayGraphicStats, displayGameStats) {
 	this.initCameraControls();
 	this.initProjector();
 
+	this.initLevelController();
+	
 	this.initWindowResize();
 	this.initScreenshotCapability();
 	this.initFullscreenCapability();
@@ -49,12 +51,12 @@ A2B.Game.prototype.initGame = function(displayGraphicStats, displayGameStats) {
 
 	if (this._displayGraphicStats) {
 		// graphic stats
-		this._graphicStats = this.initGraphicStats();
+		this.initGraphicStats();
 	}
 
 	if (this._displayGameStats) {
 		// game stats
-		this._gameStats = this.initGameStats();
+		this.initGameStats();
 	}
 
 	this.startRenderCallback();
@@ -173,7 +175,7 @@ A2B.Game.prototype.initGameStats = function() {
 	gameStats.domElement.style.zIndex = 100;
 	document.getElementById('viewport').appendChild(gameStats.domElement);
 
-	return gameStats;
+	this.gameStats=gameStats;
 
 };
 
@@ -185,8 +187,14 @@ A2B.Game.prototype.initGraphicStats = function() {
 	stats.domElement.style.zIndex = 100;
 	document.getElementById('viewport').appendChild(stats.domElement);
 
-	return stats;
+	this.graphicStats=stats;
 
+};
+
+A2B.Game.prototype.initLevelController = function() {
+
+	var levelController = new A2B.LevelController(); 
+	this.levelController = levelController;
 };
 
 A2B.Game.prototype.initMouseMoveListener = function() {
@@ -578,8 +586,8 @@ A2B.Game.prototype.render = function() {
 	game.scene.simulate(undefined, 2);
 	requestAnimationFrame(game.render);
 	game.renderer.render(game.scene, game.camera);
-	game.getGraphicStats().update();
-	game.getGameStats().update();
+	game.graphicStats.update();
+	game.gameStats.update();
 };
 
 /*
@@ -592,6 +600,8 @@ A2B.Game.prototype.setupMode = function() {
 			this._currentEventListener = this.mainMenuModeBindKeys();
 			break;
 		case LEVEL_RUNNING_MODE:
+			// load new level
+			this.levelController.loadLevel("levels/level01.json");
 			this.levelRunningInitScene(this.scene, this._level);
 			this._currentEventListener = this.levelRunningBindKeys(this.renderer);
 			this.playerMesh = this.addPlayerToScene(this.player, this._level);
@@ -606,7 +616,7 @@ A2B.Game.prototype.setupMode = function() {
 
 }
 
-A2B.Game.prototype.setMousePosition = function(evt) {
+A2B.Game.prototype.setMousePosition = function(event) {
 	// Find where mouse cursor intersects the ground plane
 	mouse.x = (event.clientX / window.innerWidth ) * 2 - 1;
 	mouse.y = -(event.clientY / window.innerHeight ) * 2 + 1;
