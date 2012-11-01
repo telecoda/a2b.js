@@ -20,13 +20,11 @@ var INTERSECTED;
 // constants
 
 var LEVEL_PATH = "levels/";
- 
+
 A2B.Game = function() {
 };
 
 A2B.Game.prototype.initGame = function(displayGraphicStats, displayGameStats) {
-
-	
 
 	this._displayGraphicStats = displayGraphicStats;
 	this._displayGameStats = displayGameStats;
@@ -39,7 +37,6 @@ A2B.Game.prototype.initGame = function(displayGraphicStats, displayGameStats) {
 	this.initCameraControls(this.camera);
 	this.initProjector();
 
-	
 	this.initWindowResize();
 	this.initScreenshotCapability();
 	this.initFullscreenCapability();
@@ -49,7 +46,6 @@ A2B.Game.prototype.initGame = function(displayGraphicStats, displayGameStats) {
 	var woodMaterial = this.materials['wood'];
 	this.player = new A2B.Player(woodMaterial);
 	this._currentEventListener = null;
-
 
 	if (this._displayGraphicStats) {
 		// graphic stats
@@ -61,7 +57,8 @@ A2B.Game.prototype.initGame = function(displayGraphicStats, displayGameStats) {
 		this.initGameStats();
 	}
 
-	this.changeMode(MAINMENU_MODE);
+	this.startMainMenu();
+	//this.changeMode(MAINMENU_MODE);
 
 	this.startRenderCallback();
 
@@ -115,8 +112,8 @@ A2B.Game.prototype.changeMode = function(newMode) {
 	}
 	// set up new mode
 	this._currentMode = newMode;
-	this.setupMode(); 
-} 
+	this.setupMode();
+}
 /*
  * clear all objects from a scene, iterate through child objects
  */
@@ -128,7 +125,7 @@ A2B.Game.prototype.clearSceneObjects = function(sceneObject) {
 		sceneObject.remove(child);
 	};
 }
- 
+
 A2B.Game.prototype.getLives = function() {
 	return this.lives;
 }
@@ -141,15 +138,14 @@ A2B.Game.prototype.getScore = function() {
 	return this.score;
 }
 
-
 A2B.Game.prototype.initCameraForScene = function(scene) {
 
 	var camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 1, 1000);
 
 	camera.position.set(0, 50, 120);
 
-	this.camera= camera;
-	
+	this.camera = camera;
+
 	// position camera
 	this.camera.lookAt(scene.position);
 	// add camera to scene
@@ -163,7 +159,7 @@ A2B.Game.prototype.initCameraControls = function(camera) {
 
 	cameraControls.target.set(0, 0, 0);
 
-	this.cameraControls=cameraControls;
+	this.cameraControls = cameraControls;
 };
 
 A2B.Game.prototype.initFullscreenCapability = function() {
@@ -185,7 +181,7 @@ A2B.Game.prototype.initGameStats = function() {
 	gameStats.domElement.style.zIndex = 100;
 	document.getElementById('viewport').appendChild(gameStats.domElement);
 
-	this.gameStats=gameStats;
+	this.gameStats = gameStats;
 
 };
 
@@ -197,17 +193,15 @@ A2B.Game.prototype.initGraphicStats = function() {
 	stats.domElement.style.zIndex = 100;
 	document.getElementById('viewport').appendChild(stats.domElement);
 
-	this.graphicStats=stats;
+	this.graphicStats = stats;
 
 };
 
 A2B.Game.prototype.initLevelController = function() {
 
-	var levelController = new A2B.LevelController(); 
+	var levelController = new A2B.LevelController();
 	this.levelController = levelController;
 };
-
-
 
 A2B.Game.prototype.initMouseMoveListener = function() {
 
@@ -223,7 +217,7 @@ A2B.Game.prototype.initProjector = function() {
 
 	var projector = new THREE.Projector;
 
-	this["projector"]=projector;
+	this["projector"] = projector;
 
 }
 
@@ -245,11 +239,11 @@ A2B.Game.prototype.initRenderer = function() {
 
 	this.renderer = renderer;
 
-}; 
+};
 
 A2B.Game.prototype.initScene = function() {
 
-	this.scene = this.levelController.initScene();
+	this.scene = A2B.initScene();
 }
 
 A2B.Game.prototype.initScreenshotCapability = function() {
@@ -480,79 +474,6 @@ A2B.Game.prototype.mainMenuModeBindKeys = function(opts) {
 	};
 }
 
-A2B.Game.prototype.mainMenuModeInitScene = function(currentScene) {
-
-	// add ground for scene
-	var ground_material = this.materials["rock"];
-
-	var floor = new Physijs.BoxMesh(new THREE.CubeGeometry(100, 1, 100), ground_material, 0 // mass
-	);
-	floor.receiveShadow = true;
-	currentScene.add(floor);
-
-	var wood_material = this.materials["wood"];
-
-	var fontProps = A2B.initFontProps();
-	// create A2B title mesh
-	var a2bMesh = A2B.createTextMesh("A2B", wood_material, fontProps);
-	// scale
-	a2bMesh.scale = new THREE.Vector3(0.2, 0.2, 0.2);
-	// position
-	a2bMesh.position = new THREE.Vector3(-15, 5, 10);
-	a2bMesh.rotation = new THREE.Vector3(A2B.degreesToRadians(-30), 0, 0);
-	a2bMesh.castShadow = true;
-	a2bMesh.receiveShadow = true;
-	currentScene.add(a2bMesh);
-
-	// create by Telecoda mesh
-	var fontProps = A2B.initFontProps();
-	fontProps.bend = false;
-	fontProps.size = 25;
-	var telecodaMesh = A2B.createTextMesh("by Telecoda", wood_material, fontProps);
-	// scale
-	telecodaMesh.scale = new THREE.Vector3(0.2, 0.2, 0.2);
-	// position
-	telecodaMesh.position = new THREE.Vector3(-15, 5, 30);
-	telecodaMesh.rotation = new THREE.Vector3(A2B.degreesToRadians(-60), 0, 0);
-	telecodaMesh.castShadow = true;
-	telecodaMesh.receiveShadow = true;
-	currentScene.add(telecodaMesh);
-
-	// create by start mesh
-	var start_material = this.materials["brick"];
-
-	var fontProps = A2B.initFontProps();
-	fontProps.bend = false;
-	fontProps.size = 25;
-	var startMesh = A2B.createTextMesh("Start Game!", start_material, fontProps);
-	// scale
-	startMesh.scale = new THREE.Vector3(0.2, 0.2, 0.2);
-	// position
-	startMesh.position = new THREE.Vector3(-15, 5, 50);
-	startMesh.rotation = new THREE.Vector3(A2B.degreesToRadians(-90), 0, 0);
-	startMesh.material.color.setHex(0x0000ff);
-
-	startMesh.castShadow = true;
-	startMesh.receiveShadow = true;
-	currentScene.add(startMesh);
-
-	//var mc = THREE.CollisionUtils.MeshColliderWBox(startMesh);
-	//THREE.Collisions.colliders.push( mc );
-
-	//var text = new Physijs.Mesh(text_geo
-	//	,
-	//	wood_material,
-	//	0 // mass
-	//	);
-
-	// add directional light to scene
-	var dirLight = A2B.getDirectionalLight();
-	dirLight.position.set(20, 40, 25);
-	dirLight.target.position.copy(currentScene.position);
-
-	currentScene.add(dirLight);
-
-};
 
 A2B.Game.prototype.render = function() {
 
@@ -637,25 +558,50 @@ A2B.Game.prototype.startNewGame = function() {
 	this.score = 0;
 
 	this.startNewLevel();
-	
+
 	//this.changeMode(LEVEL_RUNNING_MODE);
+
+}
+
+A2B.Game.prototype.startMainMenu = function() {
+
+	var scope = this;
+
+	var onMenuInitialised = function(menuScene) {
+		// this function is called when the menu scene has been initialised
+
+		// replace current scene with new scene
+		scope.scene = menuScene;
+
+		scope.initCameraForScene(scope.scene);
+
+		scope.initCameraControls(scope.camera);
+
+		// change to level running
+		A2B.MenuController.mainMenuModeInitScene(scope.scene);
+		scope._currentEventListener = scope.mainMenuModeBindKeys();
+
+	}
+	// load details of the main menu
+	var menuScene = A2B.MenuController.mainMenuModeInitScene();
+	onMenuInitialised(menuScene);
 
 }
 
 A2B.Game.prototype.startNewLevel = function() {
 
 	var scope = this;
-	
+
 	var onLevelInitialised = function(levelScene) {
 		// this function is called when a new scene has been initialised
-		
+
 		// replace current scene with new level
 		scope.scene = levelScene;
-		
+
 		scope.initCameraForScene(scope.scene);
-		
+
 		scope.initCameraControls(scope.camera);
-		
+
 		// change to level running
 		scope.changeMode(LEVEL_RUNNING_MODE);
 
@@ -663,9 +609,7 @@ A2B.Game.prototype.startNewLevel = function() {
 	// load details of the level
 	this.levelController.initLevel(this.levelNum, onLevelInitialised);
 
-	
 }
-
 
 A2B.Game.prototype.startRenderCallback = function() {
 

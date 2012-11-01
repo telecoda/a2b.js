@@ -49,7 +49,7 @@ A2B.LevelController.prototype.loadLevel  = function ( path, levelNum, onLoaded, 
 };
 A2B.LevelController.prototype.createLevelScene = function(levelData) {
 	// This method will create a new scene object from the level data and return it
-	var scene = this.initScene();
+	var scene = A2B.initScene();
 	
 	// parse the data in the levelData an add the appropriate objects to the scene
 	
@@ -92,18 +92,6 @@ A2B.LevelController.prototype.initLevel = function(levelNum, onLevelInitialised)
 	this.loadLevel(LEVEL_PATH,levelNum, onLevelLoaded, onLevelError);
 	
 	
-}
-
-A2B.LevelController.prototype.initScene = function() {
-
-	var scene = new Physijs.Scene;
-	scene.setGravity({
-		x : 0,
-		y : -20,
-		z : 0
-	});
-
-	return scene;
 }
 
 

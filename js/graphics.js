@@ -254,6 +254,22 @@ A2B.initMaterials = function(path) {
 	
 	};
 
+
+
+A2B.initScene = function() {
+
+	var scene = new Physijs.Scene;
+	scene.setGravity({
+		x : 0,
+		y : -20,
+		z : 0
+	});
+
+	return scene;
+}
+
+
+
 var onload = function(event) {
     console.log("Loaded texture worked.");
 	
