@@ -2,6 +2,7 @@
 /** @namespace */
 var A2B = A2B || {};
 
+// game modes
 var ATTRACT_MODE = 1;
 var MAINMENU_MODE = 2;
 var LEVEL_INTRO_MODE = 3;
@@ -10,11 +11,15 @@ var LEVEL_COMPLETE_MODE = 5;
 var GAME_OVER_MODE = 6;
 var GAME_COMPLETE_MODE = 7;
 var ENTER_HIGHSCORE_MODE = 8;
-var DISPLAY_CREDITS = 9;
-var DISPLAY_HIGHSCORES = 10;
+var DISPLAY_CREDITS_MODE = 9;
+var DISPLAY_HIGHSCORES_MODE = 10;
 
 var mouse;
 var INTERSECTED;
+
+// constants
+
+var LEVEL_PATH = "levels/";
  
 A2B.Game = function() {
 };
@@ -26,13 +31,14 @@ A2B.Game.prototype.initGame = function(displayGraphicStats, displayGameStats) {
 	this._displayGraphicStats = displayGraphicStats;
 	this._displayGameStats = displayGameStats;
 
+	this.initLevelController();
+
 	this.initRenderer();
 	this.initScene();
 	this.initCamera();
 	this.initCameraControls();
 	this.initProjector();
 
-	this.initLevelController();
 	
 	this.initWindowResize();
 	this.initScreenshotCapability();
@@ -58,6 +64,8 @@ A2B.Game.prototype.initGame = function(displayGraphicStats, displayGameStats) {
 		// game stats
 		this.initGameStats();
 	}
+
+	this.changeMode(MAINMENU_MODE);
 
 	this.startRenderCallback();
 
@@ -197,6 +205,8 @@ A2B.Game.prototype.initLevelController = function() {
 	this.levelController = levelController;
 };
 
+
+
 A2B.Game.prototype.initMouseMoveListener = function() {
 
 	var mouse = {
@@ -237,14 +247,7 @@ A2B.Game.prototype.initRenderer = function() {
 
 A2B.Game.prototype.initScene = function() {
 
-	var scene = new Physijs.Scene;
-	scene.setGravity({
-		x : 0,
-		y : -20,
-		z : 0
-	});
-
-	this.scene = scene;
+	this.scene = this.levelController.initScene();
 }
 
 A2B.Game.prototype.initScreenshotCapability = function() {
@@ -455,7 +458,8 @@ A2B.Game.prototype.mainMenuModeBindKeys = function(opts) {
 		switch(event.which) {
 			case goKey:
 				// if here game should start
-				this.changeMode(LEVEL_RUNNING_MODE);
+				this.startNewGame();
+				//this.changeMode(LEVEL_RUNNING_MODE);
 				break;
 
 		}
@@ -601,15 +605,13 @@ A2B.Game.prototype.setupMode = function() {
 			break;
 		case LEVEL_RUNNING_MODE:
 			// load new level
-			this.levelController.loadLevel("levels/level01.json");
-			this.levelRunningInitScene(this.scene, this._level);
+			//this.levelRunningInitScene(this.scene, this._level);
 			this._currentEventListener = this.levelRunningBindKeys(this.renderer);
 			this.playerMesh = this.addPlayerToScene(this.player, this._level);
 			break;
 
 	}
 	/*
-	 this.initLevel(this._level,this.scene);
 	 this.playerMesh = this.addPlayerToScene(this._level,this.scene);
 	 this.bindKeys(this._renderer);
 	 */
@@ -627,15 +629,36 @@ A2B.Game.prototype.setMousePosition = function(event) {
  * This method is called when a new game starts
  */
 A2B.Game.prototype.startNewGame = function() {
-	// to store the current state
-	this.level = 1;
+	// init variables for a new game
+	this.levelNum = 1;
 	this.lives = 3;
 	this.score = 0;
 
-	this.changeMode(MAINMENU_MODE);
+	this.startNewLevel();
+	
 	//this.changeMode(LEVEL_RUNNING_MODE);
 
 }
+
+A2B.Game.prototype.startNewLevel = function() {
+
+	var scope = this;
+	
+	var onLevelInitialised = function(levelScene) {
+		// this function is called when a new scene has been initialised
+		
+		// replace current scene with new level
+		scope.scene = levelScene;
+		// change to level running
+		scope.changeMode(LEVEL_RUNNING_MODE);
+
+	}
+	// load details of the level
+	this.levelController.initLevel(this.levelNum, onLevelInitialised);
+
+	
+}
+
 
 A2B.Game.prototype.startRenderCallback = function() {
 
@@ -648,7 +671,7 @@ A2B.Game.prototype.startRenderCallback = function() {
 A2B.Game.prototype.teardownMode = function() {
 	this._currentEventListener.unbind();
 	//this.scene.remove();
-	this.clearSceneObjects(this.scene);
+	//this.clearSceneObjects(this.scene);
 
 	switch(this._currentMode) {
 		case MAINMENU_MODE:
