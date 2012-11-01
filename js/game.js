@@ -35,8 +35,8 @@ A2B.Game.prototype.initGame = function(displayGraphicStats, displayGameStats) {
 
 	this.initRenderer();
 	this.initScene();
-	this.initCamera();
-	this.initCameraControls();
+	this.initCameraForScene(this.scene);
+	this.initCameraControls(this.camera);
 	this.initProjector();
 
 	
@@ -50,10 +50,6 @@ A2B.Game.prototype.initGame = function(displayGraphicStats, displayGameStats) {
 	this.player = new A2B.Player(woodMaterial);
 	this._currentEventListener = null;
 
-	// position camera
-	this.camera.lookAt(this.scene.position);
-	// add camera to scene
-	this.scene.add(this.camera);
 
 	if (this._displayGraphicStats) {
 		// graphic stats
@@ -146,18 +142,24 @@ A2B.Game.prototype.getScore = function() {
 }
 
 
-A2B.Game.prototype.initCamera = function() {
+A2B.Game.prototype.initCameraForScene = function(scene) {
 
 	var camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 1, 1000);
 
 	camera.position.set(0, 50, 120);
 
 	this.camera= camera;
+	
+	// position camera
+	this.camera.lookAt(scene.position);
+	// add camera to scene
+	scene.add(this.camera);
+
 };
 
-A2B.Game.prototype.initCameraControls = function() {
+A2B.Game.prototype.initCameraControls = function(camera) {
 
-	var cameraControls = new THREE.TrackballControls(this.camera);
+	var cameraControls = new THREE.TrackballControls(camera);
 
 	cameraControls.target.set(0, 0, 0);
 
@@ -649,6 +651,11 @@ A2B.Game.prototype.startNewLevel = function() {
 		
 		// replace current scene with new level
 		scope.scene = levelScene;
+		
+		scope.initCameraForScene(scope.scene);
+		
+		scope.initCameraControls(scope.camera);
+		
 		// change to level running
 		scope.changeMode(LEVEL_RUNNING_MODE);
 
