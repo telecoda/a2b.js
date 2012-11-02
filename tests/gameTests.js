@@ -11,7 +11,7 @@ GameTest.prototype.setUp = function setUp() {
 	assertNotUndefined(document.getElementById('viewport'));
 
 	Physijs.scripts.worker = '../vendor/physi.js/physijs_worker.js';
-	Physijs.scripts.ammo = 'ammo.js';
+	Physijs.scripts.ammo = 'ammo.js'; 
 
 	//A2B.initMaterials('../images');
 
@@ -103,23 +103,25 @@ GameTest.prototype.testGetLives = function() {
 	console.log("GameTest", "testGetLives - ended");
 };
 
-GameTest.prototype.testInitCamera = function() {
-	console.log("GameTest", "testInitCamera - started");
+GameTest.prototype.testInitCameraForScene = function() {
+	console.log("GameTest", "testInitCameraForScene - started");
 	var game = new A2B.Game(false, false);
 	assertNotUndefined("Should have created an instance of a Game", game);
-	game.initCamera();
+	game.initScene();
+	game.initCameraForScene(game.scene);
 	assertNotUndefined("Should have created an instance of a game.camera", game.camera);
 
-	console.log("GameTest", "testInitCamera - ended");
+	console.log("GameTest", "testInitCameraForScene - ended");
 };
 
 GameTest.prototype.testInitCameraControls = function() {
 	console.log("GameTest", "testInitCameraControls - started");
 	var game = new A2B.Game(false, false);
 	assertNotUndefined("Should have created an instance of a Game", game);
-	game.initCamera();
+	game.initScene();
+	game.initCameraForScene(game.scene);
 	assertNotUndefined("Should have created an instance of a game.camera", game.camera);
-	game.initCameraControls();
+	game.initCameraControls(game.camera);
 	assertNotUndefined("Should have created an instance of a game.cameraControls", game.cameraControls);
 	console.log("GameTest", "testInitCameraControls - ended");
 };
@@ -137,9 +139,9 @@ GameTest.prototype.testInitGame = function() {
 	assertNotUndefined("Should create an instance of the game.renderer class", game.renderer);
 	game.initScene();
 	assertNotUndefined("Should create an instance of the game.scene class", game.scene);
-	game.initCamera();
+	game.initCameraForScene(game.scene);
 	assertNotUndefined("Should create an instance of the game.camera class", game.camera);
-	game.initCameraControls();
+	game.initCameraControls(game.camera);
 	assertNotUndefined("Should create an instance of the game.cameraControls class", game.cameraControls);
 	game.initProjector();
 	assertNotUndefined("Should create an instance of the game.projector class", game.projector);
