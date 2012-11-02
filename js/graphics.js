@@ -2,6 +2,68 @@
 /** @namespace */
 var A2B	= A2B 		|| {};
 
+A2B.createMaterials = function(materialsToCreate, textures) {
+
+	// materialsToCreate is a list of objects in the following format
+	/*
+	  
+	  	[
+	  		{ 
+	  			"name" 			: "material1",
+	  			"texture" 		: "wood",
+				"repeatX"		: 0.25,
+				"repeatY"		: 0.25,
+				"friction" 		: 0.8,
+				"restitution"	: 0.4
+	  		},
+	  		{ 
+	  			"name" 			: "material2",
+	  			"texture" 		: "rock",
+				"repeatX"		: 0.25,
+				"repeatY"		: 0.25,
+				"friction" 		: 0.6,
+				"restitution"	: 0.6
+	  		}
+	  	]
+	  
+	  		
+	  	
+	  }
+	 */
+
+	var materials={};
+
+	// iterate through a list of materials to create
+	var len=materialsToCreate.length;
+
+	for(var i=0; i<len; i++) {
+		var materialToCreate = materialsToCreate[i];
+		
+		var texture = textures[materialToCreate.texture];
+			if(texture==undefined){
+				alert("Texture:" + materialToCreate.texture + " is not found.");
+			}
+			
+		var createdMaterial = Physijs.createMaterial(
+			new THREE.MeshLambertMaterial({ map: texture }),
+			materialToCreate.friction, 
+			materialToCreate.restitution
+		);
+		createdMaterial.map.wrapS = THREE.RepeatWrapping;
+		createdMaterial.map.wrapT = THREE.RepeatWrapping;
+		createdMaterial.map.repeat.set( materialToCreate.repeatX, materialToCreate.repeatY );
+
+		// add to array
+		materials[materialToCreate['name']]=createdMaterial;
+	}
+
+	return materials;
+
+		
+
+}
+
+
 /*
  * Create a text mesh for rendering.  fontProps is an object from initFontProps()
  */
@@ -270,12 +332,13 @@ A2B.initScene = function() {
 
 
 
-var onload = function(event) {
+var onLoad = function(event) {
     console.log("Loaded texture worked.");
 	
 }
 
 var onError = function(event) {
+	alert(event);
     console.log("Loaded texture failed.");
  
 }
@@ -288,29 +351,48 @@ A2B.loadTexture = function(path, filename) {
 	var loadStatus = "not loaded";
 	console.log("Starting loading texture.");
 	
-	var image = THREE.ImageUtils.loadTexture(fullPath,null, onload, onError);
+	var texture = THREE.ImageUtils.loadTexture(fullPath,null, onLoad, onError);
 	
 	
-	return image;		
+	return texture;		
 
 }
 
 
 
 
-A2B.loadTextures = function(path, filenames) {
+A2B.loadTextures = function(path, texturesToLoad, onTexturesLoaded) {
+	
+	// texturesToLoad is a list of objects in the following format
+	/*
+	  
+	  	[
+	  		{ 
+	  			"name" : "texture1",
+	  	  		"file" : "textures1.png"
+	  		},
+	  		{ 
+	  			"name" : "texture2",
+	  	  		"file" : "textures2.png"
+	  		}
+	  	]
+	  
+	  		
+	  	
+	  }
+	 */
 
-	var images={};
+	var textures={};
 
-	// iterate through a list of image
-	var len=filenames.length;
+	// iterate through a list of textures
+	var len=texturesToLoad.length;
 
 	for(var i=0; i<len; i++) {
-		var filename = filenames[i];
-		images[filename]=A2B.loadTexture(path,filename);
+		var textureToLoad = texturesToLoad[i];
+		textures[textureToLoad['name']]=A2B.loadTexture(path,textureToLoad['file']);
 	}
 
-	return images;		
+	onTexturesLoaded(textures);
 
 }
 

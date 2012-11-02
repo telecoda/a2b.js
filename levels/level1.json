@@ -1,4 +1,37 @@
 {
 	"name" : "test level",
-	"author" : "telecoda"
+	"author" : "telecoda",
+	"textures" : 
+				  	[
+	  					{ 
+	  					  	"name" : "rocks",
+	  	  					"file" : "tex_rocks.jpg"
+	  					},
+	  					{ 
+	  						"name" : "wood",
+	  	  					"file" : "tex_wood.jpg"
+	  					}
+	  				],
+	"materials" :
+				  	[
+				  		{ 
+				  			"name" 			: "ground_material",
+				  			"texture" 		: "rocks",
+				  			"repeatX"		: 0.25,
+				  			"repeatY"		: 0.25,
+							"friction" 		: 0.8,
+							"restitution"	: 0.4
+				  		},
+				  		{ 
+				  			"name" 			: "rock_material",
+				  			"texture" 		: "rocks",
+				  			"repeatX"		: 0.25,
+				  			"repeatY"		: 0.25,
+							"friction" 		: 0.6,
+							"restitution"	: 0.6
+				  		}
+				  	]
+
+
+				
 } 

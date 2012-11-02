@@ -76,19 +76,42 @@ A2B.LevelController.prototype.createLevelScene = function(levelData) {
 	return scene; 
 };
 A2B.LevelController.prototype.initLevel = function(levelNum, onLevelInitialised) {
-	// this method will load the level data from the JSON file
+	// this method initialises a level from the json file describing the level.
+	// it goes through the following steps:-
+	// i.) read level definition from json file and parse into "levelData" object.
+	// ii.) load textures required for level in levelData.textures held in levels/textures dir
+	// iii.) create materials required for level in levelData.materials
+	// iv.) create scene objects for level in levelData.sceneObjects
+	
 	var scope = this;
+	
+	var currentLevelData = null;
 	
 	var onLevelLoaded = function(levelData) {
 		//scope.levelData = levelData;
-		var levelScene = scope.createLevelScene(levelData);
+		currentLevelData = levelData;
+		var textures = A2B.loadTextures("levels/textures/",currentLevelData.textures, onTexturesLoaded);
+	}
+
+	var onTexturesLoaded = function(textures) {
+		// create materials
+		var materials = A2B.createMaterials(currentLevelData.materials, textures);
+		var levelScene = scope.createLevelScene(currentLevelData);
 		onLevelInitialised(levelScene);	
 	}
-	
+
+//	var onMaterialsCreated = function(textures) {
+//		var levelScene = scope.createLevelScene(levelData);
+//		onLevelInitialised(levelScene);	
+//	}
+
 	var onLevelError = function(errorDesc) {
 		alert(errorDesc);
 		console.error(errorDesc);
 	}
+
+	
+
 	this.loadLevel(LEVEL_PATH,levelNum, onLevelLoaded, onLevelError);
 	
 	
