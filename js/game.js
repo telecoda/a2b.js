@@ -108,7 +108,7 @@ A2B.Game.prototype.addPlayerToScene = function(player, levelNumber) {
 A2B.Game.prototype.changeMode = function(newMode) {
 	// teardown previous mode
 	if (this._currentMode != undefined) {
-		this.teardownMode();
+		this.teardownMode(); 
 	}
 	// set up new mode
 	this._currentMode = newMode;

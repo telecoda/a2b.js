@@ -353,7 +353,7 @@ A2B.loadTexture = function(path, filename) {
 	
 	var texture = THREE.ImageUtils.loadTexture(fullPath,null, onLoad, onError);
 	
-	
+	 
 	return texture;		
 
 }

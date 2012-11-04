@@ -90,7 +90,7 @@ A2B.LevelController.prototype.initLevel = function(levelNum, onLevelInitialised)
 	var onLevelLoaded = function(levelData) {
 		//scope.levelData = levelData;
 		currentLevelData = levelData;
-		var textures = A2B.loadTextures("levels/textures/",currentLevelData.textures, onTexturesLoaded);
+		//var textures = A2B.loadTextures("levels/textures/",currentLevelData.textures, onTexturesLoaded);
 	}
 
 	var onTexturesLoaded = function(textures) {
