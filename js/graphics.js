@@ -2,6 +2,19 @@
 /** @namespace */
 var A2B	= A2B 		|| {};
 
+A2B.createEmptyScene = function() {
+
+	var scene = new Physijs.Scene;
+	scene.setGravity({
+		x : 0,
+		y : -20,
+		z : 0
+	});
+
+	return scene;
+}
+
+
 A2B.createMaterials = function(materialsToCreate, textures) {
 
 	// materialsToCreate is a list of objects in the following format
@@ -318,17 +331,6 @@ A2B.initMaterials = function(path) {
 
 
 
-A2B.initScene = function() {
-
-	var scene = new Physijs.Scene;
-	scene.setGravity({
-		x : 0,
-		y : -20,
-		z : 0
-	});
-
-	return scene;
-}
 
 
 

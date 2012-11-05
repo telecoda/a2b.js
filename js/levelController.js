@@ -13,9 +13,7 @@ A2B.LevelController = function() {
 
 
 
-A2B.LevelController.prototype.loadLevel  = function ( path, levelNum, onLoaded, onError ) {
-
-	var scope = this;
+A2B.LevelController.loadLevel  = function ( path, levelNum, onLoaded, onError ) {
 
 	var xhr = new XMLHttpRequest();
 
@@ -47,22 +45,30 @@ A2B.LevelController.prototype.loadLevel  = function ( path, levelNum, onLoaded, 
 	xhr.send( null );
 	
 };
-A2B.LevelController.prototype.createLevelScene = function(levelData) {
+
+A2B.LevelController.createFloors = function(scene,floorData,materials) {
+
+}
+
+A2B.LevelController.createLevelScene = function(levelData,materials) {
 	// This method will create a new scene object from the level data and return it
-	var scene = A2B.initScene();
+	var scene = A2B.createEmptyScene();
+	
 	
 	// parse the data in the levelData an add the appropriate objects to the scene
 	
 	// dummy setup for now
 	
-	this.materials = A2B.initMaterials('images');
+	//this.materials = A2B.initMaterials('images');
 
-	var ground_material = this.materials["rock"];
+	var ground_material = materials["rock_material"];
 
 	var floor = new Physijs.BoxMesh(new THREE.CubeGeometry(20, 1, 20), ground_material, 0 // mass
 	);
 	floor.receiveShadow = true;
 	scene.add(floor);
+	
+
 	
 	// add spotlight to scene
 	var spotLight = A2B.getSpotLight();
@@ -75,7 +81,8 @@ A2B.LevelController.prototype.createLevelScene = function(levelData) {
 	
 	return scene; 
 };
-A2B.LevelController.prototype.initLevel = function(levelNum, onLevelInitialised) {
+
+A2B.LevelController.initLevel = function(levelNum, onLevelInitialised) {
 	// this method initialises a level from the json file describing the level.
 	// it goes through the following steps:-
 	// i.) read level definition from json file and parse into "levelData" object.
@@ -90,13 +97,13 @@ A2B.LevelController.prototype.initLevel = function(levelNum, onLevelInitialised)
 	var onLevelLoaded = function(levelData) {
 		//scope.levelData = levelData;
 		currentLevelData = levelData;
-		//var textures = A2B.loadTextures("levels/textures/",currentLevelData.textures, onTexturesLoaded);
+		var textures = A2B.loadTextures("levels/textures/",currentLevelData.textures, onTexturesLoaded);
 	}
 
 	var onTexturesLoaded = function(textures) {
 		// create materials
 		var materials = A2B.createMaterials(currentLevelData.materials, textures);
-		var levelScene = scope.createLevelScene(currentLevelData);
+		var levelScene = A2B.LevelController.createLevelScene(currentLevelData,materials);
 		onLevelInitialised(levelScene);	
 	}
 
@@ -112,11 +119,11 @@ A2B.LevelController.prototype.initLevel = function(levelNum, onLevelInitialised)
 
 	
 
-	this.loadLevel(LEVEL_PATH,levelNum, onLevelLoaded, onLevelError);
+	A2B.LevelController.loadLevel(LEVEL_PATH,levelNum, onLevelLoaded, onLevelError);
 	
 	
 }
 
 
-A2B.Game.prototype.saveLevelToFile = function(path, levelName) {
+A2B.Game.saveLevelToFile = function(path, levelName) {
 }

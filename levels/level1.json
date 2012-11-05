@@ -30,6 +30,23 @@
 							"friction" 		: 0.6,
 							"restitution"	: 0.6
 				  		}
+				  	],
+	"floors" :
+				  	[
+				  		{ 
+				  			"name" 			: "main_floor",
+				  			"material" 		: "ground_material",
+				  			"dimensions"		: [20,1,20],
+				  			"position"		: [0,0,0],
+							"mass" 		: 0
+				  		},
+				  		{ 
+				  			"name" 			: "floor_2",
+				  			"material" 		: "rock_material",
+				  			"dimensions"		: [5,1,5],
+				  			"position"		: [10,10,0],
+							"mass" 		: 0
+				  		}
 				  	]
 
 

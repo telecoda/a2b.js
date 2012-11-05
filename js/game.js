@@ -29,8 +29,6 @@ A2B.Game.prototype.initGame = function(displayGraphicStats, displayGameStats) {
 	this._displayGraphicStats = displayGraphicStats;
 	this._displayGameStats = displayGameStats;
 
-	this.initLevelController();
-
 	this.initRenderer();
 	this.initScene();
 	this.initCameraForScene(this.scene);
@@ -197,12 +195,6 @@ A2B.Game.prototype.initGraphicStats = function() {
 
 };
 
-A2B.Game.prototype.initLevelController = function() {
-
-	var levelController = new A2B.LevelController();
-	this.levelController = levelController;
-};
-
 A2B.Game.prototype.initMouseMoveListener = function() {
 
 	var mouse = {
@@ -243,7 +235,7 @@ A2B.Game.prototype.initRenderer = function() {
 
 A2B.Game.prototype.initScene = function() {
 
-	this.scene = A2B.initScene();
+	this.scene = A2B.createEmptyScene();
 }
 
 A2B.Game.prototype.initScreenshotCapability = function() {
@@ -607,7 +599,7 @@ A2B.Game.prototype.startNewLevel = function() {
 
 	}
 	// load details of the level
-	this.levelController.initLevel(this.levelNum, onLevelInitialised);
+	A2B.LevelController.initLevel(this.levelNum, onLevelInitialised);
 
 }
 

@@ -16,7 +16,7 @@ A2B.MenuController = function() {
 A2B.MenuController.mainMenuModeInitScene = function() {
 
 	// This method will create a new scene object from the level data and return it
-	var scene = A2B.initScene();
+	var scene = A2B.createEmptyScene();
 	
     var materials = A2B.initMaterials('images');
 	// add ground for scene
