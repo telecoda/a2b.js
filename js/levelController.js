@@ -51,27 +51,19 @@ A2B.LevelController.createFloors = function(scene,floorsToCreate,materials) {
 	// floorsToCreate is a list of objects in the following format
 	/*
 	  
-	"floors" :
+"floors" :
 				  	[
 				  		{ 
 				  			"name" 			: "main_floor",
 				  			"material" 		: "ground_material",
-				  			"dimensions"		: [20,1,20],
-				  			"position"		: [0,0,0],
+				  			"dimensions"		: {"x":20,"y":1,"z":20},
+				  			"position"		: {"x":0,"y":0,"z":0},
+							"rotation"		: {"x":0,"y":45,"z":0},
 							"mass" 		: 0
 				  		},
-				  		{ 
-				  			"name" 			: "floor_2",
-				  			"material" 		: "rock_material",
-				  			"dimensions"		: [5,1,5],
-				  			"position"		: [10,10,0],
-							"mass" 		: 0
-				  		}
-				  	]
+		  		
+	  etc..	
 	  
-	  		
-	  	
-	  }
 	 */
 
 
@@ -134,6 +126,28 @@ A2B.LevelController.createLevelScene = function(levelData,materials) {
 	
 	return scene; 
 };
+
+A2B.LevelController.createLight = function(colour, position, targetPosition) {
+	
+		// Light
+		var light = new THREE.SpotLight(colour );
+		light.castShadow = true;
+		light.shadowCameraLeft = -60;
+		light.shadowCameraTop = -60;
+		light.shadowCameraRight = 60;
+		light.shadowCameraBottom = 60;
+		light.shadowCameraNear = 20;
+		light.shadowCameraFar = 200;
+		light.shadowBias = -.0001
+		light.shadowMapWidth = light.shadowMapHeight = 2048;
+		light.shadowDarkness = .7;
+		light.position = position;
+		light.target.position.copy(targetPosition);
+	
+		
+		return light;
+		};
+
 
 A2B.LevelController.initLevel = function(levelNum, onLevelInitialised) {
 	// this method initialises a level from the json file describing the level.

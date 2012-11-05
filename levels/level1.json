@@ -49,8 +49,22 @@
 							"rotation"		: {"x":45,"y":0,"z":0},
 														"mass" 		: 0
 				  		}
+				  	],
+	"lights" :
+				  	[
+				  		{ 
+				  			"name" 			: "red_directional_light",
+				  			"type" 			: "directional",
+				  			"colour"		: "0xFF0000",
+				  			"position"		: {"x":20,"y":40,"z":-15},
+							"targetPosition"		: {"x":0,"y":0,"z":0},
+				  		},
+				  		{ 
+				  			"name" 			: "blue_spotlight_01",
+				  			"type" 			: "spot",
+				  			"colour"		: "0x0000FF",
+				  			"position"		: {"x":0,"y":0,"z":0},
+							"targetPosition"		: {"x":0,"y":45,"z":0},							
+				  		}
 				  	]
-
-
-				
 } 
