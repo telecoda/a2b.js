@@ -46,7 +46,61 @@ A2B.LevelController.loadLevel  = function ( path, levelNum, onLoaded, onError ) 
 	
 };
 
-A2B.LevelController.createFloors = function(scene,floorData,materials) {
+A2B.LevelController.createFloors = function(scene,floorsToCreate,materials) {
+
+	// floorsToCreate is a list of objects in the following format
+	/*
+	  
+	"floors" :
+				  	[
+				  		{ 
+				  			"name" 			: "main_floor",
+				  			"material" 		: "ground_material",
+				  			"dimensions"		: [20,1,20],
+				  			"position"		: [0,0,0],
+							"mass" 		: 0
+				  		},
+				  		{ 
+				  			"name" 			: "floor_2",
+				  			"material" 		: "rock_material",
+				  			"dimensions"		: [5,1,5],
+				  			"position"		: [10,10,0],
+							"mass" 		: 0
+				  		}
+				  	]
+	  
+	  		
+	  	
+	  }
+	 */
+
+
+	// iterate through a list of floors to create
+	var len=floorsToCreate.length;
+
+	for(var i=0; i<len; i++) {
+		var floorToCreate = floorsToCreate[i];
+		
+		var material = materials[floorToCreate.material];
+			if(material==undefined){
+				alert("Material:" + floorToCreate.material + " is not found.");
+			}
+		
+		// add create floor bit here...
+		var floor = new Physijs.BoxMesh(new THREE.CubeGeometry(floorToCreate.dimensions.x,floorToCreate.dimensions.y,floorToCreate.dimensions.z), material, floorToCreate.mass);
+		var positionVector = new THREE.Vector3(floorToCreate.position.x,floorToCreate.position.y,floorToCreate.position.z);
+		var rotationVector = new THREE.Vector3(floorToCreate.rotation.x,floorToCreate.rotation.y,floorToCreate.rotation.z);
+		//floor.position = floorToCreate.position;
+		floor.position = positionVector;
+		floor.rotation = rotationVector;
+		floor.receiveShadow = true;
+		
+		// add to scene
+		scene.add(floor);
+			
+	}
+
+
 
 }
 
@@ -54,21 +108,20 @@ A2B.LevelController.createLevelScene = function(levelData,materials) {
 	// This method will create a new scene object from the level data and return it
 	var scene = A2B.createEmptyScene();
 	
-	
 	// parse the data in the levelData an add the appropriate objects to the scene
 	
 	// dummy setup for now
 	
 	//this.materials = A2B.initMaterials('images');
 
-	var ground_material = materials["rock_material"];
+	//var ground_material = materials["rock_material"];
 
-	var floor = new Physijs.BoxMesh(new THREE.CubeGeometry(20, 1, 20), ground_material, 0 // mass
-	);
-	floor.receiveShadow = true;
-	scene.add(floor);
+	//var floor = new Physijs.BoxMesh(new THREE.CubeGeometry(20, 1, 20), ground_material, 0 // mass
+	//);
+	//floor.receiveShadow = true;
+	//scene.add(floor);
 	
-
+	A2B.LevelController.createFloors(scene,levelData.floors,materials);
 	
 	// add spotlight to scene
 	var spotLight = A2B.getSpotLight();

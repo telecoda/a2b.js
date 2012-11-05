@@ -36,16 +36,18 @@
 				  		{ 
 				  			"name" 			: "main_floor",
 				  			"material" 		: "ground_material",
-				  			"dimensions"		: [20,1,20],
-				  			"position"		: [0,0,0],
+				  			"dimensions"		: {"x":20,"y":1,"z":20},
+				  			"position"		: {"x":0,"y":0,"z":0},
+							"rotation"		: {"x":0,"y":45,"z":0},
 							"mass" 		: 0
 				  		},
 				  		{ 
 				  			"name" 			: "floor_2",
 				  			"material" 		: "rock_material",
-				  			"dimensions"		: [5,1,5],
-				  			"position"		: [10,10,0],
-							"mass" 		: 0
+				  			"dimensions"		: {"x":5,"y":1,"z":5},
+				  			"position"		: {"x":30,"y":0,"z":30},
+							"rotation"		: {"x":45,"y":0,"z":0},
+														"mass" 		: 0
 				  		}
 				  	]
 
