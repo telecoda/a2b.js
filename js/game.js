@@ -417,7 +417,7 @@ A2B.Game.prototype.levelRunningInitScene = function(currentScene, levelNumber) {
 	dirLight.position.set(20, 40, -15);
 	dirLight.target.position.copy(currentScene.position);
 
-	currentScene.add(dirLight);
+	//currentScene.add(dirLight);
 
 	// add spotlight to scene
 	var spotLight = A2B.getSpotLight();

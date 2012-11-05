@@ -86,6 +86,7 @@ A2B.LevelController.createFloors = function(scene,floorsToCreate,materials) {
 		floor.position = positionVector;
 		floor.rotation = rotationVector;
 		floor.receiveShadow = true;
+		floor.castShadow = true;
 		
 		// add to scene
 		scene.add(floor);
@@ -115,11 +116,12 @@ A2B.LevelController.createLevelScene = function(levelData,materials) {
 	
 	A2B.LevelController.createFloors(scene,levelData.floors,materials);
 	
+	A2B.LevelController.createLights(scene,levelData.lights);
 	// add spotlight to scene
-	var spotLight = A2B.getSpotLight();
-	spotLight.position.set(20, 40, -15);
-	spotLight.target.position.copy(scene.position);
-	scene.add( spotLight );
+	//var spotLight = A2B.getSpotLight();
+	//spotLight.position.set(20, 40, -15);
+	//spotLight.target.position.copy(scene.position);
+	//scene.add( spotLight );
 
 
 	
@@ -127,26 +129,71 @@ A2B.LevelController.createLevelScene = function(levelData,materials) {
 	return scene; 
 };
 
-A2B.LevelController.createLight = function(colour, position, targetPosition) {
-	
+A2B.LevelController.createLight = function(name, colour, type, position, targetPosition, props) {
+		var light;
 		// Light
-		var light = new THREE.SpotLight(colour );
-		light.castShadow = true;
-		light.shadowCameraLeft = -60;
-		light.shadowCameraTop = -60;
-		light.shadowCameraRight = 60;
-		light.shadowCameraBottom = 60;
-		light.shadowCameraNear = 20;
-		light.shadowCameraFar = 200;
-		light.shadowBias = -.0001
-		light.shadowMapWidth = light.shadowMapHeight = 2048;
-		light.shadowDarkness = .7;
+		switch(type) {
+			case "spot":
+				light = new THREE.SpotLight(colour );
+				break;
+			case "directional":
+				light = new THREE.DirectionalLight(colour );
+				break;
+			case "ambient":
+				light = new THREE.AmbientLight(colour );
+				break;
+			case "point":
+				light = new THREE.PointLight(colour );
+				break;
+			default:
+				alert("Cannot create a light of type:"+type);
+				return;
+		}
+	
 		light.position = position;
 		light.target.position.copy(targetPosition);
+		light.name = name;
+		
+		for ( var key in props ) {
+
+			var newValue = props[ key ];
+
+			if ( newValue === undefined ) {
 	
+				console.warn( 'createLight: \'' + key + '\' parameter is undefined.' );
+				continue;
+	
+			}
+			else {
+				light[ key ] = newValue;
+			}
+		}
 		
 		return light;
 		};
+
+
+A2B.LevelController.createLights = function(scene,lightsToCreate) {
+
+	// iterate through a list of lights to create
+	var len=lightsToCreate.length;
+
+	for(var i=0; i<len; i++) {
+		var lightToCreate = lightsToCreate[i];
+
+		var positionVector = new THREE.Vector3(lightToCreate.position.x,lightToCreate.position.y,lightToCreate.position.z);
+		var targetVector = new THREE.Vector3(lightToCreate.targetPosition.x,lightToCreate.targetPosition.y,lightToCreate.targetPosition.z);
+		
+		var light = A2B.LevelController.createLight(lightToCreate.name,lightToCreate.colour,lightToCreate.type, positionVector, targetVector,lightToCreate.props);
+		
+		// add to scene
+		scene.add(light);
+			
+	}
+
+
+
+}
 
 
 A2B.LevelController.initLevel = function(levelNum, onLevelInitialised) {
@@ -173,11 +220,6 @@ A2B.LevelController.initLevel = function(levelNum, onLevelInitialised) {
 		var levelScene = A2B.LevelController.createLevelScene(currentLevelData,materials);
 		onLevelInitialised(levelScene);	
 	}
-
-//	var onMaterialsCreated = function(textures) {
-//		var levelScene = scope.createLevelScene(levelData);
-//		onLevelInitialised(levelScene);	
-//	}
 
 	var onLevelError = function(errorDesc) {
 		alert(errorDesc);
