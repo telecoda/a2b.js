@@ -182,7 +182,7 @@ A2B.degreesToRadians = function(degrees) {
 /*
  * Create a directional light
  */
-A2B.getDirectionalLight = function() {
+/*A2B.getDirectionalLight = function() {
 	
 		// Light
 		var light = new THREE.DirectionalLight( 0xFFFFFF );
@@ -199,10 +199,11 @@ A2B.getDirectionalLight = function() {
 		
 		return light;
 		};
-
+*/
 /*
  * Create a spotlight light
  */
+/*
 A2B.getSpotLight = function() {
 	
 		// Light
@@ -220,7 +221,7 @@ A2B.getSpotLight = function() {
 		
 		return light;
 		};
-
+*/
 
 /*
  * returns fontProps object for use with createTextMesh
@@ -256,6 +257,7 @@ A2B.initFontProps = function() {
  * Initialise all materials for the game
  * (may be initialised at start of level in future)
  */
+/*
 A2B.initMaterials = function(path) {
 
 		var materials = {};
@@ -330,7 +332,7 @@ A2B.initMaterials = function(path) {
 	};
 
 
-
+*/
 
 
 
@@ -398,7 +400,7 @@ A2B.loadTextures = function(path, texturesToLoad, onTexturesLoaded) {
 
 }
 
-
+/*
 A2B.loadMaterial = function(friction, restitution, texture) {
 
 		var material = Physijs.createMaterial(
@@ -411,3 +413,4 @@ A2B.loadMaterial = function(friction, restitution, texture) {
 		
 
 }
+*/
