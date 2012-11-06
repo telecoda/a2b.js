@@ -83,10 +83,34 @@
 							"mass" 		: 0
 				  		},
 				  		{ 
-				  			"name" 			: "floor_2",
+				  			"name" 			: "wall_01",
 				  			"material" 		: "rock_material",
-				  			"dimensions"		: {"x":5,"y":1,"z":5},
-				  			"position"		: {"x":30,"y":0,"z":30},
+				  			"dimensions"		: {"x":100,"y":10,"z":1},
+				  			"position"		: {"x":0,"y":5,"z":-50},
+							"rotation"		: {"x":0,"y":0,"z":0},
+							"mass" 		: 0
+				  		},
+				  		{ 
+				  			"name" 			: "wall_02",
+				  			"material" 		: "rock_material",
+				  			"dimensions"		: {"x":100,"y":10,"z":1},
+				  			"position"		: {"x":0,"y":5,"z":50},
+							"rotation"		: {"x":0,"y":0,"z":0},
+							"mass" 		: 0
+				  		},
+				  		{ 
+				  			"name" 			: "wall_03",
+				  			"material" 		: "rock_material",
+				  			"dimensions"		: {"x":1,"y":10,"z":100},
+				  			"position"		: {"x":-50,"y":5,"z":0},
+							"rotation"		: {"x":0,"y":0,"z":0},
+							"mass" 		: 0
+				  		},
+				  		{ 
+				  			"name" 			: "wall_04",
+				  			"material" 		: "rock_material",
+				  			"dimensions"		: {"x":1,"y":10,"z":100},
+				  			"position"		: {"x":50,"y":5,"z":0},
 							"rotation"		: {"x":0,"y":0,"z":0},
 							"mass" 		: 0
 				  		}
