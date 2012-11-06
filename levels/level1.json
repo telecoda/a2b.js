@@ -42,16 +42,16 @@
 				  		{ 
 				  			"name" 			: "startBlock_material",
 				  			"texture" 		: "aBlock",
-				  			"repeatX"		: 0.25,
-				  			"repeatY"		: 0.25,
+				  			"repeatX"		: 1,
+				  			"repeatY"		: 1,
 							"friction" 		: 0.6,
 							"restitution"	: 0.6
 				  		},
 				  		{ 
 				  			"name" 			: "endBlock_material",
 				  			"texture" 		: "bBlock",
-				  			"repeatX"		: 0.25,
-				  			"repeatY"		: 0.25,
+				  			"repeatX"		: 1,
+				  			"repeatY"		: 1,
 							"friction" 		: 0.6,
 							"restitution"	: 0.6
 				  		}
