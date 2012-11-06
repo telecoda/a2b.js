@@ -25,10 +25,10 @@ A2B.LevelController.loadLevel  = function ( path, levelNum, onLoaded, onError ) 
 
 			if ( xhr.status === 200 || xhr.status === 0 ) {
 
-				var levelData = JSON.parse( xhr.responseText );
-				//var json = xhr.responseText;
+				//var levelData = JSON.parse( xhr.responseText );
+				var levelJSONData = xhr.responseText;
 				
-				onLoaded(levelData);
+				onLoaded(levelJSONData);
 
 			} else {
 
@@ -46,12 +46,12 @@ A2B.LevelController.loadLevel  = function ( path, levelNum, onLoaded, onError ) 
 	
 };
 
-A2B.LevelController.createFloors = function(scene,floorsToCreate,materials) {
+A2B.LevelController.createBlocks = function(scene,blocksToCreate,materials) {
 
-	// floorsToCreate is a list of objects in the following format
+	// blocksToCreate is a list of objects in the following format
 	/*
 	  
-"floors" :
+"blocks" :
 				  	[
 				  		{ 
 				  			"name" 			: "main_floor",
@@ -67,29 +67,27 @@ A2B.LevelController.createFloors = function(scene,floorsToCreate,materials) {
 	 */
 
 
-	// iterate through a list of floors to create
-	var len=floorsToCreate.length;
+	// iterate through a list of blocks to create
+	var len=blocksToCreate.length;
 
 	for(var i=0; i<len; i++) {
-		var floorToCreate = floorsToCreate[i];
+		var blockToCreate = blocksToCreate[i];
 		
-		var material = materials[floorToCreate.material];
+		var material = materials[blockToCreate.material];
 			if(material==undefined){
-				alert("Material:" + floorToCreate.material + " is not found.");
+				alert("Block:" + blockToCreate.name + " Material:" + blockToCreate.material + " is not found.");
 			}
 		
-		// add create floor bit here...
-		var floor = new Physijs.BoxMesh(new THREE.CubeGeometry(floorToCreate.dimensions.x,floorToCreate.dimensions.y,floorToCreate.dimensions.z), material, floorToCreate.mass);
-		var positionVector = new THREE.Vector3(floorToCreate.position.x,floorToCreate.position.y,floorToCreate.position.z);
-		var rotationVector = new THREE.Vector3(floorToCreate.rotation.x,floorToCreate.rotation.y,floorToCreate.rotation.z);
-		//floor.position = floorToCreate.position;
-		floor.position = positionVector;
-		floor.rotation = rotationVector;
-		floor.receiveShadow = true;
-		floor.castShadow = true;
-		
+		var block = new Physijs.BoxMesh(new THREE.CubeGeometry(blockToCreate.dimensions.x,blockToCreate.dimensions.y,blockToCreate.dimensions.z), material, blockToCreate.mass);
+		var positionVector = new THREE.Vector3(blockToCreate.position.x,blockToCreate.position.y,blockToCreate.position.z);
+		var rotationVector = new THREE.Vector3(blockToCreate.rotation.x,blockToCreate.rotation.y,blockToCreate.rotation.z);
+		block.position = positionVector;
+		block.rotation = rotationVector;
+		block.receiveShadow = true;
+		block.castShadow = true;
+		block.name = blockToCreate.name;
 		// add to scene
-		scene.add(floor);
+		scene.add(block);
 			
 	}
 
@@ -103,28 +101,9 @@ A2B.LevelController.createLevelScene = function(levelData,materials) {
 	
 	// parse the data in the levelData an add the appropriate objects to the scene
 	
-	// dummy setup for now
-	
-	//this.materials = A2B.initMaterials('images');
-
-	//var ground_material = materials["rock_material"];
-
-	//var floor = new Physijs.BoxMesh(new THREE.CubeGeometry(20, 1, 20), ground_material, 0 // mass
-	//);
-	//floor.receiveShadow = true;
-	//scene.add(floor);
-	
-	A2B.LevelController.createFloors(scene,levelData.floors,materials);
+	A2B.LevelController.createBlocks(scene,levelData.blocks,materials);
 	
 	A2B.LevelController.createLights(scene,levelData.lights);
-	// add spotlight to scene
-	//var spotLight = A2B.getSpotLight();
-	//spotLight.position.set(20, 40, -15);
-	//spotLight.target.position.copy(scene.position);
-	//scene.add( spotLight );
-
-
-	
 	
 	return scene; 
 };
@@ -206,18 +185,44 @@ A2B.LevelController.initLevel = function(levelNum, onLevelInitialised) {
 	
 	var scope = this;
 	
-	var currentLevelData = null;
+	var levelData = null;
 	
-	var onLevelLoaded = function(levelData) {
-		//scope.levelData = levelData;
-		currentLevelData = levelData;
-		var textures = A2B.loadTextures("levels/textures/",currentLevelData.textures, onTexturesLoaded);
+	var onLevelLoaded = function(levelJSONData) {
+		
+		// parse JSON data to an object
+		try {
+			console.log("LevelController", "Parsing level JSON - started");
+			levelData = JSON.parse(levelJSONData );
+			console.log("LevelController", "Parsing level JSON - ended");
+
+			// JSON is well formed
+
+			console.log("LevelController", "Validating level data - started");
+			var errors = A2B.LevelController.validateLevel(levelData );
+			console.log("LevelController", "Validating level data - ended");
+			
+			if(errors.length>0) {
+				// report errors
+				console.log("LevelController", "Validate Level failed, data has errors");
+				console.log("LevelController", errors);
+				alert(errors);
+			}
+			else {
+				// continue with level init
+				var textures = A2B.loadTextures("levels/textures/",levelData.textures, onTexturesLoaded);
+			}		
+		} catch ( error ) {
+
+			console.error( error );
+			alert(error);
+
+		}
 	}
 
 	var onTexturesLoaded = function(textures) {
 		// create materials
-		var materials = A2B.createMaterials(currentLevelData.materials, textures);
-		var levelScene = A2B.LevelController.createLevelScene(currentLevelData,materials);
+		var materials = A2B.createMaterials(levelData.materials, textures);
+		var levelScene = A2B.LevelController.createLevelScene(levelData,materials);
 		onLevelInitialised(levelScene);	
 	}
 
@@ -234,5 +239,58 @@ A2B.LevelController.initLevel = function(levelNum, onLevelInitialised) {
 }
 
 
-A2B.Game.saveLevelToFile = function(path, levelName) {
+A2B.LevelController.saveLevelToFile = function(path, levelName) {
+}
+
+A2B.LevelController.validateLevel = function(levelData) {
+	/* this method is to validate that the levelData has all the mandatory attributes */
+	var errors = [];
+	var i=0;
+	// name check
+	if(levelData.name==undefined) {
+		// level must have a name
+		errors[i++]="Level does not have a name";
+	}
+	// lights
+	if(levelData.lights==undefined) {
+		// level must have at least one light
+		errors[i++]="Level does not have any lights";
+	}
+
+	// blocks
+	if(levelData.blocks==undefined) {
+		// level must have some blocks for the player to play on
+		errors[i++]="Level does not have any blocks";
+	}
+	else {
+		// blocks exist, check for start block
+		var len=levelData.blocks.length;
+
+		var startBlockFound = false;
+		var endBlockFound = false;
+		
+		for(var i=0; i<len; i++) {
+			var block = levelData.blocks[i];
+			// check for start and end blocks
+			if(block.name=="startBlock") {
+				startBlockFound=true;
+			}
+			if(block.name=="endBlock") {
+				endBlockFound=true;
+			}
+		}
+		
+		if(!startBlockFound) {
+			errors[i++]="Level does not have a startBlock";
+		}
+
+		if(!endBlockFound) {
+			errors[i++]="Level does not have a endBlock";
+		}
+
+	}
+
+
+	
+	return errors;
 }

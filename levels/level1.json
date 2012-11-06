@@ -10,7 +10,16 @@
 	  					{ 
 	  						"name" : "wood",
 	  	  					"file" : "tex_wood.jpg"
+	  					},
+	  					{ 
+	  						"name" : "aBlock",
+	  	  					"file" : "tex_a_block.png"
+	  					},
+	  						  					{ 
+	  						"name" : "bBlock",
+	  	  					"file" : "tex_b_block.png"
 	  					}
+
 	  				],
 	"materials" :
 				  	[
@@ -29,16 +38,48 @@
 				  			"repeatY"		: 0.25,
 							"friction" 		: 0.6,
 							"restitution"	: 0.6
+				  		},
+				  		{ 
+				  			"name" 			: "startBlock_material",
+				  			"texture" 		: "aBlock",
+				  			"repeatX"		: 0.25,
+				  			"repeatY"		: 0.25,
+							"friction" 		: 0.6,
+							"restitution"	: 0.6
+				  		},
+				  		{ 
+				  			"name" 			: "endBlock_material",
+				  			"texture" 		: "bBlock",
+				  			"repeatX"		: 0.25,
+				  			"repeatY"		: 0.25,
+							"friction" 		: 0.6,
+							"restitution"	: 0.6
 				  		}
 				  	],
-	"floors" :
+	"blocks" :
 				  	[
+				  		{ 
+				  			"name" 			: "startBlock",
+				  			"material" 		: "startBlock_material",
+				  			"dimensions"		: {"x":10,"y":0.1,"z":10},
+				  			"position"		: {"x":35,"y":5,"z":35},
+							"rotation"		: {"x":0,"y":0,"z":0},
+							"mass" 		: 500
+				  		},
+				  		{ 
+				  			"name" 			: "endBlock",
+				  			"material" 		: "endBlock_material",
+				  			"dimensions"		: {"x":10,"y":0.1,"z":10},
+				  			"position"		: {"x":-35,"y":5,"z":-35},
+							"rotation"		: {"x":0,"y":0,"z":0},
+							"mass" 		: 500
+				  		},
 				  		{ 
 				  			"name" 			: "main_floor",
 				  			"material" 		: "ground_material",
-				  			"dimensions"		: {"x":20,"y":1,"z":20},
+				  			"dimensions"		: {"x":100,"y":1,"z":100},
 				  			"position"		: {"x":0,"y":0,"z":0},
-							"rotation"		: {"x":0,"y":45,"z":0},
+							"rotation"		: {"x":0,"y":0,"z":0},
 							"mass" 		: 0
 				  		},
 				  		{ 
@@ -46,8 +87,8 @@
 				  			"material" 		: "rock_material",
 				  			"dimensions"		: {"x":5,"y":1,"z":5},
 				  			"position"		: {"x":30,"y":0,"z":30},
-							"rotation"		: {"x":45,"y":0,"z":0},
-														"mass" 		: 0
+							"rotation"		: {"x":0,"y":0,"z":0},
+							"mass" 		: 0
 				  		}
 				  	],
 	"lights" :
