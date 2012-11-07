@@ -19,7 +19,8 @@ var INTERSECTED;
 
 // constants
 
-var LEVEL_PATH = "levels/";
+var LEVEL_PATH = "levelData/";
+var MENU_PATH = "menuData/";
 
 A2B.Game = function() {
 };
@@ -39,11 +40,10 @@ A2B.Game.prototype.initGame = function(displayGraphicStats, displayGameStats) {
 	this.initScreenshotCapability();
 	this.initFullscreenCapability();
 	mouse = this.initMouseMoveListener();
-	this.textures = A2B.loadTextures("textures/",gameTexturesToLoad,onTexturesLoaded);
-	// refactor so game loads up game resources and then does a callback ......
-	this.materials = A2B.initMaterials('images');
-	var woodMaterial = this.materials['wood'];
-	this.player = new A2B.Player(woodMaterial);
+	
+	
+	//var woodMaterial = this.materials['wood'];
+	//this.player = new A2B.Player(woodMaterial);
 	this._currentEventListener = null;
 
 	if (this._displayGraphicStats) {
@@ -236,7 +236,7 @@ A2B.Game.prototype.initRenderer = function() {
 
 A2B.Game.prototype.initScene = function() {
 
-	this.scene = A2B.createEmptyScene();
+	this.scene = A2B.Graphics.createEmptyScene();
 }
 
 A2B.Game.prototype.initScreenshotCapability = function() {
@@ -391,7 +391,7 @@ A2B.Game.prototype.render = function() {
 A2B.Game.prototype.setupMode = function() {
 	switch(this._currentMode) {
 		case MAINMENU_MODE:
-			this.mainMenuModeInitScene(this.scene);
+			//this.mainMenuModeInitScene(this.scene);
 			this._currentEventListener = this.mainMenuModeBindKeys();
 			break;
 		case LEVEL_RUNNING_MODE:
@@ -446,13 +446,12 @@ A2B.Game.prototype.startMainMenu = function() {
 		scope.initCameraControls(scope.camera);
 
 		// change to level running
-		A2B.MenuController.mainMenuModeInitScene(scope.scene);
+		//A2B.MenuController.mainMenuModeInitScene(scope.scene);
 		scope._currentEventListener = scope.mainMenuModeBindKeys();
 
 	}
 	// load details of the main menu
-	var menuScene = A2B.MenuController.mainMenuModeInitScene();
-	onMenuInitialised(menuScene);
+	var menuScene = A2B.MenuController.initMenu("mainMenu", onMenuInitialised);
 
 }
 

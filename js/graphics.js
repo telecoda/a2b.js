@@ -2,7 +2,73 @@
 /** @namespace */
 var A2B	= A2B 		|| {};
 
-A2B.createEmptyScene = function() {
+A2B.Graphics = function() {
+};
+
+A2B.Graphics.addObjectsToScene = function(scene, objects) {
+
+	// iterate through a list of objects to add
+	var len=objects.length;
+
+	for(var i=0; i<len; i++) {
+		scene.add(objects[i]);
+	};
+};
+
+A2B.Graphics.createBlocks = function(blocksToCreate,materials) {
+
+	// blocksToCreate is a list of objects in the following format
+	/*
+	  
+"blocks" :
+				  	[
+				  		{ 
+				  			"name" 			: "main_floor",
+				  			"material" 		: "ground_material",
+				  			"dimensions"		: {"x":20,"y":1,"z":20},
+				  			"position"		: {"x":0,"y":0,"z":0},
+							"rotation"		: {"x":0,"y":45,"z":0},
+							"mass" 		: 0
+				  		},
+		  		
+	  etc..	
+	  
+	 */
+
+	var blocks=[];
+	var b=0;
+	
+	// iterate through a list of blocks to create
+	var len=blocksToCreate.length;
+
+	for(var i=0; i<len; i++) {
+		var blockToCreate = blocksToCreate[i];
+		
+		var material = materials[blockToCreate.material];
+			if(material==undefined){
+				alert("Block:" + blockToCreate.name + " Material:" + blockToCreate.material + " is not found.");
+			}
+		
+		var block = new Physijs.BoxMesh(new THREE.CubeGeometry(blockToCreate.dimensions.x,blockToCreate.dimensions.y,blockToCreate.dimensions.z), material, blockToCreate.mass);
+		var positionVector = new THREE.Vector3(blockToCreate.position.x,blockToCreate.position.y,blockToCreate.position.z);
+		var rotationVector = new THREE.Vector3(blockToCreate.rotation.x,blockToCreate.rotation.y,blockToCreate.rotation.z);
+		block.position = positionVector;
+		block.rotation = rotationVector;
+		block.receiveShadow = true;
+		block.castShadow = true;
+		block.name = blockToCreate.name;
+		// add to list
+		
+		blocks[b++]=block;
+			
+	}
+
+	return blocks;
+
+}
+
+
+A2B.Graphics.createEmptyScene = function() {
 
 	var scene = new Physijs.Scene;
 	scene.setGravity({
@@ -15,7 +81,76 @@ A2B.createEmptyScene = function() {
 }
 
 
-A2B.createMaterials = function(materialsToCreate, textures) {
+A2B.Graphics.createLight = function(name, colour, type, position, targetPosition, props) {
+		var light;
+		// Light
+		switch(type) {
+			case "spot":
+				light = new THREE.SpotLight(colour );
+				break;
+			case "directional":
+				light = new THREE.DirectionalLight(colour );
+				break;
+			case "ambient":
+				light = new THREE.AmbientLight(colour );
+				break;
+			case "point":
+				light = new THREE.PointLight(colour );
+				break;
+			default:
+				alert("Cannot create a light of type:"+type);
+				return;
+		}
+	
+		light.position = position;
+		light.target.position.copy(targetPosition);
+		light.name = name;
+		
+		for ( var key in props ) {
+
+			var newValue = props[ key ];
+
+			if ( newValue === undefined ) {
+	
+				console.warn( 'createLight: \'' + key + '\' parameter is undefined.' );
+				continue;
+	
+			}
+			else {
+				light[ key ] = newValue;
+			}
+		}
+		
+		return light;
+		};
+
+
+A2B.Graphics.createLights = function(lightsToCreate) {
+
+	var lights =[];
+	var l=0;
+	// iterate through a list of lights to create
+	var len=lightsToCreate.length;
+
+	for(var i=0; i<len; i++) {
+		var lightToCreate = lightsToCreate[i];
+
+		var positionVector = new THREE.Vector3(lightToCreate.position.x,lightToCreate.position.y,lightToCreate.position.z);
+		var targetVector = new THREE.Vector3(lightToCreate.targetPosition.x,lightToCreate.targetPosition.y,lightToCreate.targetPosition.z);
+		
+		var light = A2B.Graphics.createLight(lightToCreate.name,lightToCreate.colour,lightToCreate.type, positionVector, targetVector,lightToCreate.props);
+		
+		// add to light to list
+		lights[l++]=light;
+	}
+
+	return lights;
+
+}
+
+
+
+A2B.Graphics.createMaterials = function(materialsToCreate, textures) {
 
 	// materialsToCreate is a list of objects in the following format
 	/*
@@ -80,7 +215,7 @@ A2B.createMaterials = function(materialsToCreate, textures) {
 /*
  * Create a text mesh for rendering.  fontProps is an object from initFontProps()
  */
-A2B.createTextMesh = function(text, faceMaterial, fontProps) {
+A2B.Graphics.createTextMesh = function(text, faceMaterial, fontProps) {
 
 
 
@@ -174,7 +309,7 @@ A2B.createTextMesh = function(text, faceMaterial, fontProps) {
 /*
  * Convert degrees to radians
  */
-A2B.degreesToRadians = function(degrees) {
+A2B.Graphics.degreesToRadians = function(degrees) {
 
 	return degrees * (Math.PI / 180);
 }
@@ -226,7 +361,7 @@ A2B.getSpotLight = function() {
 /*
  * returns fontProps object for use with createTextMesh
  */
-A2B.initFontProps = function() {
+A2B.Graphics.initFontProps = function() {
 
 		var	textMaterialFront = new THREE.MeshPhongMaterial( { color: 0xffffff, shading: THREE.FlatShading } );
 		var	textMaterialSide = new THREE.MeshPhongMaterial( { color: 0xffffff, shading: THREE.SmoothShading } );
@@ -347,7 +482,7 @@ var onError = function(event) {
  
 }
 
-A2B.loadTexture = function(path, filename) {
+A2B.Graphics.loadTexture = function(path, filename) {
 
 	var fullPath = path+filename;
 
@@ -365,7 +500,8 @@ A2B.loadTexture = function(path, filename) {
 
 
 
-A2B.loadTextures = function(path, texturesToLoad, onTexturesLoaded) {
+
+A2B.Graphics.loadTextures = function(path, texturesToLoad, onTexturesLoaded) {
 	
 	// texturesToLoad is a list of objects in the following format
 	/*
@@ -393,7 +529,7 @@ A2B.loadTextures = function(path, texturesToLoad, onTexturesLoaded) {
 
 	for(var i=0; i<len; i++) {
 		var textureToLoad = texturesToLoad[i];
-		textures[textureToLoad['name']]=A2B.loadTexture(path,textureToLoad['file']);
+		textures[textureToLoad['name']]=A2B.Graphics.loadTexture(path,textureToLoad['file']);
 	}
 
 	onTexturesLoaded(textures);
