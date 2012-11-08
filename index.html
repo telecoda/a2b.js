@@ -23,7 +23,7 @@
 		<script type="text/javascript" src="vendor/physi.js/physi.js"></script>
 		<!-- game specific scripts -->
 		<script type="text/javascript" src="js/player.js"></script>
-		<script type="text/javascript" src="js/game.js"></script>
+		<script type="text/javascript" src="js/gameController.js"></script>
 		<script type="text/javascript" src="js/levelController.js"></script>
 		<script type="text/javascript" src="js/menuController.js"></script>
 		<script type="text/javascript" src="js/gamestats.js"></script>
@@ -72,7 +72,7 @@
 	var startGame;
 	
 	// vars
-	var game;
+	var gameController;
 
 	startGame = function() {
 
@@ -82,8 +82,8 @@
 		var displayGraphicStats=true;
 		var displayGameStats=true;
 
-		game = new A2B.Game();
-		game.initGame(displayGameStats,displayGameStats);
+		gameController = new A2B.GameController();
+		gameController.initGameController(displayGameStats,displayGameStats);
 	
 	};
 	</script>

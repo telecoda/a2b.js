@@ -22,10 +22,15 @@ var INTERSECTED;
 var LEVEL_PATH = "levelData/";
 var MENU_PATH = "menuData/";
 
-A2B.Game = function() {
+A2B.GameController = function() {
 };
 
-A2B.Game.prototype.initGame = function(displayGraphicStats, displayGameStats) {
+A2B.GameController.prototype.initGameController = function(displayGraphicStats, displayGameStats) {
+
+/*
+ * This method initialises the capabilities of the game controller to look after the game
+ * Set up UI and initial event handlers
+ */
 
 	this._displayGraphicStats = displayGraphicStats;
 	this._displayGameStats = displayGameStats;
@@ -65,46 +70,15 @@ A2B.Game.prototype.initGame = function(displayGraphicStats, displayGameStats) {
 /*
  * Adds player to a different location dependent on level (only one level now..)
  */
-A2B.Game.prototype.addPlayerToScene = function(player, levelNumber) {
+A2B.GameController.prototype.addPlayerToScene = function(player, levelNumber) {
 	this.player = player;
 	this.scene.add(player.getMesh());
 }
-/*
- A2B.Game.prototype.addWebUI = function()
- {
-
- return;
-
- // this adds the WebUI components of the game, ie. the non-webGL stuff
- // on game start display window over screen with info.
- var webUIDiv, background = [[16, 16, 48], [0, 255, 255]];
- webUIDiv = document.createElement("div");
- webUIDiv.style.cursor = "pointer";
- webUIDiv.style.width = "100px";
- webUIDiv.style.opacity = "0.9";
- webUIDiv.style.zIndex = "10001";
- innerDiv = document.createElement("div");
- innerDiv.style.textAlign =
- "left";
- innerDiv.style.lineHeight = "1.2em";
- innerDiv.style.backgroundColor = "rgb(0,0,0)";
- innerDiv.style.padding = "0 0 3px 3px";
- innerDiv.innerHTML = "info!";
-
- webUIDiv.appendChild(innerDiv);
-
- webUIDiv.style.position = 'absolute';
- webUIDiv.style.top = '0px';
- webUIDiv.style.zIndex = 500;
- document.getElementById( 'viewport' ).appendChild( webUIDiv );
-
- }
- */
 
 /*
  * change current mode
  */
-A2B.Game.prototype.changeMode = function(newMode) {
+A2B.GameController.prototype.changeMode = function(newMode) {
 	// teardown previous mode
 	if (this._currentMode != undefined) {
 		this.teardownMode(); 
@@ -113,31 +87,20 @@ A2B.Game.prototype.changeMode = function(newMode) {
 	this._currentMode = newMode;
 	this.setupMode();
 }
-/*
- * clear all objects from a scene, iterate through child objects
- */
-A2B.Game.prototype.clearSceneObjects = function(sceneObject) {
-	var children = sceneObject.children;
-	for (var i = children.length - 1; i >= 0; i--) {
-		var child = children[i];
-		this.clearSceneObjects(child);
-		sceneObject.remove(child);
-	};
-}
 
-A2B.Game.prototype.getLives = function() {
+A2B.GameController.prototype.getLives = function() {
 	return this.lives;
 }
 
-A2B.Game.prototype.getMousePosition = function() {
+A2B.GameController.prototype.getMousePosition = function() {
 	return mouse;
 }
 
-A2B.Game.prototype.getScore = function() {
+A2B.GameController.prototype.getScore = function() {
 	return this.score;
 }
 
-A2B.Game.prototype.initCameraForScene = function(scene) {
+A2B.GameController.prototype.initCameraForScene = function(scene) {
 
 	var camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 1, 1000);
 
@@ -152,7 +115,7 @@ A2B.Game.prototype.initCameraForScene = function(scene) {
 
 };
 
-A2B.Game.prototype.initCameraControls = function(camera) {
+A2B.GameController.prototype.initCameraControls = function(camera) {
 
 	var cameraControls = new THREE.TrackballControls(camera);
 
@@ -161,7 +124,7 @@ A2B.Game.prototype.initCameraControls = function(camera) {
 	this.cameraControls = cameraControls;
 };
 
-A2B.Game.prototype.initFullscreenCapability = function() {
+A2B.GameController.prototype.initFullscreenCapability = function() {
 
 	// allow 'f' to go fullscreen where this feature is supported
 	if (THREEx.FullScreen.available()) {
@@ -171,7 +134,7 @@ A2B.Game.prototype.initFullscreenCapability = function() {
 
 };
 
-A2B.Game.prototype.initGameStats = function() {
+A2B.GameController.prototype.initGameStats = function() {
 
 	var gameStats = new GameStats();
 	gameStats.domElement.style.position = 'absolute';
@@ -184,7 +147,7 @@ A2B.Game.prototype.initGameStats = function() {
 
 };
 
-A2B.Game.prototype.initGraphicStats = function() {
+A2B.GameController.prototype.initGraphicStats = function() {
 
 	var stats = new Stats();
 	stats.domElement.style.position = 'absolute';
@@ -196,7 +159,7 @@ A2B.Game.prototype.initGraphicStats = function() {
 
 };
 
-A2B.Game.prototype.initMouseMoveListener = function() {
+A2B.GameController.prototype.initMouseMoveListener = function() {
 
 	var mouse = {
 		x : 0,
@@ -206,7 +169,7 @@ A2B.Game.prototype.initMouseMoveListener = function() {
 	return mouse;
 };
 
-A2B.Game.prototype.initProjector = function() {
+A2B.GameController.prototype.initProjector = function() {
 
 	var projector = new THREE.Projector;
 
@@ -214,7 +177,7 @@ A2B.Game.prototype.initProjector = function() {
 
 }
 
-A2B.Game.prototype.initRenderer = function() {
+A2B.GameController.prototype.initRenderer = function() {
 
 	var renderer = new THREE.WebGLRenderer({
 		antialias : true, // to get smoother output
@@ -234,19 +197,19 @@ A2B.Game.prototype.initRenderer = function() {
 
 };
 
-A2B.Game.prototype.initScene = function() {
+A2B.GameController.prototype.initScene = function() {
 
 	this.scene = A2B.Graphics.createEmptyScene();
 }
 
-A2B.Game.prototype.initScreenshotCapability = function() {
+A2B.GameController.prototype.initScreenshotCapability = function() {
 
 	// allow 'p' to make screenshot
 	THREEx.Screenshot.bindKey(this.renderer);
 
 };
 
-A2B.Game.prototype.initWindowResize = function() {
+A2B.GameController.prototype.initWindowResize = function() {
 
 	// transparently support window resize
 	THREEx.WindowResize.bind(this.renderer, this.camera);
@@ -256,7 +219,7 @@ A2B.Game.prototype.initWindowResize = function() {
 /**
  * Bind a keys for running level
  */
-A2B.Game.prototype.levelRunningBindKeys = function(opts) {
+A2B.GameController.prototype.levelRunningBindKeys = function(opts) {
 	opts = opts || {};
 	var upKey = opts.charCode || 'w'.charCodeAt(0);
 	var downKey = opts.charCode || 's'.charCodeAt(0);
@@ -306,7 +269,7 @@ A2B.Game.prototype.levelRunningBindKeys = function(opts) {
 /**
  * Bind a keys for main menu
  */
-A2B.Game.prototype.mainMenuModeBindKeys = function(opts) {
+A2B.GameController.prototype.mainMenuModeBindKeys = function(opts) {
 	opts = opts || {};
 	var goKey = opts.charCode || 'g'.charCodeAt(0);
 	var element = opts.element
@@ -343,52 +306,11 @@ A2B.Game.prototype.mainMenuModeBindKeys = function(opts) {
 }
 
 
-A2B.Game.prototype.render = function() {
-
-	// update camera controls
-	game.cameraControls.update();
-
-	// check for intersects
-	var vector = new THREE.Vector3(mouse.x, mouse.y, 1);
-	game.projector.unprojectVector(vector, game.camera);
-
-	var ray = new THREE.Ray(game.camera.position, vector.subSelf(game.camera.position).normalize());
-
-	var intersects = ray.intersectObjects(game.scene.children);
-
-	if (intersects.length > 0) {
-
-		if (INTERSECTED != intersects[0].object) {
-
-			if (INTERSECTED)
-				INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
-
-			INTERSECTED = intersects[0].object;
-			INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
-			INTERSECTED.material.emissive.setHex(0xff0000);
-
-		}
-
-	} else {
-
-		if (INTERSECTED)
-			INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
-
-		INTERSECTED = null;
-
-	}
-
-	game.scene.simulate(undefined, 2);
-	requestAnimationFrame(game.render);
-	game.renderer.render(game.scene, game.camera);
-	game.graphicStats.update();
-	game.gameStats.update();
-};
 
 /*
  This function will initialise the scene and controls for the current mode
  */
-A2B.Game.prototype.setupMode = function() {
+A2B.GameController.prototype.setupMode = function() {
 	switch(this._currentMode) {
 		case MAINMENU_MODE:
 			//this.mainMenuModeInitScene(this.scene);
@@ -409,7 +331,7 @@ A2B.Game.prototype.setupMode = function() {
 
 }
 
-A2B.Game.prototype.setMousePosition = function(event) {
+A2B.GameController.prototype.setMousePosition = function(event) {
 	// Find where mouse cursor intersects the ground plane
 	mouse.x = (event.clientX / window.innerWidth ) * 2 - 1;
 	mouse.y = -(event.clientY / window.innerHeight ) * 2 + 1;
@@ -419,7 +341,7 @@ A2B.Game.prototype.setMousePosition = function(event) {
 /*
  * This method is called when a new game starts
  */
-A2B.Game.prototype.startNewGame = function() {
+A2B.GameController.prototype.startNewGame = function() {
 	// init variables for a new game
 	this.levelNum = 1;
 	this.lives = 3;
@@ -431,7 +353,7 @@ A2B.Game.prototype.startNewGame = function() {
 
 }
 
-A2B.Game.prototype.startMainMenu = function() {
+A2B.GameController.prototype.startMainMenu = function() {
 
 	var scope = this;
 
@@ -455,7 +377,7 @@ A2B.Game.prototype.startMainMenu = function() {
 
 }
 
-A2B.Game.prototype.startNewLevel = function() {
+A2B.GameController.prototype.startNewLevel = function() {
 
 	var scope = this;
 
@@ -478,15 +400,59 @@ A2B.Game.prototype.startNewLevel = function() {
 
 }
 
-A2B.Game.prototype.startRenderCallback = function() {
+A2B.GameController.prototype.startRenderCallback = function() {
+	
+	var scope = this;	
+	
+	var render = function() {
 
-	requestAnimationFrame(this.render);
+		// update camera controls
+		scope.cameraControls.update();
+	
+		// check for intersects
+		var vector = new THREE.Vector3(mouse.x, mouse.y, 1);
+		scope.projector.unprojectVector(vector, scope.camera);
+	
+		var ray = new THREE.Ray(scope.camera.position, vector.subSelf(scope.camera.position).normalize());
+	
+		var intersects = ray.intersectObjects(scope.scene.children);
+	
+		if (intersects.length > 0) {
+	
+			if (INTERSECTED != intersects[0].object) {
+	
+				if (INTERSECTED)
+					INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
+	
+				INTERSECTED = intersects[0].object;
+				INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
+				INTERSECTED.material.emissive.setHex(0xff0000);
+	
+			}
+	
+		} else {
+	
+			if (INTERSECTED)
+				INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
+	
+			INTERSECTED = null;
+	
+		}
+	
+		scope.scene.simulate(undefined, 2);
+		requestAnimationFrame(render);
+		scope.renderer.render(scope.scene, scope.camera);
+		scope.graphicStats.update();
+		scope.gameStats.update();
+	};
+	requestAnimationFrame(render);
+
 
 };
 /*
  This function will tidys up anything for current mode
  */
-A2B.Game.prototype.teardownMode = function() {
+A2B.GameController.prototype.teardownMode = function() {
 	this._currentEventListener.unbind();
 	//this.scene.remove();
 	//this.clearSceneObjects(this.scene);

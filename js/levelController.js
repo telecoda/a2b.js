@@ -12,40 +12,6 @@ A2B.LevelController = function() {
 };
 
 
-/*
-A2B.LevelController.loadLevelJSON  = function ( path, levelNum, onLoaded, onError ) {
-
-	var xhr = new XMLHttpRequest();
-
-	var url = path + "level" + levelNum+".json";
-	
-	xhr.onreadystatechange = function () {
-
-		if ( xhr.readyState === 4 ) {
-
-			if ( xhr.status === 200 || xhr.status === 0 ) {
-
-				//var levelData = JSON.parse( xhr.responseText );
-				var levelJSONData = xhr.responseText;
-				
-				onLoaded(levelJSONData);
-
-			} else {
-
-				var errorDesc = "A2B.LevelController.loadLevelJSON: Couldn't load [" + url + "] [" + xhr.status + "]";
-				onError(errorDesc);
-
-			}
-
-		}
-
-	};
-	
-	xhr.open( "GET", url, true );
-	xhr.send( null );
-	
-};
-*/
 
 A2B.LevelController.createLevelScene = function(levelData,materials) {
 	// This method will create a new scene object from the level data and return it

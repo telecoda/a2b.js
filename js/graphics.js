@@ -15,6 +15,19 @@ A2B.Graphics.addObjectsToScene = function(scene, objects) {
 	};
 };
 
+/*
+ * clear all objects from a scene, iterate through child objects
+ */
+A2B.Graphics.clearSceneObjects = function(sceneObject) {
+	var children = sceneObject.children;
+	for (var i = children.length - 1; i >= 0; i--) {
+		var child = children[i];
+		A2B.Graphics.clearSceneObjects(child);
+		sceneObject.remove(child);
+	};
+}
+
+
 A2B.Graphics.createBlocks = function(blocksToCreate,materials) {
 
 	// blocksToCreate is a list of objects in the following format
