@@ -37,10 +37,27 @@ Point your browser to:-
 
     http://localhost:9000
 
+Running the tests
+-----------------
+The project is using http://code.google.com/p/js-test-driver/ for its test.
+
+It is being coded in Eclipse using the Aptana Studio plugin.
+
+Install the jstestdriver plugin from:-
+
+    http://js-test-driver.googlecode.com/svn/update/
+    
+Install the aptana studio plugin from:-
+
+    http://download.aptana.com/studio3/plugin/install
+
+Config for the tests is held in jsTestDriver.conf
+
+Test run everytime a file is saved.
 
 Browser tips
 ------------
-I have been developing and testing the code in Google Chrome on linux but is "should" run just as well on other browsers.
+I have been developing and testing the code in Google Chrome on linux but it "should" run just as well on other browsers.
 
 If your browser claims that it cannot run WebGL is may be worth forcing Chrome to ignore your blacklisted gpu drivers.
 

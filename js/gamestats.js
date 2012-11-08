@@ -39,10 +39,21 @@ var GameStats = function() {
     playerDiv.innerHTML = "Player:";
     innerDiv.appendChild(playerDiv);
 
+    mouseDiv = document.createElement("div");
+    mouseDiv.style.fontFamily = "Helvetica, Arial, sans-serif";
+    mouseDiv.style.fontSize = "9px";
+    mouseDiv.style.color = "rgb(" + background[1][0] + "," + background[1][1] + "," + background[1][2] + ")";
+    mouseDiv.style.fontWeight = "bold";
+    mouseDiv.innerHTML = "Mouse:";
+    innerDiv.appendChild(mouseDiv);
+
     return {domElement: mainDiv,update: function() {
             scoreDiv.textContent = "Score:"+game.getScore()+"\n"+"Lives:"+game.getLives();
-            cameraDiv.textContent = "Camera x:"+camera.position.x+" y:"+camera.position.y+" z:"+camera.position.z;
-            playerDiv.textContent = "Player x:"+game.getPlayer().getX()+" y:"+game.getPlayer().getY()+" z:"+game.getPlayer().getZ();
+            cameraDiv.textContent = "Camera x:"+game.camera.position.x+" y:"+game.camera.position.y+" z:"+game.camera.position.z;
+            if(game.player!=undefined) {
+            	playerDiv.textContent = "Player x:"+game.player.getX()+" y:"+game.player.getY()+" z:"+game.player.getZ();
+            };
+            mouseDiv.textContent = "Mouse x:"+game.getMousePosition().x+" y:"+game.getMousePosition().y;
         }}
 };
 

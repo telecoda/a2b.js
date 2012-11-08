@@ -1,0 +1,95 @@
+{
+	"name" : "Main Menu",
+	"author" : "telecoda",
+	"textures" : 
+				  	[
+	  					{ 
+	  					  	"name" : "rocks",
+	  	  					"file" : "tex_rocks.jpg"
+	  					},
+	  					{ 
+	  						"name" : "wood",
+	  	  					"file" : "tex_wood.jpg"
+	  					}
+	  				],
+	"materials" :
+				  	[
+				  		{ 
+				  			"name" 			: "ground_material",
+				  			"texture" 		: "rocks",
+				  			"repeatX"		: 0.25,
+				  			"repeatY"		: 0.25,
+							"friction" 		: 0.8,
+							"restitution"	: 0.4
+				  		},
+				  		{ 
+				  			"name" 			: "rock_material",
+				  			"texture" 		: "rocks",
+				  			"repeatX"		: 0.25,
+				  			"repeatY"		: 0.25,
+							"friction" 		: 0.6,
+							"restitution"	: 0.6
+				  		}
+				  	],
+	"blocks" :
+				  	[
+				  		{ 
+				  			"name" 			: "main_floor",
+				  			"material" 		: "ground_material",
+				  			"dimensions"		: {"x":100,"y":1,"z":100},
+				  			"position"		: {"x":0,"y":0,"z":0},
+							"rotation"		: {"x":0,"y":0,"z":0},
+							"mass" 		: 0
+				  		},
+				  		{ 
+				  			"name" 			: "wall_01",
+				  			"material" 		: "rock_material",
+				  			"dimensions"		: {"x":100,"y":10,"z":1},
+				  			"position"		: {"x":0,"y":5,"z":-50},
+							"rotation"		: {"x":0,"y":0,"z":0},
+							"mass" 		: 0
+				  		}
+				  	],
+	"lights" :
+				  	[
+				  		{ 
+				  			"name" 			: "white_directional_light",
+				  			"type" 			: "directional",
+				  			"colour"		: "0xFFFFFF",
+				  			"position"		: {"x":20,"y":40,"z":-15},
+							"targetPosition"		: {"x":0,"y":0,"z":0},
+							"props" :  {"castShadow" : true ,
+										"shadowCameraLeft" : -60,
+										"shadowCameraTop" : -60,
+										"shadowCameraRight" : 60,
+										"shadowCameraBottom" : 60,
+										"shadowCameraNear" : 0,
+										"shadowCameraFar" : 300,
+										"shadowBias" : -0.0001,
+										"shadowMapWidth" : 2048,
+										"shadowMapHeight" : 2048,
+										"shadowDarkness": 0.7
+										}
+									    
+				  		},
+				  		{ 
+				  			"name" 			: "blue_spotlight_01",
+				  			"type" 			: "spot",
+				  			"colour"		: "0x0000FF",
+				  			"position"		: {"x":0,"y":0,"z":0},
+							"targetPosition"		: {"x":0,"y":45,"z":0},
+							"props" : { "castShadow" : true ,
+										"shadowCameraLeft" : -60,
+										"shadowCameraTop" : -60,
+										"shadowCameraRight" : 60,
+										"shadowCameraBottom" : 60,
+										"shadowCameraNear" : 20,
+										"shadowCameraFar" : 200,
+										"shadowBias" : -0.0001,
+										"shadowMapWidth" : 2048,
+										"shadowMapHeight" : 2048,
+										"shadowDarkness": 0.7
+									    }							
+				  		}
+				  	]
+} 
