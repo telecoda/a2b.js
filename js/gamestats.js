@@ -47,13 +47,16 @@ var GameStats = function() {
     mouseDiv.innerHTML = "Mouse:";
     innerDiv.appendChild(mouseDiv);
 
-    return {domElement: mainDiv,update: function() {
-            scoreDiv.textContent = "Score:"+game.getScore()+"\n"+"Lives:"+game.getLives();
-            cameraDiv.textContent = "Camera x:"+game.camera.position.x+" y:"+game.camera.position.y+" z:"+game.camera.position.z;
-            if(game.player!=undefined) {
-            	playerDiv.textContent = "Player x:"+game.player.getX()+" y:"+game.player.getY()+" z:"+game.player.getZ();
+    return {domElement: mainDiv,update: function(gameModel, gameView, gameController) {
+    		if(gameModel==undefined || gameView==undefined) {
+    			return; // nothing to render yet
+    		}
+            scoreDiv.textContent = "Score:"+gameModel.score+"\n"+"Lives:"+gameModel.lives;
+            cameraDiv.textContent = "Camera x:"+gameView.camera.position.x+" y:"+gameView.camera.position.y+" z:"+gameView.camera.position.z;
+            if(gameModel.player!=undefined) {
+            	playerDiv.textContent = "Player x:"+gameModel.player.getX()+" y:"+gameModel.player.getY()+" z:"+gameModel.player.getZ();
             };
-            mouseDiv.textContent = "Mouse x:"+game.getMousePosition().x+" y:"+game.getMousePosition().y;
+            mouseDiv.textContent = "Mouse x:"+gameController.mouse.x+" y:"+gameController.mouse.y;
         }}
 };
 
