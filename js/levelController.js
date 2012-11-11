@@ -23,6 +23,10 @@ A2B.LevelController.createLevelScene = function(levelData,materials) {
 
 	A2B.Graphics.addObjectsToScene(scene,blocks);
 	
+	var spheres = A2B.Graphics.createSpheres(levelData.spheres,materials);
+
+	A2B.Graphics.addObjectsToScene(scene,spheres);
+	
 	var lights = A2B.Graphics.createLights(levelData.lights);
 	
 	A2B.Graphics.addObjectsToScene(scene,lights);
@@ -81,6 +85,8 @@ A2B.LevelController.initLevel = function(levelNum, onLevelInitialised) {
 		// create materials
 		var materials = A2B.Graphics.createMaterials(levelData.materials, textures);
 		var levelScene = A2B.LevelController.createLevelScene(levelData,materials);
+		
+		A2B.LevelController.setActiveSphere();
 		onLevelInitialised(levelScene);	
 	}
 

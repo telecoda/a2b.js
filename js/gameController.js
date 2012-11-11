@@ -234,7 +234,7 @@ A2B.GameController.setupMode = function() {
 			// load new level
 			//A2B.GameController.levelRunningInitScene(A2B.GameController.scene, A2B.GameController._level);
 			A2B.GameController._currentEventListener = A2B.GameController.levelRunningBindKeys(A2B.GameView.renderer);
-			A2B.GameController.playerMesh = A2B.GameController.addPlayerToScene(gameModel.player, gameModel.level);
+			//A2B.GameController.playerMesh = A2B.GameController.addPlayerToScene(gameModel.player, gameModel.level);
 			break;
 
 	}

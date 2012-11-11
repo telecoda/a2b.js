@@ -1,160 +1,318 @@
 {
-	"name" : "test level",
-	"author" : "telecoda",
-	"textures" : 
-				  	[
-	  					{ 
-	  					  	"name" : "rocks",
-	  	  					"file" : "tex_rocks.jpg"
-	  					},
-	  					{ 
-	  						"name" : "wood",
-	  	  					"file" : "tex_wood.jpg"
-	  					},
-	  					{ 
-	  						"name" : "aBlock",
-	  	  					"file" : "tex_a_block.png"
-	  					},
-	  						  					{ 
-	  						"name" : "bBlock",
-	  	  					"file" : "tex_b_block.png"
-	  					}
-
-	  				],
-	"materials" :
-				  	[
-				  		{ 
-				  			"name" 			: "ground_material",
-				  			"texture" 		: "rocks",
-				  			"repeatX"		: 0.25,
-				  			"repeatY"		: 0.25,
-							"friction" 		: 0.8,
-							"restitution"	: 0.4
-				  		},
-				  		{ 
-				  			"name" 			: "rock_material",
-				  			"texture" 		: "rocks",
-				  			"repeatX"		: 0.25,
-				  			"repeatY"		: 0.25,
-							"friction" 		: 0.6,
-							"restitution"	: 0.6
-				  		},
-				  		{ 
-				  			"name" 			: "startBlock_material",
-				  			"texture" 		: "aBlock",
-				  			"repeatX"		: 1,
-				  			"repeatY"		: 1,
-							"friction" 		: 0.6,
-							"restitution"	: 0.6
-				  		},
-				  		{ 
-				  			"name" 			: "endBlock_material",
-				  			"texture" 		: "bBlock",
-				  			"repeatX"		: 1,
-				  			"repeatY"		: 1,
-							"friction" 		: 0.6,
-							"restitution"	: 0.6
-				  		}
-				  	],
-	"blocks" :
-				  	[
-				  		{ 
-				  			"name" 			: "startBlock",
-				  			"material" 		: "startBlock_material",
-				  			"dimensions"		: {"x":10,"y":0.1,"z":10},
-				  			"position"		: {"x":35,"y":5,"z":35},
-							"rotation"		: {"x":0,"y":0,"z":0},
-							"mass" 		: 500
-				  		},
-				  		{ 
-				  			"name" 			: "endBlock",
-				  			"material" 		: "endBlock_material",
-				  			"dimensions"		: {"x":10,"y":0.1,"z":10},
-				  			"position"		: {"x":-35,"y":5,"z":-35},
-							"rotation"		: {"x":0,"y":0,"z":0},
-							"mass" 		: 500
-				  		},
-				  		{ 
-				  			"name" 			: "main_floor",
-				  			"material" 		: "ground_material",
-				  			"dimensions"		: {"x":100,"y":1,"z":100},
-				  			"position"		: {"x":0,"y":0,"z":0},
-							"rotation"		: {"x":0,"y":0,"z":0},
-							"mass" 		: 0
-				  		},
-				  		{ 
-				  			"name" 			: "wall_01",
-				  			"material" 		: "rock_material",
-				  			"dimensions"		: {"x":100,"y":10,"z":1},
-				  			"position"		: {"x":0,"y":5,"z":-50},
-							"rotation"		: {"x":0,"y":0,"z":0},
-							"mass" 		: 0
-				  		},
-				  		{ 
-				  			"name" 			: "wall_02",
-				  			"material" 		: "rock_material",
-				  			"dimensions"		: {"x":100,"y":10,"z":1},
-				  			"position"		: {"x":0,"y":5,"z":50},
-							"rotation"		: {"x":0,"y":0,"z":0},
-							"mass" 		: 0
-				  		},
-				  		{ 
-				  			"name" 			: "wall_03",
-				  			"material" 		: "rock_material",
-				  			"dimensions"		: {"x":1,"y":10,"z":100},
-				  			"position"		: {"x":-50,"y":5,"z":0},
-							"rotation"		: {"x":0,"y":0,"z":0},
-							"mass" 		: 0
-				  		},
-				  		{ 
-				  			"name" 			: "wall_04",
-				  			"material" 		: "rock_material",
-				  			"dimensions"		: {"x":1,"y":10,"z":100},
-				  			"position"		: {"x":50,"y":5,"z":0},
-							"rotation"		: {"x":0,"y":0,"z":0},
-							"mass" 		: 0
-				  		}
-				  	],
-	"lights" :
-				  	[
-				  		{ 
-				  			"name" 			: "white_directional_light",
-				  			"type" 			: "directional",
-				  			"colour"		: "0xFFFFFF",
-				  			"position"		: {"x":20,"y":40,"z":-15},
-							"targetPosition"		: {"x":0,"y":0,"z":0},
-							"props" :  {"castShadow" : true ,
-										"shadowCameraLeft" : -60,
-										"shadowCameraTop" : -60,
-										"shadowCameraRight" : 60,
-										"shadowCameraBottom" : 60,
-										"shadowCameraNear" : 0,
-										"shadowCameraFar" : 300,
-										"shadowBias" : -0.0001,
-										"shadowMapWidth" : 2048,
-										"shadowMapHeight" : 2048,
-										"shadowDarkness": 0.7
-										}
-									    
-				  		},
-				  		{ 
-				  			"name" 			: "blue_spotlight_01",
-				  			"type" 			: "spot",
-				  			"colour"		: "0x0000FF",
-				  			"position"		: {"x":0,"y":0,"z":0},
-							"targetPosition"		: {"x":0,"y":45,"z":0},
-							"props" : { "castShadow" : true ,
-										"shadowCameraLeft" : -60,
-										"shadowCameraTop" : -60,
-										"shadowCameraRight" : 60,
-										"shadowCameraBottom" : 60,
-										"shadowCameraNear" : 20,
-										"shadowCameraFar" : 200,
-										"shadowBias" : -0.0001,
-										"shadowMapWidth" : 2048,
-										"shadowMapHeight" : 2048,
-										"shadowDarkness": 0.7
-									    }							
-				  		}
-				  	]
-} 
+    "name": "test level",
+    "author": "telecoda",
+    "textures": [
+        {
+            "name": "rocks",
+            "file": "tex_rocks.jpg"
+        },
+        {
+            "name": "wood",
+            "file": "tex_wood.jpg"
+        },
+        {
+            "name": "aBlock",
+            "file": "tex_a_block.png"
+        },
+        {
+            "name": "bBlock",
+            "file": "tex_b_block.png"
+        }
+    ],
+    "materials": [
+        {
+            "name": "ground_material",
+            "texture": "rocks",
+            "repeatX": 0.25,
+            "repeatY": 0.25,
+            "friction": 0.8,
+            "restitution": 0.4
+        },
+        {
+            "name": "rock_material",
+            "texture": "rocks",
+            "repeatX": 0.25,
+            "repeatY": 0.25,
+            "friction": 0.6,
+            "restitution": 0.6
+        },
+        {
+            "name": "startBlock_material",
+            "texture": "aBlock",
+            "repeatX": 1,
+            "repeatY": 1,
+            "friction": 0.6,
+            "restitution": 0.6
+        },
+        {
+            "name": "endBlock_material",
+            "texture": "bBlock",
+            "repeatX": 1,
+            "repeatY": 1,
+            "friction": 0.6,
+            "restitution": 0.6
+        },
+        {
+            "name": "player_material",
+            "texture": "wood",
+            "repeatX": 0.25,
+            "repeatY": 0.25,
+            "friction": 0.8,
+            "restitution": 0.4
+        }
+    ],
+    "spheres": [
+        {
+            "name": "mainBall",
+            "material": "player_material",
+            "dimensions": {
+                "radius": 5,
+                "segmentsWidth": 16,
+                "segmentsHeight": 16
+            },
+            "position": {
+                "x": 0,
+                "y": 10,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "props": {
+                "castShadow": true,
+                "receiveShadow": true
+            },
+            "mass": 50
+        }
+    ],
+    "blocks": [
+        {
+            "name": "startBlock",
+            "material": "startBlock_material",
+            "dimensions": {
+                "x": 10,
+                "y": 0.1,
+                "z": 10
+            },
+            "position": {
+                "x": 35,
+                "y": 5,
+                "z": 35
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "props": {
+                "castShadow": true,
+                "receiveShadow": true
+            },
+            "mass": 500
+        },
+        {
+            "name": "endBlock",
+            "material": "endBlock_material",
+            "dimensions": {
+                "x": 10,
+                "y": 0.1,
+                "z": 10
+            },
+            "position": {
+                "x": -35,
+                "y": 5,
+                "z": -35
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "props": {
+                "castShadow": true,
+                "receiveShadow": true
+            },
+            "mass": 500
+        },
+        {
+            "name": "main_floor",
+            "material": "ground_material",
+            "dimensions": {
+                "x": 100,
+                "y": 1,
+                "z": 100
+            },
+            "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "props": {
+                "castShadow": true,
+                "receiveShadow": true
+            },
+            "mass": 0
+        },
+        {
+            "name": "wall_01",
+            "material": "rock_material",
+            "dimensions": {
+                "x": 100,
+                "y": 10,
+                "z": 1
+            },
+            "position": {
+                "x": 0,
+                "y": 5,
+                "z": -50
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "props": {
+                "castShadow": true,
+                "receiveShadow": true
+            },
+            "mass": 0
+        },
+        {
+            "name": "wall_02",
+            "material": "rock_material",
+            "dimensions": {
+                "x": 100,
+                "y": 10,
+                "z": 1
+            },
+            "position": {
+                "x": 0,
+                "y": 5,
+                "z": 50
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "props": {
+                "castShadow": true,
+                "receiveShadow": true
+            },
+            "mass": 0
+        },
+        {
+            "name": "wall_03",
+            "material": "rock_material",
+            "dimensions": {
+                "x": 1,
+                "y": 10,
+                "z": 100
+            },
+            "position": {
+                "x": -50,
+                "y": 5,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "props": {
+                "castShadow": true,
+                "receiveShadow": true
+            },
+            "mass": 0
+        },
+        {
+            "name": "wall_04",
+            "material": "rock_material",
+            "dimensions": {
+                "x": 1,
+                "y": 10,
+                "z": 100
+            },
+            "position": {
+                "x": 50,
+                "y": 5,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "props": {
+                "castShadow": true,
+                "receiveShadow": true
+            },
+            "mass": 0
+        }
+    ],
+    "lights": [
+        {
+            "name": "white_directional_light",
+            "type": "directional",
+            "colour": "0xFFFFFF",
+            "position": {
+                "x": 20,
+                "y": 40,
+                "z": -15
+            },
+            "targetPosition": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "props": {
+                "castShadow": true,
+                "shadowCameraLeft": -60,
+                "shadowCameraTop": -60,
+                "shadowCameraRight": 60,
+                "shadowCameraBottom": 60,
+                "shadowCameraNear": 0,
+                "shadowCameraFar": 300,
+                "shadowBias": -0.0001,
+                "shadowMapWidth": 2048,
+                "shadowMapHeight": 2048,
+                "shadowDarkness": 0.7
+            }
+        },
+        {
+            "name": "blue_spotlight_01",
+            "type": "spot",
+            "colour": "0x0000FF",
+            "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "targetPosition": {
+                "x": 0,
+                "y": 45,
+                "z": 0
+            },
+            "props": {
+                "castShadow": true,
+                "shadowCameraLeft": -60,
+                "shadowCameraTop": -60,
+                "shadowCameraRight": 60,
+                "shadowCameraBottom": 60,
+                "shadowCameraNear": 20,
+                "shadowCameraFar": 200,
+                "shadowBias": -0.0001,
+                "shadowMapWidth": 2048,
+                "shadowMapHeight": 2048,
+                "shadowDarkness": 0.7
+            }
+        }
+    ]
+}
