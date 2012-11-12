@@ -45,22 +45,22 @@ A2B.LevelController.initLevel = function(levelNum, onLevelInitialised) {
 	
 	// at the end of all this it will call your onLevelInitialised callback ;)
 	
-	var scope = this;
-	
 	var levelData = null;
+
+	var levelModel = new A2B.LevelModel();
 	
 	var onLevelLoaded = function(levelJSONData) {
 		
 		// parse JSON data to an object
 		try {
 			console.log("LevelController", "Parsing level JSON - started");
-			levelData = JSON.parse(levelJSONData );
+			levelModel.levelData = JSON.parse(levelJSONData );
 			console.log("LevelController", "Parsing level JSON - ended");
 
 			// JSON is well formed
 
 			console.log("LevelController", "Validating level data - started");
-			var errors = A2B.LevelController.validateLevel(levelData );
+			var errors = A2B.LevelController.validateLevel(levelModel.levelData );
 			console.log("LevelController", "Validating level data - ended");
 			
 			if(errors.length>0) {
@@ -71,7 +71,7 @@ A2B.LevelController.initLevel = function(levelNum, onLevelInitialised) {
 			}
 			else {
 				// continue with level init
-				var textures = A2B.Graphics.loadTextures("textures/",levelData.textures, onTexturesLoaded);
+				levelModel.textures = A2B.Graphics.loadTextures("textures/",levelModel.levelData.textures, onTexturesLoaded);
 			}		
 		} catch ( error ) {
 
@@ -83,11 +83,10 @@ A2B.LevelController.initLevel = function(levelNum, onLevelInitialised) {
 
 	var onTexturesLoaded = function(textures) {
 		// create materials
-		var materials = A2B.Graphics.createMaterials(levelData.materials, textures);
-		var levelScene = A2B.LevelController.createLevelScene(levelData,materials);
+		levelModel.materials = A2B.Graphics.createMaterials(levelModel.levelData.materials, textures);
+		levelModel.scene = A2B.LevelController.createLevelScene(levelModel.levelData,levelModel.materials);
 		
-		A2B.LevelController.setActiveSphere();
-		onLevelInitialised(levelScene);	
+		onLevelInitialised(levelModel);	
 	}
 
 	var onLevelError = function(errorDesc) {

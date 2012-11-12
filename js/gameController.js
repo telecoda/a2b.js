@@ -294,11 +294,11 @@ A2B.GameController.startMainMenu = function() {
 A2B.GameController.startNewLevel = function() {
 
 	
-	var onLevelInitialised = function(levelScene) {
+	var onLevelInitialised = function(levelModel) {
 		// this function is called when a new scene has been initialised
 
 		// replace current scene with new level
-		gameView.scene = levelScene;
+		gameView.scene = levelModel.scene;
 
 		gameView.camera = A2B.GameView.createCamera();
 		gameView.scene.add(gameView.camera);
