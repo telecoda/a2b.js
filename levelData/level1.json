@@ -63,7 +63,7 @@
     ],
     "spheres": [
         {
-            "name": "mainBall",
+            "name": "mainSphere",
             "material": "player_material",
             "dimensions": {
                 "radius": 5,

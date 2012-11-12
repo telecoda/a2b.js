@@ -136,25 +136,48 @@ A2B.LevelController.validateLevel = function(levelData) {
 		for(var i=0; i<len; i++) {
 			var block = levelData.blocks[i];
 			// check for start and end blocks
-			if(block.name=="startBlock") {
+			if(block.name==START_BLOCK) {
 				startBlockFound=true;
 			}
-			if(block.name=="endBlock") {
+			if(block.name==END_BLOCK) {
 				endBlockFound=true;
 			}
 		}
 		
 		if(!startBlockFound) {
-			errors[i++]="Level does not have a startBlock";
+			errors[i++]="Level does not have a "+START_BLOCK;
 		}
 
 		if(!endBlockFound) {
-			errors[i++]="Level does not have a endBlock";
+			errors[i++]="Level does not have a " + END_BLOCK;
 		}
 
 	}
 
+	// spheres
+	if(levelData.spheres==undefined) {
+		// level must have some spheres for the player to control
+		errors[i++]="Level does not have any spheres";
+	}
+	else {
+		// spheres exist, check for mainSphere
+		var len=levelData.spheres.length;
 
+		var mainSphereFound = false;
+		
+		for(var i=0; i<len; i++) {
+			var sphere = levelData.spheres[i];
+			// check for mainSphere
+			if(sphere.name==MAIN_SPHERE) {
+				mainSphereFound=true;
+			}
+		}
+		
+		if(!mainSphereFound) {
+			errors[i++]="Level does not have a " + MAIN_SPHERE;
+		}
+
+	}
 	
 	return errors;
 }

@@ -23,6 +23,11 @@ var gameModel, gameView;
 var LEVEL_PATH = "levelData/";
 var MENU_PATH = "menuData/";
 
+// scene object names
+var MAIN_SPHERE = "mainSphere";
+var START_BLOCK = "startBlock";
+var END_BLOCK = "endBlock";
+
 A2B.GameController = function() {
 };
 
@@ -306,6 +311,9 @@ A2B.GameController.startNewLevel = function() {
 		gameView.camera.lookAt(gameView.scene.position);
 
 		gameController.cameraControls = A2B.GameController.createCameraControls(gameView.camera);
+
+		// set active sphere
+		
 
 		// change to level running
 		A2B.GameController.changeMode(LEVEL_RUNNING_MODE);
