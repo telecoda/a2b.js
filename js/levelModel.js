@@ -24,7 +24,139 @@ A2B.LevelModel = function(levelNum) {
 
 };
 
+A2B.LevelModel.prototype.getMainSphere = function() {
+	// This method returns the mainSphere object in the current level ThreeJS scene
+	
+	var len = this.scene.children.length;
+	
+	for(var i=0; i<len; i++) {
+			var sceneObject = this.scene.children[i];
+			// check for mainSphere
+			if(sceneObject.name==MAIN_SPHERE) {
+				return sceneObject;
+			}
+		}
+	
+	return null;
+}
 
-A2B.Player.prototype.getMesh = function() {
-	return this.playersMesh;
+
+A2B.LevelModel.prototype.setActiveSphere = function(sphere) {
+	this.activeSphere = sphere;
+	// set up collision handling
+	this.activeSphere.collisions=0;
+	this.activeSphere.addEventListener( 'collision', this.handleCollision );
+
+}
+
+
+/*
+ * collision handling callback for level
+ */
+A2B.LevelModel.prototype.handleCollision = function( collided_with, linearVelocity, angularVelocity ) {
+				if(collided_with.name=="startBlock")
+				{
+					this.activeSphere.material.color.setHex(0x00ff00);
+				}
+				if(collided_with.name=="endBlock")
+				{
+					this.activeSphere.material.color.setHex(0xff0000);
+				}
+				/*switch ( ++this.collisions ) {
+					
+					case 1:
+						this.material.color.setHex(0xcc8855);
+						break;
+					
+					case 2:
+						this.material.color.setHex(0xbb9955);
+						break;
+					
+					case 3:
+						this.material.color.setHex(0xaaaa55);
+						break;
+					
+					case 4:
+						this.material.color.setHex(0x99bb55);
+						break;
+					
+					case 5:
+						this.material.color.setHex(0x88cc55);
+						break;
+					
+					case 6:
+						this.material.color.setHex(0x77dd55);
+						break;
+				}*/
+			};
+
+/*
+ * move active sphere backwards when key pressed
+ */
+A2B.LevelModel.prototype.moveBackwards = function(cameraPosition) {
+
+	var angle =0;
+
+	this.pushActiveSphere(cameraPosition,angle);
+};
+
+
+/*
+ * move active sphere forwards when key pressed
+ */
+A2B.LevelModel.prototype.moveForwards = function(cameraPosition) {
+	var angle =180;
+
+	this.pushActiveSphere(cameraPosition,angle);
+
+
+	
+};
+
+/*
+ * move active sphere left when key pressed
+ */
+A2B.LevelModel.prototype.moveLeft = function(cameraPosition) {
+	var angle =270;
+
+	this.pushActiveSphere(cameraPosition,angle);
+};
+
+/*
+ * move active sphere right when key pressed
+ */
+A2B.LevelModel.prototype.moveRight = function(cameraPosition) {
+	var angle =90;
+
+	this.pushActiveSphere(cameraPosition,angle);
+
+};
+
+/*
+ * apply force to active sphere relative to direction camera is facing
+ */
+A2B.LevelModel.prototype.pushActiveSphere = function(cameraPosition,angle){
+	var strength=1;
+	
+	var forceVector = cameraPosition.clone();
+
+	// flatten y - we push on flat surface
+	forceVector.y=0; 
+
+	forceVector = this.rotateVectorAboutY(forceVector,angle);
+
+	forceVector = forceVector.multiplyScalar(strength);
+	this.activeSphere.applyCentralImpulse(forceVector);
+
+
+}
+
+
+A2B.LevelModel.prototype.rotateVectorAboutY = function(vector,angle){
+
+	var angle = A2B.Graphics.degreesToRadians(angle);
+	var matrix = new THREE.Matrix4();
+	matrix = matrix.makeRotationY(angle);
+	matrix.multiplyVector3(vector);
+	return vector;
 }

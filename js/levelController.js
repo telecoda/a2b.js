@@ -83,6 +83,7 @@ A2B.LevelController.initLevel = function(levelNum, onLevelInitialised) {
 
 	var onTexturesLoaded = function(textures) {
 		// create materials
+		levelModel.textures = textures;
 		levelModel.materials = A2B.Graphics.createMaterials(levelModel.levelData.materials, textures);
 		levelModel.scene = A2B.LevelController.createLevelScene(levelModel.levelData,levelModel.materials);
 		

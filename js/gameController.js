@@ -73,13 +73,6 @@ A2B.GameController.createGameController = function(displayGraphicStats, displayG
 
 	return gameController;
 }
-/*
- * Adds player to a different location dependent on level (only one level now..)
- */
-A2B.GameController.addPlayerToScene = function(player, levelNumber) {
-	A2B.GameController.player = player;
-	A2B.GameController.scene.add(player.getMesh());
-}
 
 /*
  * change current mode
@@ -157,16 +150,16 @@ A2B.GameController.levelRunningBindKeys = function(opts) {
 		// return now if the KeyPress isnt for the proper charCode
 		switch(event.which) {
 			case downKey:
-				A2B.GameController.player.moveBackwards(gameView.camera.position);
+				gameModel.currentLevel.moveBackwards(gameView.camera.position);
 				break;
 			case upKey:
-				A2B.GameController.player.moveForwards(gameView.camera.position);
+				gameModel.currentLevel.moveForwards(gameView.camera.position);
 				break;
 			case leftKey:
-				A2B.GameController.player.moveLeft(gameView.camera.position);
+				gameModel.currentLevel.moveLeft(gameView.camera.position);
 				break;
 			case rightKey:
-				A2B.GameController.player.moveRight(gameView.camera.position);
+				gameModel.currentLevel.moveRight(gameView.camera.position);
 				break;
 
 		}
@@ -238,7 +231,7 @@ A2B.GameController.setupMode = function() {
 		case LEVEL_RUNNING_MODE:
 			// load new level
 			//A2B.GameController.levelRunningInitScene(A2B.GameController.scene, A2B.GameController._level);
-			A2B.GameController._currentEventListener = A2B.GameController.levelRunningBindKeys(A2B.GameView.renderer);
+			//A2B.GameController._currentEventListener = A2B.GameController.levelRunningBindKeys(A2B.GameView.renderer);
 			//A2B.GameController.playerMesh = A2B.GameController.addPlayerToScene(gameModel.player, gameModel.level);
 			break;
 
@@ -302,8 +295,9 @@ A2B.GameController.startNewLevel = function() {
 	var onLevelInitialised = function(levelModel) {
 		// this function is called when a new scene has been initialised
 
+		gameModel.currentLevel = levelModel;
 		// replace current scene with new level
-		gameView.scene = levelModel.scene;
+		gameView.scene = gameModel.currentLevel.scene;
 
 		gameView.camera = A2B.GameView.createCamera();
 		gameView.scene.add(gameView.camera);
@@ -313,10 +307,13 @@ A2B.GameController.startNewLevel = function() {
 		gameController.cameraControls = A2B.GameController.createCameraControls(gameView.camera);
 
 		// set active sphere
-		
+		gameModel.currentLevel.setActiveSphere(gameModel.currentLevel.getMainSphere());
 
+		// set up key bindings
+		A2B.GameController._currentEventListener = A2B.GameController.levelRunningBindKeys(A2B.GameView.renderer);
+			
 		// change to level running
-		A2B.GameController.changeMode(LEVEL_RUNNING_MODE);
+		//A2B.GameController.changeMode(LEVEL_RUNNING_MODE);
 
 	}
 	// load details of the level
