@@ -23,8 +23,11 @@
 		<script type="text/javascript" src="vendor/physi.js/physi.js"></script>
 		<!-- game specific scripts -->
 		<script type="text/javascript" src="js/player.js"></script>
-		<script type="text/javascript" src="js/game.js"></script>
+		<script type="text/javascript" src="js/gameView.js"></script>
+		<script type="text/javascript" src="js/gameController.js"></script>
+		<script type="text/javascript" src="js/gameModel.js"></script>
 		<script type="text/javascript" src="js/levelController.js"></script>
+		<script type="text/javascript" src="js/levelModel.js"></script>
 		<script type="text/javascript" src="js/menuController.js"></script>
 		<script type="text/javascript" src="js/gamestats.js"></script>
 		<script type="text/javascript" src="js/graphics.js"></script>
@@ -69,11 +72,8 @@
 	Physijs.scripts.ammo = 'ammo.js';
 
 	// methods
-	var startGame;
+	var startGame, gameController
 	
-	// vars
-	var game;
-
 	startGame = function() {
 
 		// hide start button
@@ -82,8 +82,7 @@
 		var displayGraphicStats=true;
 		var displayGameStats=true;
 
-		game = new A2B.Game();
-		game.initGame(displayGameStats,displayGameStats);
+		gameController = A2B.GameController.createGameController(displayGameStats,displayGameStats);
 	
 	};
 	</script>

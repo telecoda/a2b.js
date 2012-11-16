@@ -2,26 +2,15 @@
 /** @namespace */
 var A2B	= A2B 		|| {};
 
-A2B.Player	= function(playerMaterial)
+A2B.Player	= function()
 {
-	//////////////////////
-	// Add players ball //
-	//////////////////////
-
-	this.playersMesh = new Physijs.SphereMesh(
-		new THREE.SphereGeometry( 5, 16, 16 ),
-		playerMaterial,50
-		);
-	//this.playersMesh.position.set(35,10,35);
-	this.playersMesh.position.set(0,10,0);
-	this.playersMesh.rotation.set(0,0,0);
-	this.playersMesh.castShadow = true;
-	this.playersMesh.receiveShadow = true;
 
 	this.playersMesh.collisions=0;
 	this.playersMesh.addEventListener( 'collision', this.handleCollision );
 	
 };
+
+A2B.Player.prototype
 
 A2B.Player.prototype.getMesh = function() {
 	return this.playersMesh;

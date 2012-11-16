@@ -12,40 +12,6 @@ A2B.LevelController = function() {
 };
 
 
-/*
-A2B.LevelController.loadLevelJSON  = function ( path, levelNum, onLoaded, onError ) {
-
-	var xhr = new XMLHttpRequest();
-
-	var url = path + "level" + levelNum+".json";
-	
-	xhr.onreadystatechange = function () {
-
-		if ( xhr.readyState === 4 ) {
-
-			if ( xhr.status === 200 || xhr.status === 0 ) {
-
-				//var levelData = JSON.parse( xhr.responseText );
-				var levelJSONData = xhr.responseText;
-				
-				onLoaded(levelJSONData);
-
-			} else {
-
-				var errorDesc = "A2B.LevelController.loadLevelJSON: Couldn't load [" + url + "] [" + xhr.status + "]";
-				onError(errorDesc);
-
-			}
-
-		}
-
-	};
-	
-	xhr.open( "GET", url, true );
-	xhr.send( null );
-	
-};
-*/
 
 A2B.LevelController.createLevelScene = function(levelData,materials) {
 	// This method will create a new scene object from the level data and return it
@@ -57,6 +23,10 @@ A2B.LevelController.createLevelScene = function(levelData,materials) {
 
 	A2B.Graphics.addObjectsToScene(scene,blocks);
 	
+	var spheres = A2B.Graphics.createSpheres(levelData.spheres,materials);
+
+	A2B.Graphics.addObjectsToScene(scene,spheres);
+	
 	var lights = A2B.Graphics.createLights(levelData.lights);
 	
 	A2B.Graphics.addObjectsToScene(scene,lights);
@@ -65,7 +35,54 @@ A2B.LevelController.createLevelScene = function(levelData,materials) {
 };
 
 
-A2B.LevelController.initLevel = function(levelNum, onLevelInitialised) {
+/*
+ * collision handling callback for level
+ */
+A2B.LevelController.handleActiveSphereCollision = function( collided_with, linearVelocity, angularVelocity ) {
+	if(collided_with.name=="startBlock")
+	{
+		this.material.color.setHex(0x00ff00);
+	}
+	if(collided_with.name=="endBlock")
+	{
+		this.material.color.setHex(0xff0000);
+		// level has ended!
+		onLevelCompleted();
+	}
+	/*switch ( ++this.collisions ) {
+		
+		case 1:
+			this.material.color.setHex(0xcc8855);
+			break;
+		
+		case 2:
+			this.material.color.setHex(0xbb9955);
+			break;
+		
+		case 3:
+			this.material.color.setHex(0xaaaa55);
+			break;
+		
+		case 4:
+			this.material.color.setHex(0x99bb55);
+			break;
+		
+		case 5:
+			this.material.color.setHex(0x88cc55);
+			break;
+		
+		case 6:
+			this.material.color.setHex(0x77dd55);
+			break;
+	}*/
+};
+
+// pointers to callback funcs
+var onLevelInitialised = null;
+var onLevelCompleted = null;
+var onPlayerDied = null;
+
+A2B.LevelController.initLevel = function(levelNum, onLevelInitialisedCallback, onLevelCompletedCallBack , onPlayerDiedCallBack) {
 	// this method initialises a level from the json file describing the level.
 	// it goes through the following steps:-
 	// i.) read level definition from json file and parse into "levelData" object.
@@ -75,22 +92,27 @@ A2B.LevelController.initLevel = function(levelNum, onLevelInitialised) {
 	
 	// at the end of all this it will call your onLevelInitialised callback ;)
 	
-	var scope = this;
+	// save callback refs
+	onLevelInitialised = onLevelInitialisedCallback;
+	onLevelCompleted = onLevelCompletedCallBack;
+	onPlayerDied = onPlayerDiedCallBack;
 	
 	var levelData = null;
+
+	var levelModel = new A2B.LevelModel();
 	
 	var onLevelLoaded = function(levelJSONData) {
 		
 		// parse JSON data to an object
 		try {
 			console.log("LevelController", "Parsing level JSON - started");
-			levelData = JSON.parse(levelJSONData );
+			levelModel.levelData = JSON.parse(levelJSONData );
 			console.log("LevelController", "Parsing level JSON - ended");
 
 			// JSON is well formed
 
 			console.log("LevelController", "Validating level data - started");
-			var errors = A2B.LevelController.validateLevel(levelData );
+			var errors = A2B.LevelController.validateLevel(levelModel.levelData );
 			console.log("LevelController", "Validating level data - ended");
 			
 			if(errors.length>0) {
@@ -101,7 +123,7 @@ A2B.LevelController.initLevel = function(levelNum, onLevelInitialised) {
 			}
 			else {
 				// continue with level init
-				var textures = A2B.Graphics.loadTextures("textures/",levelData.textures, onTexturesLoaded);
+				levelModel.textures = A2B.Graphics.loadTextures("textures/",levelModel.levelData.textures, onTexturesLoaded);
 			}		
 		} catch ( error ) {
 
@@ -113,9 +135,11 @@ A2B.LevelController.initLevel = function(levelNum, onLevelInitialised) {
 
 	var onTexturesLoaded = function(textures) {
 		// create materials
-		var materials = A2B.Graphics.createMaterials(levelData.materials, textures);
-		var levelScene = A2B.LevelController.createLevelScene(levelData,materials);
-		onLevelInitialised(levelScene);	
+		levelModel.textures = textures;
+		levelModel.materials = A2B.Graphics.createMaterials(levelModel.levelData.materials, textures);
+		levelModel.scene = A2B.LevelController.createLevelScene(levelModel.levelData,levelModel.materials);
+		
+		onLevelInitialised(levelModel);	
 	}
 
 	var onLevelError = function(errorDesc) {
@@ -165,25 +189,48 @@ A2B.LevelController.validateLevel = function(levelData) {
 		for(var i=0; i<len; i++) {
 			var block = levelData.blocks[i];
 			// check for start and end blocks
-			if(block.name=="startBlock") {
+			if(block.name==START_BLOCK) {
 				startBlockFound=true;
 			}
-			if(block.name=="endBlock") {
+			if(block.name==END_BLOCK) {
 				endBlockFound=true;
 			}
 		}
 		
 		if(!startBlockFound) {
-			errors[i++]="Level does not have a startBlock";
+			errors[i++]="Level does not have a "+START_BLOCK;
 		}
 
 		if(!endBlockFound) {
-			errors[i++]="Level does not have a endBlock";
+			errors[i++]="Level does not have a " + END_BLOCK;
 		}
 
 	}
 
+	// spheres
+	if(levelData.spheres==undefined) {
+		// level must have some spheres for the player to control
+		errors[i++]="Level does not have any spheres";
+	}
+	else {
+		// spheres exist, check for mainSphere
+		var len=levelData.spheres.length;
 
+		var mainSphereFound = false;
+		
+		for(var i=0; i<len; i++) {
+			var sphere = levelData.spheres[i];
+			// check for mainSphere
+			if(sphere.name==MAIN_SPHERE) {
+				mainSphereFound=true;
+			}
+		}
+		
+		if(!mainSphereFound) {
+			errors[i++]="Level does not have a " + MAIN_SPHERE;
+		}
+
+	}
 	
 	return errors;
 }

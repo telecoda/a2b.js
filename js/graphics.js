@@ -15,6 +15,19 @@ A2B.Graphics.addObjectsToScene = function(scene, objects) {
 	};
 };
 
+/*
+ * clear all objects from a scene, iterate through child objects
+ */
+A2B.Graphics.clearSceneObjects = function(sceneObject) {
+	var children = sceneObject.children;
+	for (var i = children.length - 1; i >= 0; i--) {
+		var child = children[i];
+		A2B.Graphics.clearSceneObjects(child);
+		sceneObject.remove(child);
+	};
+}
+
+
 A2B.Graphics.createBlocks = function(blocksToCreate,materials) {
 
 	// blocksToCreate is a list of objects in the following format
@@ -54,8 +67,23 @@ A2B.Graphics.createBlocks = function(blocksToCreate,materials) {
 		var rotationVector = new THREE.Vector3(blockToCreate.rotation.x,blockToCreate.rotation.y,blockToCreate.rotation.z);
 		block.position = positionVector;
 		block.rotation = rotationVector;
-		block.receiveShadow = true;
-		block.castShadow = true;
+		var props = blockToCreate.props;
+		for ( var key in props ) {
+
+			var newValue = props[ key ];
+
+			if ( newValue === undefined ) {
+	
+				console.warn( 'createBlock: \'' + key + '\' parameter is undefined.' );
+				continue;
+	
+			}
+			else {
+				block[ key ] = newValue;
+			}
+		}
+		//block.receiveShadow = true;
+		//block.castShadow = true;
 		block.name = blockToCreate.name;
 		// add to list
 		
@@ -212,6 +240,79 @@ A2B.Graphics.createMaterials = function(materialsToCreate, textures) {
 }
 
 
+A2B.Graphics.createSpheres = function(spheresToCreate,materials) {
+
+	// sphereToCreate is a list of objects in the following format
+	/*
+	  
+	"spheres" :
+				  	[
+				  		{ 
+				  			"name" 			: "mainBall",
+				  			"material" 		: "player_material",
+				  			"dimensions"	: {"radius":5,"segmentsWidth":16,"segmentsHeight":16},
+				  			"position"		: {"x":0,"y":10,"z":},
+							"rotation"		: {"x":0,"y":0,"z":0},
+							"props" :  {"castShadow" : true ,
+										"receiveShadow" : true
+										},
+							"mass" 		: 50
+				  		}
+
+		  		
+	  etc..	
+	  
+	 */
+
+	var spheres=[];
+	var s=0;
+	
+	// iterate through a list of spheres to create
+	var len=spheresToCreate.length;
+
+	for(var i=0; i<len; i++) {
+		var sphereToCreate = spheresToCreate[i];
+		
+		var material = materials[sphereToCreate.material];
+			if(material==undefined){
+				alert("Sphere:" + sphereToCreate.name + " Material:" + sphereToCreate.material + " is not found.");
+			}
+		
+
+		var sphere = new Physijs.SphereMesh(new THREE.SphereGeometry(sphereToCreate.dimensions.radius,sphereToCreate.dimensions.segmentsWidth,sphereToCreate.dimensions.segmentsHeight), material, sphereToCreate.mass);
+		var positionVector = new THREE.Vector3(sphereToCreate.position.x,sphereToCreate.position.y,sphereToCreate.position.z);
+		var rotationVector = new THREE.Vector3(sphereToCreate.rotation.x,sphereToCreate.rotation.y,sphereToCreate.rotation.z);
+		sphere.position = positionVector;
+		sphere.rotation = rotationVector;
+		var props = sphereToCreate.props;
+		for ( var key in props ) {
+
+			var newValue = props[ key ];
+
+			if ( newValue === undefined ) {
+	
+				console.warn( 'createSphere: \'' + key + '\' parameter is undefined.' );
+				continue;
+	
+			}
+			else {
+				sphere[ key ] = newValue;
+			}
+		}
+		//sphere.receiveShadow = true;
+		//sphere.castShadow = true;
+		sphere.name = sphereToCreate.name;
+		// add to list
+		
+		spheres[s++]=sphere;
+			
+	}
+
+	return spheres;
+
+}
+
+
 /*
  * Create a text mesh for rendering.  fontProps is an object from initFontProps()
  */
@@ -314,49 +415,7 @@ A2B.Graphics.degreesToRadians = function(degrees) {
 	return degrees * (Math.PI / 180);
 }
 
-/*
- * Create a directional light
- */
-/*A2B.getDirectionalLight = function() {
-	
-		// Light
-		var light = new THREE.DirectionalLight( 0xFFFFFF );
-		light.castShadow = true;
-		light.shadowCameraLeft = -60;
-		light.shadowCameraTop = -60;
-		light.shadowCameraRight = 60;
-		light.shadowCameraBottom = 60;
-		light.shadowCameraNear = 0;
-		light.shadowCameraFar = 300;
-		light.shadowBias = -.0001
-		light.shadowMapWidth = light.shadowMapHeight = 2048;
-		light.shadowDarkness = .7;
-		
-		return light;
-		};
-*/
-/*
- * Create a spotlight light
- */
-/*
-A2B.getSpotLight = function() {
-	
-		// Light
-		var light = new THREE.SpotLight( 0xFF0000 );
-		light.castShadow = true;
-		light.shadowCameraLeft = -60;
-		light.shadowCameraTop = -60;
-		light.shadowCameraRight = 60;
-		light.shadowCameraBottom = 60;
-		light.shadowCameraNear = 20;
-		light.shadowCameraFar = 200;
-		light.shadowBias = -.0001
-		light.shadowMapWidth = light.shadowMapHeight = 2048;
-		light.shadowDarkness = .7;
-		
-		return light;
-		};
-*/
+
 
 /*
  * returns fontProps object for use with createTextMesh
@@ -387,88 +446,6 @@ A2B.Graphics.initFontProps = function() {
 
 
 };
-
-/*
- * Initialise all materials for the game
- * (may be initialised at start of level in future)
- */
-/*
-A2B.initMaterials = function(path) {
-
-		var materials = {};
-		// Materials
-		var ground_material = Physijs.createMaterial(
-			new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( path +'/grass.png' ) }),
-			.8, // high friction
-			.4 // low restitution
-		);
-		ground_material.map.wrapS = ground_material.map.wrapT = THREE.RepeatWrapping;
-		ground_material.map.repeat.set( 3, 3 );
-		
-		materials["ground"]=ground_material;
-
-		var rock_material = Physijs.createMaterial(
-			new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( path +'/rocks.jpg' ) }),
-			.8, // low friction
-			.6 // high restitution
-		);
-		rock_material.map.wrapS = rock_material.map.wrapT = THREE.RepeatWrapping;
-		rock_material.map.repeat.set( .25, .25 );
-
-		materials["rock"]=rock_material;
-
-		var brick_material = Physijs.createMaterial(
-			new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( path +'/plywood.jpg' ) }),
-			.8, // low friction
-			.6 // high restitution
-		);
-		brick_material.map.wrapS = brick_material.map.wrapT = THREE.RepeatWrapping;
-		brick_material.map.repeat.set( .25, .25 );
-
-		materials["brick"]=brick_material;
-
-
-		var wood_material = Physijs.createMaterial(
-			new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( path +'/wood.jpg' ) }),
-			.8, // low friction
-			.6 // high restitution
-		);
-
-		wood_material.map.wrapS = wood_material.map.wrapT = THREE.RepeatWrapping;
-		wood_material.map.repeat.set( .25, .25 );
-
-		materials["wood"]=wood_material;
-
-		var blockA_material = Physijs.createMaterial(
-			new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( path +'/a_block.png' ) }),
-			.1, // low friction
-			.6 // high restitution
-		);
-
-		blockA_material.map.wrapS = blockA_material.map.wrapT = THREE.RepeatWrapping;
-		blockA_material.map.repeat.set( 1, 1 );
-
-		materials["blockA"]=blockA_material;
-
-		var blockB_material = Physijs.createMaterial(
-			new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( path +'/b_block.png' ) }),
-			.8, // low friction
-			.6 // high restitution
-		);
-
-		blockB_material.map.wrapS = blockB_material.map.wrapT = THREE.RepeatWrapping;
-		blockB_material.map.repeat.set( 1, 1 );
-
-		materials["blockB"]=blockB_material;
-
-
-		return materials;
-	
-	};
-
-
-*/
-
 
 
 var onLoad = function(event) {
@@ -536,17 +513,3 @@ A2B.Graphics.loadTextures = function(path, texturesToLoad, onTexturesLoaded) {
 
 }
 
-/*
-A2B.loadMaterial = function(friction, restitution, texture) {
-
-		var material = Physijs.createMaterial(
-			new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( path +'/grass.png' ) }),
-			.8, // high friction
-			.4 // low restitution
-		);
-		ground_material.map.wrapS = ground_material.map.wrapT = THREE.RepeatWrapping;
-		ground_material.map.repeat.set( 3, 3 );
-		
-
-}
-*/
