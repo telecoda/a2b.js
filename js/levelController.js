@@ -35,7 +35,54 @@ A2B.LevelController.createLevelScene = function(levelData,materials) {
 };
 
 
-A2B.LevelController.initLevel = function(levelNum, onLevelInitialised) {
+/*
+ * collision handling callback for level
+ */
+A2B.LevelController.handleActiveSphereCollision = function( collided_with, linearVelocity, angularVelocity ) {
+	if(collided_with.name=="startBlock")
+	{
+		this.material.color.setHex(0x00ff00);
+	}
+	if(collided_with.name=="endBlock")
+	{
+		this.material.color.setHex(0xff0000);
+		// level has ended!
+		onLevelCompleted();
+	}
+	/*switch ( ++this.collisions ) {
+		
+		case 1:
+			this.material.color.setHex(0xcc8855);
+			break;
+		
+		case 2:
+			this.material.color.setHex(0xbb9955);
+			break;
+		
+		case 3:
+			this.material.color.setHex(0xaaaa55);
+			break;
+		
+		case 4:
+			this.material.color.setHex(0x99bb55);
+			break;
+		
+		case 5:
+			this.material.color.setHex(0x88cc55);
+			break;
+		
+		case 6:
+			this.material.color.setHex(0x77dd55);
+			break;
+	}*/
+};
+
+// pointers to callback funcs
+var onLevelInitialised = null;
+var onLevelCompleted = null;
+var onPlayerDied = null;
+
+A2B.LevelController.initLevel = function(levelNum, onLevelInitialisedCallback, onLevelCompletedCallBack , onPlayerDiedCallBack) {
 	// this method initialises a level from the json file describing the level.
 	// it goes through the following steps:-
 	// i.) read level definition from json file and parse into "levelData" object.
@@ -44,6 +91,11 @@ A2B.LevelController.initLevel = function(levelNum, onLevelInitialised) {
 	// iv.) create scene objects for level in levelData.sceneObjects
 	
 	// at the end of all this it will call your onLevelInitialised callback ;)
+	
+	// save callback refs
+	onLevelInitialised = onLevelInitialisedCallback;
+	onLevelCompleted = onLevelCompletedCallBack;
+	onPlayerDied = onPlayerDiedCallBack;
 	
 	var levelData = null;
 

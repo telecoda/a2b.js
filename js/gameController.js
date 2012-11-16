@@ -217,6 +217,39 @@ A2B.GameController.mainMenuModeBindKeys = function(opts) {
 	};
 }
 
+A2B.GameController.onLevelCompleted = function() {
+		// this play has reached the end block!
+};
+
+A2B.GameController.onLevelInitialised = function(levelModel) {
+		// this function is called when a new scene has been initialised
+
+		gameModel.currentLevel = levelModel;
+		// replace current scene with new level
+		gameView.scene = gameModel.currentLevel.scene;
+
+		gameView.camera = A2B.GameView.createCamera();
+		gameView.scene.add(gameView.camera);
+		// position camera
+		gameView.camera.lookAt(gameView.scene.position);
+
+		gameController.cameraControls = A2B.GameController.createCameraControls(gameView.camera);
+
+		// set active sphere
+		gameModel.currentLevel.setActiveSphere(gameModel.currentLevel.getMainSphere());
+
+		// set up key bindings
+		A2B.GameController._currentEventListener = A2B.GameController.levelRunningBindKeys(A2B.GameView.renderer);
+			
+		// change to level running
+		//A2B.GameController.changeMode(LEVEL_RUNNING_MODE);
+
+	}
+
+A2B.GameController.onPlayerDied = function() {
+		// this player has died
+};
+
 
 
 /*
@@ -291,33 +324,9 @@ A2B.GameController.startMainMenu = function() {
 
 A2B.GameController.startNewLevel = function() {
 
-	
-	var onLevelInitialised = function(levelModel) {
-		// this function is called when a new scene has been initialised
-
-		gameModel.currentLevel = levelModel;
-		// replace current scene with new level
-		gameView.scene = gameModel.currentLevel.scene;
-
-		gameView.camera = A2B.GameView.createCamera();
-		gameView.scene.add(gameView.camera);
-		// position camera
-		gameView.camera.lookAt(gameView.scene.position);
-
-		gameController.cameraControls = A2B.GameController.createCameraControls(gameView.camera);
-
-		// set active sphere
-		gameModel.currentLevel.setActiveSphere(gameModel.currentLevel.getMainSphere());
-
-		// set up key bindings
-		A2B.GameController._currentEventListener = A2B.GameController.levelRunningBindKeys(A2B.GameView.renderer);
-			
-		// change to level running
-		//A2B.GameController.changeMode(LEVEL_RUNNING_MODE);
-
-	}
 	// load details of the level
-	A2B.LevelController.initLevel(gameModel.levelNum, onLevelInitialised);
+	A2B.LevelController.initLevel(gameModel.levelNum, A2B.GameController.onLevelInitialised, 
+		A2B.GameController.onLevelCompleted, A2B.GameController.onPlayerDied);
 
 }
 

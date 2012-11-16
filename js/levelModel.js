@@ -45,50 +45,12 @@ A2B.LevelModel.prototype.setActiveSphere = function(sphere) {
 	this.activeSphere = sphere;
 	// set up collision handling
 	this.activeSphere.collisions=0;
-	this.activeSphere.addEventListener( 'collision', this.handleCollision );
+	this.activeSphere.addEventListener( 'collision', A2B.LevelController.handleActiveSphereCollision );
+	// TODO remove any collision handlers for other spheres
 
 }
 
 
-/*
- * collision handling callback for level
- */
-A2B.LevelModel.prototype.handleCollision = function( collided_with, linearVelocity, angularVelocity ) {
-				if(collided_with.name=="startBlock")
-				{
-					this.activeSphere.material.color.setHex(0x00ff00);
-				}
-				if(collided_with.name=="endBlock")
-				{
-					this.activeSphere.material.color.setHex(0xff0000);
-				}
-				/*switch ( ++this.collisions ) {
-					
-					case 1:
-						this.material.color.setHex(0xcc8855);
-						break;
-					
-					case 2:
-						this.material.color.setHex(0xbb9955);
-						break;
-					
-					case 3:
-						this.material.color.setHex(0xaaaa55);
-						break;
-					
-					case 4:
-						this.material.color.setHex(0x99bb55);
-						break;
-					
-					case 5:
-						this.material.color.setHex(0x88cc55);
-						break;
-					
-					case 6:
-						this.material.color.setHex(0x77dd55);
-						break;
-				}*/
-			};
 
 /*
  * move active sphere backwards when key pressed
