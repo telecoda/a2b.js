@@ -121,7 +121,7 @@ GameControllerTest.prototype.testGameController = function() {
 	var gameController = A2B.GameController.createGameController(true,true);
 	assertNotUndefined("Should have created an instance of a A2B.GameController", gameController);
 	console.log("GameControllerTest", "testCreateGameController - ended");
-};
+}; 
 
 /*
 GameTest.prototype.testInitGame = function() {

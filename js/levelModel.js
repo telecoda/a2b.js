@@ -35,7 +35,7 @@ A2B.LevelModel.prototype.getMainSphere = function() {
 			if(sceneObject.name==MAIN_SPHERE) {
 				return sceneObject;
 			}
-		}
+		} 
 	
 	return null;
 }
