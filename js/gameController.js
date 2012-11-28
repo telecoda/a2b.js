@@ -47,7 +47,7 @@ A2B.GameController.createGameController = function(displayGraphicStats, displayG
  * This method initialises the capabilities of the game controller to look after the game
  * Set up UI and initial event handlers
  */
-	gameController = {};
+	var gameController = {};
 
 	gameModel = A2B.GameModel.createGameModel();
 
