@@ -1,5 +1,6 @@
 {
     "name": "test level",
+    "objective" : "This level introduces the concept of getting from 'A' to 'B'. Move the ball using the 'w','a','s','d' keys. Click and drag the mouse to rotate the view.",
     "author": "telecoda",
     "textures": [
         {

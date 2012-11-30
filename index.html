@@ -52,7 +52,6 @@
     	<div id="container"></div>
 	<div id="viewport"></div>
 		<div class="bottom" id="inlineDoc" >
-			- <i>p</i> for screenshot
 		</div> 
 	</div> 
 
@@ -93,10 +92,12 @@
       <div class="jumbotron">
         <h1>3D physics based puzzle game</h1>
         <p class="lead">A2B.js is a 3D game in your browser using Three.js and Physi.js libraries</p>
-        <a class="btn btn-large btn-success" href="#" onclick="startGame()">Start Game</a>
+        <a class="btn btn-large btn-success" href="#" onclick="startGame()">Show me the game!</a>
       </div>
 
       <hr>
+
+
 
       <div class="row-fluid marketing">
         <div class="span6">
@@ -128,11 +129,38 @@
         <p>&copy; Telecoda 2012</p>
       </div>
 
-    </div> <!-- /container -->
+	</div>
+	
+	<!-- dialog stuff that is not initially displayed -->
+	<div id="startDialogBox" class="modal hide fade in" style="display: none; ">
+        <div class="modal-header">
+          <!--<a class="close" data-dismiss="modal">×</a>-->
+          <h3 id="startDialogHeading">This is a Modal Heading</h3>
+        </div>
+        <div class="modal-body">
+          <h4 id="startDialogSubHeading">Text in a modal</h4>
+          <p id="startDialogParagraph">You can add some text here.</p>		        
+        </div>
+        <div class="modal-footer">
+          <a href="#" class="btn btn-success" id="startDialogActionButton">Call to action</a>
+          <!--<a href="#" class="btn" data-dismiss="modal" id="dialogCloseButton">Close</a>-->
+        </div>
+      </div>
 
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
+	<div id="levelDialogBox" class="modal hide fade in" style="display: none; ">
+        <div class="modal-header">
+          <!--<a class="close" data-dismiss="modal">×</a>-->
+          <h3 id="levelDialogHeading">This is a Modal Heading</h3>
+        </div>
+        <div class="modal-body">
+          <h4 id="levelDialogSubHeading">Text in a modal</h4>
+          <p id="levelDialogParagraph">You can add some text here.</p>		        
+        </div>
+        <div class="modal-footer">
+          <a href="#" class="btn btn-success" id="levelDialogActionButton">Call to action</a>
+          <!--<a href="#" class="btn" data-dismiss="modal" id="dialogCloseButton">Close</a>-->
+        </div>
+      </div>
     <script src="vendor/jquery/jquery-1.8.2.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
   </body>
