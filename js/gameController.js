@@ -23,6 +23,8 @@ var gameModel, gameView;
 var LEVEL_PATH = "levelData/";
 var MENU_PATH = "menuData/";
 
+var TOTAL_LEVELS = 1;
+
 // scene object names
 var MAIN_SPHERE = "mainSphere";
 var START_BLOCK = "startBlock";
@@ -199,14 +201,50 @@ A2B.GameController.levelRunningBindKeys = function(opts) {
 	};
 }
 
+A2B.GameController.onGameCompleted = function() {
+    console.log("onGameCompleted started");
+
+	// the player has completed the game
+	var onActionButton2 = function(event) {
+	    // do stuff here after click "Next" button on end of game dialog
+	    console.log("onGameCompleted action clicked");
+
+		// high score table
+		}
+		
+	var heading = "Congratulations!";
+	var subHeading = "You have finished the entire game";
+	var paragraph = "You are officially awesome!!!";
+	var actionButtonText = "End";
+	
+	
+	A2B.GameController.initStatusDialog(onActionButton2, heading, subHeading, paragraph, actionButtonText);
+
+    console.log("onGameCompleted completed");
+
+};
+
 
 
 A2B.GameController.onLevelCompleted = function() {
-	// this play has reached the end block!
+	// the player has reached the end block!
+    console.log("onLevelCompleted started");
+
 	var onActionButton2 = function(event) {
-	    // do stuff here after click "play" button on level info box
-		// perhaps start level timer?
-		var string = "stuff";
+	    // do stuff here after click "Next" button on end of level dialog
+		
+	    console.log("onLevelCompleted action clicked");
+
+		// check for final level
+		if(gameModel.levelNum===TOTAL_LEVELS) {
+			// game completed
+			A2B.GameController.onGameCompleted();
+		} else {
+			// move to next level
+			gameModel.levelNum++;
+			A2B.GameController.startNewLevel();
+		}
+		
 	}
 	
 	
@@ -217,6 +255,8 @@ A2B.GameController.onLevelCompleted = function() {
 	
 	
 	A2B.GameController.initStatusDialog(onActionButton2, heading, subHeading, paragraph, actionButtonText);
+
+	console.log("onLevelCompleted ended");
 
 };
 

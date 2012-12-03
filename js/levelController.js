@@ -47,7 +47,11 @@ A2B.LevelController.handleActiveSphereCollision = function( collided_with, linea
 	{
 		this.material.color.setHex(0xff0000);
 		// level has ended!
-		onLevelCompleted();
+		if(onLevelCompleted != undefined) {
+			onLevelCompleted();
+			// disable repeated env of level calls
+			onLevelCompleted = undefined;
+		}
 	}
 	/*switch ( ++this.collisions ) {
 		
