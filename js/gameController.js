@@ -110,6 +110,38 @@ A2B.GameController.initScreenshotCapability = function() {
 
 };
 
+A2B.GameController.initStatusDialog = function(onActionCallback, heading, subHeading, paragraph, actionButtonText) {
+
+	var onActionClick = function(event) {
+	    console.log("initStatusDiaload.onActionClick method");
+		$("#statusDialogBox").modal('hide');
+		// delay action callback to allow previous fade in/out to complete cleanly
+		setTimeout(onActionCallback,1000);
+
+	}
+			
+	if(heading===undefined) {
+		heading="heading";
+	}
+	if(subHeading===undefined) {
+		subHeading="subHeading";
+	}
+	if(paragraph===undefined) {
+		paragraph="paragraph";
+	}
+	if(actionButtonText===undefined) {
+		actionButtonText="actionButtonText";
+	}
+	$("#statusDialogHeading").text(heading); 
+	$("#statusDialogSubHeading").text(subHeading);
+	$("#statusDialogParagraph").text(paragraph); 
+	$("#statusDialogActionButton").text(actionButtonText); 
+	$("#statusDialogActionButton").unbind('click');
+	$("#statusDialogActionButton").click(onActionClick);
+    $("#statusDialogBox").modal("show");	
+	
+};
+
 A2B.GameController.initWindowResize = function() {
 
 	// transparently support window resize
@@ -195,20 +227,20 @@ A2B.GameController.onLevelInitialised = function(levelModel) {
 		
 		// display start of level dialog
 		var onActionButton2 = function(event) {
-			$("#levelDialogBox").modal('hide');    
+		    console.log("onLevelInitialised.onActionButton2 method");
+			//$("#levelDialogBox").modal('hide');    
 			//A2B.GameController.startNewGame();
+			var string = "stuff";
 		}
-				
-		$("#levelDialogHeading").text("Level:" +levelModel.number); 
-		$("#levelDialogSubHeading").text("Name:"+levelModel.levelData.name);
-		$("#levelDialogParagraph").text(levelModel.levelData.objective); 
-		$("#levelDialogActionButton").text("Play"); 
-		$("#levelDialogBox").modal("show");    		
-		$("#levelDialogActionButton").click(onActionButton2);
 		
-		// change to level running
-		//A2B.GameController.changeMode(LEVEL_RUNNING_MODE);
-
+		var heading = "Level:" +levelModel.number;
+		var subHeading = "Name:"+levelModel.levelData.name;
+		var paragraph = levelModel.levelData.objective;
+		var actionButtonText = "Play";
+		
+		
+		A2B.GameController.initStatusDialog(onActionButton2, heading, subHeading, paragraph, actionButtonText);
+				
 	}
 
 A2B.GameController.onPlayerDied = function() {
@@ -253,10 +285,11 @@ A2B.GameController.startMainMenu = function() {
 		gameController.cameraControls = A2B.GameController.createCameraControls(gameView.camera);
 
 		var onActionButton = function(event) {
-			$("#startDialogBox").modal('hide');    
+		    console.log("onMenuInitialised.onActionButton method");
 			A2B.GameController.startNewGame();
 		}
-				
+
+		/*
 		$("#startDialogHeading").text("Welcome to A2B"); 
 		$("#startDialogSubHeading").text("Mission directive:");
 		$("#startDialogParagraph").text("Get the ball from point A to point B. That's it!"); 
@@ -264,6 +297,16 @@ A2B.GameController.startMainMenu = function() {
 		$("#startDialogBox").modal();    
 		
 		$("#startDialogActionButton").click(onActionButton);
+		*/
+		
+		// display start game dialog
+		
+		var heading = "Welcome to A2B";
+		var subHeading = "Mission directive:";
+		var paragraph = "Get the ball from point A to point B. That's it!";
+		var actionButtonText = "Play";
+		A2B.GameController.initStatusDialog(onActionButton, heading, subHeading, paragraph, actionButtonText);
+
 		
 		//A2B.GameController.startNewGame();
 		
