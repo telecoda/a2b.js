@@ -124,7 +124,7 @@ A2B.GameController.initStatusDialog = function(onActionCallback, heading, subHea
 		heading="heading";
 	}
 	if(subHeading===undefined) {
-		subHeading="subHeading";
+		subHeading="subHeading"; 
 	}
 	if(paragraph===undefined) {
 		paragraph="paragraph";
@@ -202,7 +202,22 @@ A2B.GameController.levelRunningBindKeys = function(opts) {
 
 
 A2B.GameController.onLevelCompleted = function() {
-		// this play has reached the end block!
+	// this play has reached the end block!
+	var onActionButton2 = function(event) {
+	    // do stuff here after click "play" button on level info box
+		// perhaps start level timer?
+		var string = "stuff";
+	}
+	
+	
+	var heading = "Congratulations!";
+	var subHeading = "Name:"+gameModel.currentLevel.levelData.name + " completed.";
+	var paragraph = gameModel.currentLevel.levelData.completedMessage || "Well done.";
+	var actionButtonText = "Next";
+	
+	
+	A2B.GameController.initStatusDialog(onActionButton2, heading, subHeading, paragraph, actionButtonText);
+
 };
 
 A2B.GameController.onLevelInitialised = function(levelModel) {
@@ -227,13 +242,12 @@ A2B.GameController.onLevelInitialised = function(levelModel) {
 		
 		// display start of level dialog
 		var onActionButton2 = function(event) {
-		    console.log("onLevelInitialised.onActionButton2 method");
-			//$("#levelDialogBox").modal('hide');    
-			//A2B.GameController.startNewGame();
+		    // do stuff here after click "play" button on level info box
+			// perhaps start level timer?
 			var string = "stuff";
 		}
 		
-		var heading = "Level:" +levelModel.number;
+		var heading = "Level:" +levelModel.levelNumber;
 		var subHeading = "Name:"+levelModel.levelData.name;
 		var paragraph = levelModel.levelData.objective;
 		var actionButtonText = "Play";
