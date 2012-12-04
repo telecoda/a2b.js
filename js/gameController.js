@@ -289,7 +289,7 @@ A2B.GameController.onLevelInitialised = function(levelModel) {
 			var string = "stuff";
 		}
 		
-		var heading = "Level:" +levelModel.levelNumber;
+		var heading = "Level:" +gameModel.levelNum;
 		var subHeading = "Name:"+levelModel.levelData.name;
 		var paragraph = levelModel.levelData.objective;
 		var actionButtonText = "Play";
