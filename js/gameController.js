@@ -209,7 +209,9 @@ A2B.GameController.onGameCompleted = function() {
 	    // do stuff here after click "Next" button on end of game dialog
 	    console.log("onGameCompleted action clicked");
 
-		// high score table
+		// return to main menu
+	    
+	    A2B.GameController.startMainMenu();
 		}
 		
 	var heading = "Congratulations!";
