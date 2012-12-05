@@ -21,6 +21,8 @@ A2B.LevelModel = function(levelNum) {
 	// this is the current active sphere being used by the player
 	this.activeSphere=null;
 	
+	this.number = levelNum;
+	
 
 };
 
@@ -35,7 +37,7 @@ A2B.LevelModel.prototype.getMainSphere = function() {
 			if(sceneObject.name==MAIN_SPHERE) {
 				return sceneObject;
 			}
-		}
+		} 
 	
 	return null;
 }

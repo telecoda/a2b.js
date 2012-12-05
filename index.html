@@ -2,9 +2,9 @@
 <html>
 	<head>
 		<title>A2B in three.js</title>
-		<!--A2B game by Telecoda 
-			 threejs & physic.js game -->
-		
+		<!--A2B game by Telecoda
+		threejs & physic.js game -->
+
 		<!-- using -->
 		<!-- three.js by Mr Doob https://github.com/mrdoob/three.js.git -->
 		<!-- threejsboilerplate https://github.com/jeromeetienne/threejsboilerplate -->
@@ -22,7 +22,6 @@
 		<script src="vendor/threex/THREEx.WindowResize.js"></script>
 		<script type="text/javascript" src="vendor/physi.js/physi.js"></script>
 		<!-- game specific scripts -->
-		<script type="text/javascript" src="js/player.js"></script>
 		<script type="text/javascript" src="js/gameView.js"></script>
 		<script type="text/javascript" src="js/gameController.js"></script>
 		<script type="text/javascript" src="js/gameModel.js"></script>
@@ -43,49 +42,141 @@
 		<script type="text/javascript" src="fonts/droid/droid_sans_bold.typeface.js"></script>
 		<script type="text/javascript" src="fonts/droid/droid_serif_regular.typeface.js"></script>
 		<script type="text/javascript" src="fonts/droid/droid_serif_bold.typeface.js"></script>
+		<link href="css/main.css" rel="stylesheet">
+		<link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
+		<link href="vendor/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
 
-
-		<link  href="css/main.css" rel="stylesheet"/>
 	</head>
-<body>
-	<!-- three.js container -->
-    	<div id="container"></div>
-	<!-- info on screen display -->
-	<div id="info">
-		<div class="top">
-			<h1>A2B in three.js</h1>
-	<div id="startButtonDiv">
-		<span class="button" onclick="startGame()">Start Game</span>
-	</div> 
+	<body>
+		<!-- three.js container -->
+		<div id="container"></div>
+		<div id="viewport"></div>
+		<div class="bottom" id="inlineDoc" ></div>
+
+		<script type="text/javascript">
+			'use strict';
+
+			Physijs.scripts.worker = 'vendor/physi.js/physijs_worker.js';
+			Physijs.scripts.ammo = 'ammo.js';
+
+			// methods
+			var startGame, gameController
+
+			startGame = function() {
+
+				// hide start button
+				document.getElementById('main-page').style.display = 'none';
+
+				var displayGraphicStats = true;
+				var displayGameStats = true;
+
+				gameController = A2B.GameController.createGameController(displayGameStats, displayGameStats);
+
+			};
+		</script>
+		<div class="container-narrow" id="main-page">
+
+			<div class="masthead">
+				<ul class="nav nav-pills pull-right">
+					<li class="active">
+						<a href="#">Home</a>
+					</li>
+					<li>
+						<a href="#">About</a>
+					</li>
+					<li>
+						<a href="#">Contact</a>
+					</li>
+				</ul>
+				<h3 class="muted">A2B.js</h3>
+			</div>
+
+			<hr>
+
+			<div class="jumbotron">
+				<h1>3D physics based puzzle game</h1>
+				<p class="lead">
+					A2B.js is a 3D game in your browser using Three.js and Physi.js libraries
+				</p>
+				<a class="btn btn-large btn-success" href="#" onclick="startGame()">Show me the game!</a>
+			</div>
+
+			<hr>
+
+			<div class="row-fluid marketing">
+				<div class="span6">
+					<h4>The Premise</h4>
+					<p>
+						The basic premise behind A2B is that when you distil 'most' games down to their basic elements then normally involve progressing from point 'A' to point 'B'
+					</p>
+
+					<h4>Level Editor</h4>
+					<p>
+						There are plans later on to release a level editor for the game to allow people to develop their own levels.
+					</p>
+
+				</div>
+
+				<div class="span6">
+					<h4>The Puzzles</h4>
+					<p>
+						The game begins with some very simple puzzles as a form of tutorial to allow the player to familiarise with the controls.
+					</p>
+
+					<h4>Learning</h4>
+					<p>
+						Last of all.  This game is a learning exercise for me to dabble with JavaScript, not a showcase of my development skills.  Please treat it with the TLC it deserves...
+					</p>
+
+				</div>
+			</div>
+
+			<hr>
+
+			<div class="footer">
+				<p>
+					&copy; Telecoda 2012
+				</p>
+			</div>
+
 		</div>
-	<div id="viewport"></div>
 
-		<div class="bottom" id="inlineDoc" >
-			- <i>p</i> for screenshot
-		</div> 
-	</div> 
+		<!-- dialog stuff that is not initially displayed -->
+		<div id="startDialogBox" class="modal hide fade in" style="display: none; ">
+			<div class="modal-header">
+				<!--<a class="close" data-dismiss="modal">‚àö√≥</a>-->
+				<h3 id="startDialogHeading">This is a Modal Heading</h3>
+			</div>
+			<div class="modal-body">
+				<h4 id="startDialogSubHeading">Text in a modal</h4>
+				<p id="startDialogParagraph">
+					You can add some text here.
+				</p>
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn btn-success" id="startDialogActionButton">Call to action</a>
+				<!--<a href="#" class="btn" data-dismiss="modal" id="dialogCloseButton">Close</a>-->
+			</div>
+		</div>
 
-	<script type="text/javascript">
-		'use strict';
-	
-	Physijs.scripts.worker = 'vendor/physi.js/physijs_worker.js';
-	Physijs.scripts.ammo = 'ammo.js';
-
-	// methods
-	var startGame, gameController
-	
-	startGame = function() {
-
-		// hide start button
-		document.getElementById( 'startButtonDiv' ).style.display='none';
-
-		var displayGraphicStats=true;
-		var displayGameStats=true;
-
-		gameController = A2B.GameController.createGameController(displayGameStats,displayGameStats);
-	
-	};
-	</script>
-</head>
+		<div id="statusDialogBox" class="modal hide fade in" style="display: none; ">
+			<div class="modal-header">
+				<!--<a class="close" data-dismiss="modal">‚àö√≥</a>-->
+				<h3 id="statusDialogHeading">This is a Modal Heading</h3>
+			</div>
+			<div class="modal-body">
+				<h4 id="statusDialogSubHeading">Text in a modal</h4>
+				<p id="statusDialogParagraph">
+					You can add some text here.
+				</p>
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn btn-success" id="statusDialogActionButton">Call to action</a>
+				<!--<a href="#" class="btn" data-dismiss="modal" id="dialogCloseButton">Close</a>-->
+			</div>
+		</div>
+		<script src="vendor/jquery/jquery-1.8.2.js"></script>
+		<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+	</body>
 
 </html>

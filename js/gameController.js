@@ -23,6 +23,8 @@ var gameModel, gameView;
 var LEVEL_PATH = "levelData/";
 var MENU_PATH = "menuData/";
 
+var TOTAL_LEVELS = 1;
+
 // scene object names
 var MAIN_SPHERE = "mainSphere";
 var START_BLOCK = "startBlock";
@@ -47,7 +49,7 @@ A2B.GameController.createGameController = function(displayGraphicStats, displayG
  * This method initialises the capabilities of the game controller to look after the game
  * Set up UI and initial event handlers
  */
-	gameController = {};
+	var gameController = {};
 
 	gameModel = A2B.GameModel.createGameModel();
 
@@ -70,22 +72,11 @@ A2B.GameController.createGameController = function(displayGraphicStats, displayG
 	//A2B.GameController.changeMode(MAINMENU_MODE);
 
 	A2B.GameController.startRenderCallback();
+	
 
 	return gameController;
 }
 
-/*
- * change current mode
- */
-A2B.GameController.changeMode = function(newMode) {
-	// teardown previous mode
-	if (A2B.GameController._currentMode != undefined) {
-		A2B.GameController.teardownMode(); 
-	}
-	// set up new mode
-	A2B.GameController._currentMode = newMode;
-	A2B.GameController.setupMode();
-}
 
 A2B.GameController.getLives = function() {
 	return A2B.GameController.lives;
@@ -98,7 +89,7 @@ A2B.GameController.initFullscreenCapability = function() {
 	if (THREEx.FullScreen.available()) {
 		THREEx.FullScreen.bindKey();
 		document.getElementById('inlineDoc').innerHTML += "- <i>f</i> for fullscreen";
-	}
+	} 
 
 };
 
@@ -119,6 +110,38 @@ A2B.GameController.initScreenshotCapability = function() {
 	// allow 'p' to make screenshot
 	THREEx.Screenshot.bindKey(A2B.GameView.renderer);
 
+};
+
+A2B.GameController.initStatusDialog = function(onActionCallback, heading, subHeading, paragraph, actionButtonText) {
+
+	var onActionClick = function(event) {
+	    console.log("initStatusDiaload.onActionClick method");
+		$("#statusDialogBox").modal('hide');
+		// delay action callback to allow previous fade in/out to complete cleanly
+		setTimeout(onActionCallback,1000);
+
+	}
+			
+	if(heading===undefined) {
+		heading="heading";
+	}
+	if(subHeading===undefined) {
+		subHeading="subHeading"; 
+	}
+	if(paragraph===undefined) {
+		paragraph="paragraph";
+	}
+	if(actionButtonText===undefined) {
+		actionButtonText="actionButtonText";
+	}
+	$("#statusDialogHeading").text(heading); 
+	$("#statusDialogSubHeading").text(subHeading);
+	$("#statusDialogParagraph").text(paragraph); 
+	$("#statusDialogActionButton").text(actionButtonText); 
+	$("#statusDialogActionButton").unbind('click');
+	$("#statusDialogActionButton").click(onActionClick);
+    $("#statusDialogBox").modal("show");	
+	
 };
 
 A2B.GameController.initWindowResize = function() {
@@ -178,47 +201,65 @@ A2B.GameController.levelRunningBindKeys = function(opts) {
 	};
 }
 
-/**
- * Bind a keys for main menu
- */
-A2B.GameController.mainMenuModeBindKeys = function(opts) {
-	opts = opts || {};
-	var goKey = opts.charCode || 'g'.charCodeAt(0);
-	var element = opts.element
+A2B.GameController.onGameCompleted = function() {
+    console.log("onGameCompleted started");
 
-	// callback to handle keypress
-	var __bind = function(fn, me) {
-		return function() {
-			return fn.apply(me, arguments);
-		};
-	};
-	var onKeyPress = __bind(function(event) {
-		// return now if the KeyPress isnt for the proper charCode
-		switch(event.which) {
-			case goKey:
-				// if here game should start
-				A2B.GameController.startNewGame();
-				//A2B.GameController.changeMode(LEVEL_RUNNING_MODE);
-				break;
+	// the player has completed the game
+	var onActionButton2 = function(event) {
+	    // do stuff here after click "Next" button on end of game dialog
+	    console.log("onGameCompleted action clicked");
 
+		// return to main menu
+	    
+	    A2B.GameController.startMainMenu();
 		}
-		return;
+		
+	var heading = "Congratulations!";
+	var subHeading = "You have finished the entire game";
+	var paragraph = "You are officially awesome!!!";
+	var actionButtonText = "End";
+	
+	
+	A2B.GameController.initStatusDialog(onActionButton2, heading, subHeading, paragraph, actionButtonText);
 
-	}, this);
+    console.log("onGameCompleted completed");
 
-	// listen to keypress
-	// NOTE: for firefox it seems mandatory to listen to document directly
-	document.addEventListener('keypress', onKeyPress, false);
+};
 
-	return {
-		unbind : function() {
-			document.removeEventListener('keypress', onKeyPress, false);
-		}
-	};
-}
+
 
 A2B.GameController.onLevelCompleted = function() {
-		// this play has reached the end block!
+	// the player has reached the end block!
+    console.log("onLevelCompleted started");
+
+	var onActionButton2 = function(event) {
+	    // do stuff here after click "Next" button on end of level dialog
+		
+	    console.log("onLevelCompleted action clicked");
+
+		// check for final level
+		if(gameModel.levelNum===TOTAL_LEVELS) {
+			// game completed
+			A2B.GameController.onGameCompleted();
+		} else {
+			// move to next level
+			gameModel.levelNum++;
+			A2B.GameController.startNewLevel();
+		}
+		
+	}
+	
+	
+	var heading = "Congratulations!";
+	var subHeading = "Name:"+gameModel.currentLevel.levelData.name + " completed.";
+	var paragraph = gameModel.currentLevel.levelData.completedMessage || "Well done.";
+	var actionButtonText = "Next";
+	
+	
+	A2B.GameController.initStatusDialog(onActionButton2, heading, subHeading, paragraph, actionButtonText);
+
+	console.log("onLevelCompleted ended");
+
 };
 
 A2B.GameController.onLevelInitialised = function(levelModel) {
@@ -240,41 +281,28 @@ A2B.GameController.onLevelInitialised = function(levelModel) {
 
 		// set up key bindings
 		A2B.GameController._currentEventListener = A2B.GameController.levelRunningBindKeys(A2B.GameView.renderer);
-			
-		// change to level running
-		//A2B.GameController.changeMode(LEVEL_RUNNING_MODE);
-
+		
+		// display start of level dialog
+		var onActionButton2 = function(event) {
+		    // do stuff here after click "play" button on level info box
+			// perhaps start level timer?
+			var string = "stuff";
+		}
+		
+		var heading = "Level:" +gameModel.levelNum;
+		var subHeading = "Name:"+levelModel.levelData.name;
+		var paragraph = levelModel.levelData.objective;
+		var actionButtonText = "Play";
+		
+		
+		A2B.GameController.initStatusDialog(onActionButton2, heading, subHeading, paragraph, actionButtonText);
+				
 	}
 
 A2B.GameController.onPlayerDied = function() {
 		// this player has died
 };
 
-
-
-/*
- This function will initialise the scene and controls for the current mode
- */
-A2B.GameController.setupMode = function() {
-	switch(A2B.GameController._currentMode) {
-		case MAINMENU_MODE:
-			//A2B.GameController.mainMenuModeInitScene(A2B.GameController.scene);
-			A2B.GameController._currentEventListener = A2B.GameController.mainMenuModeBindKeys();
-			break;
-		case LEVEL_RUNNING_MODE:
-			// load new level
-			//A2B.GameController.levelRunningInitScene(A2B.GameController.scene, A2B.GameController._level);
-			//A2B.GameController._currentEventListener = A2B.GameController.levelRunningBindKeys(A2B.GameView.renderer);
-			//A2B.GameController.playerMesh = A2B.GameController.addPlayerToScene(gameModel.player, gameModel.level);
-			break;
-
-	}
-	/*
-	 A2B.GameController.playerMesh = A2B.GameController.addPlayerToScene(A2B.GameController._level,A2B.GameController.scene);
-	 A2B.GameController.bindKeys(A2B.GameController._renderer);
-	 */
-
-}
 
 A2B.GameController.setMousePosition = function(event) {
 	// Find where mouse cursor intersects the ground plane
@@ -312,9 +340,36 @@ A2B.GameController.startMainMenu = function() {
 
 		gameController.cameraControls = A2B.GameController.createCameraControls(gameView.camera);
 
+		var onActionButton = function(event) {
+		    console.log("onMenuInitialised.onActionButton method");
+			A2B.GameController.startNewGame();
+		}
+
+		/*
+		$("#startDialogHeading").text("Welcome to A2B"); 
+		$("#startDialogSubHeading").text("Mission directive:");
+		$("#startDialogParagraph").text("Get the ball from point A to point B. That's it!"); 
+		$("#startDialogActionButton").text("Play"); 
+		$("#startDialogBox").modal();    
+		
+		$("#startDialogActionButton").click(onActionButton);
+		*/
+		
+		// display start game dialog
+		
+		var heading = "Welcome to A2B";
+		var subHeading = "Mission directive:";
+		var paragraph = "Get the ball from point A to point B. That's it!";
+		var actionButtonText = "Play";
+		A2B.GameController.initStatusDialog(onActionButton, heading, subHeading, paragraph, actionButtonText);
+
+		
+		//A2B.GameController.startNewGame();
+		
+		
 		// change to level running
 		//A2B.MenuController.mainMenuModeInitScene(scope.scene);
-		gameView._currentEventListener = A2B.GameController.mainMenuModeBindKeys();
+		//gameView._currentEventListener = A2B.GameController.mainMenuModeBindKeys();
 
 	}
 	// load details of the main menu
@@ -383,22 +438,4 @@ A2B.GameController.startRenderCallback = function() {
 
 
 };
-/*
- This function will tidys up anything for current mode
- */
-A2B.GameController.teardownMode = function() {
-	A2B.GameController._currentEventListener.unbind();
-	//A2B.GameController.scene.remove();
-	//A2B.GameController.clearSceneObjects(A2B.GameController.scene);
-
-	switch(A2B.GameController._currentMode) {
-		case MAINMENU_MODE:
-			//A2B.GameController.mainMenuModeUnbindKeys();
-			break;
-		case LEVEL_RUNNING_MODE:
-			//A2B.GameController.levelRunningUnbindKeys();
-			break;
-
-	}
-}
 

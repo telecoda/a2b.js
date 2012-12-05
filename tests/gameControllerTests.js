@@ -1,28 +1,24 @@
-GameTest = TestCase("GameTest");
+GameControllerTest = TestCase("GameControllerTest");
 
-GameTest.prototype.setUp = function setUp() {
-	console.log("GameTest", "Setup started");
+GameControllerTest.prototype.setUp = function setUp() {
+	console.log("GameControllerTest", "Setup started");
 
 	// this add a viewport div for main canvas
 	/*:DOC += <div id="viewport"></div> */
-
+	
 	// this adds an inlineDoc div for control details
 	/*:DOC += <div id="inlineDoc"></div> */
 	assertNotUndefined(document.getElementById('viewport'));
 
 	Physijs.scripts.worker = '../vendor/physi.js/physijs_worker.js';
 	Physijs.scripts.ammo = 'ammo.js'; 
-
+ 
 	//A2B.initMaterials('../images');
 
-	console.log("GameTest", "Setup finished");
+	console.log("GameControllerTest", "Setup finished");
 };
 
-GameTest.prototype.testCreateGame = function() {
-	var game = new A2B.Game(false, false);
-	assertNotUndefined("Should create an instance of the Game class", game);
-};
-
+/*
 GameTest.prototype.testAddGameToPage = function() {
 	var game = new A2B.Game(false, false);
 
@@ -37,6 +33,9 @@ GameTest.prototype.testAddGameToPage = function() {
 	assertNotEquals("viewport div should look different after call", viewportBefore, viewportAfter);
 };
 
+*/
+
+/*
 GameTest.prototype.testAddPlayerToScene = function() {
 	console.log("GameTest", "testAddPlayerToScene - started");
 	// create a game
@@ -53,6 +52,7 @@ GameTest.prototype.testAddPlayerToScene = function() {
 	console.log("GameTest", "testAddPlayerToScene - ended");
 };
 
+*/
 /*
 GameTest.prototype.testChangeMode = function() {
 	console.log("GameTest", "testChangeMode - started");
@@ -60,7 +60,7 @@ GameTest.prototype.testChangeMode = function() {
 	console.log("GameTest", "testChangeMode - ended");
 };
 */
-
+/*
 GameTest.prototype.testClearSceneObject = function() {
 	console.log("GameTest", "testClearSceneObject - started");
 	var game = new A2B.Game(false, false);
@@ -90,7 +90,8 @@ GameTest.prototype.testClearSceneObject = function() {
 	
 	console.log("GameTest", "testClearSceneObject - ended");
 };
-
+*/
+/*
 GameTest.prototype.testGetLives = function() {
 	console.log("GameTest", "testGetLives - started");
 	// create a game
@@ -102,7 +103,8 @@ GameTest.prototype.testGetLives = function() {
 	assertEquals("Game should start with 3 lives", 3, lives);
 	console.log("GameTest", "testGetLives - ended");
 };
-
+*/
+/*
 GameTest.prototype.testInitCameraForScene = function() {
 	console.log("GameTest", "testInitCameraForScene - started");
 	var game = new A2B.Game(false, false);
@@ -113,19 +115,15 @@ GameTest.prototype.testInitCameraForScene = function() {
 
 	console.log("GameTest", "testInitCameraForScene - ended");
 };
+*/
+GameControllerTest.prototype.testGameController = function() {
+	console.log("GameControllerTest", "testCreateGameController - started");
+	var gameController = A2B.GameController.createGameController(true,true);
+	assertNotUndefined("Should have created an instance of a A2B.GameController", gameController);
+	console.log("GameControllerTest", "testCreateGameController - ended");
+}; 
 
-GameTest.prototype.testInitCameraControls = function() {
-	console.log("GameTest", "testInitCameraControls - started");
-	var game = new A2B.Game(false, false);
-	assertNotUndefined("Should have created an instance of a Game", game);
-	game.initScene();
-	game.initCameraForScene(game.scene);
-	assertNotUndefined("Should have created an instance of a game.camera", game.camera);
-	game.initCameraControls(game.camera);
-	assertNotUndefined("Should have created an instance of a game.cameraControls", game.cameraControls);
-	console.log("GameTest", "testInitCameraControls - ended");
-};
-
+/*
 GameTest.prototype.testInitGame = function() {
 	console.log("GameTest", "testInitGameStats - started");
 
@@ -148,8 +146,8 @@ GameTest.prototype.testInitGame = function() {
  
 	console.log("GameTest", "testInitGameStats - ended");
 };
-
-
+*/
+/*
 GameTest.prototype.testInitProjector = function() {
 	console.log("GameTest", "testInitProjector - started");
 	var game = new A2B.Game(false, false);
