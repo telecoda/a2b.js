@@ -89,7 +89,7 @@ A2B.GameController.initFullscreenCapability = function() {
 	if (THREEx.FullScreen.available()) {
 		THREEx.FullScreen.bindKey();
 		document.getElementById('inlineDoc').innerHTML += "- <i>f</i> for fullscreen";
-	}
+	} 
 
 };
 
