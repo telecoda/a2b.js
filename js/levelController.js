@@ -31,6 +31,11 @@ A2B.LevelController.createLevelScene = function(levelData,materials) {
 	
 	A2B.Graphics.addObjectsToScene(scene,lights);
 	
+	// position camera
+	//gameView.camera.position=levelData.camera.position;
+	// pan camera to position
+	gameController.cameraControls.panCamera(levelData.camera.position);
+	
 	return scene; 
 };
 
@@ -176,6 +181,22 @@ A2B.LevelController.validateLevel = function(levelData) {
 	if(levelData.lights==undefined) {
 		// level must have at least one light
 		errors[i++]="Level does not have any lights";
+	}
+
+	// camera
+	if(levelData.camera==undefined) {
+		// level must have a camera
+		errors[i++]="Level does not have a camera defined";
+	}
+
+	if(levelData.camera.position==undefined) {
+		// level must have a camera postion
+		errors[i++]="Level does not have a camera defined";
+	}
+
+	if(levelData.camera.lookAtPosition==undefined) {
+		// level must have a camera lookAtPosition
+		errors[i++]="Level does not have a camera.lookAtPosition defined";
 	}
 
 	// blocks

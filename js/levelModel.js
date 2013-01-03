@@ -34,7 +34,7 @@ A2B.LevelModel.prototype.getMainSphere = function() {
 	for(var i=0; i<len; i++) {
 			var sceneObject = this.scene.children[i];
 			// check for mainSphere
-			if(sceneObject.name==MAIN_SPHERE) {
+			if(sceneObject.name===MAIN_SPHERE) {
 				return sceneObject;
 			}
 		} 
@@ -42,6 +42,21 @@ A2B.LevelModel.prototype.getMainSphere = function() {
 	return null;
 }
 
+A2B.LevelModel.prototype.getStartBlock = function() {
+	// This method returns the mainSphere object in the current level ThreeJS scene
+	
+	var len = this.scene.children.length;
+	
+	for(var i=0; i<len; i++) {
+			var sceneObject = this.scene.children[i];
+			// check for mainSphere
+			if(sceneObject.name===START_BLOCK) {
+				return sceneObject;
+			}
+		} 
+	
+	return null;
+}
 
 A2B.LevelModel.prototype.setActiveSphere = function(sphere) {
 	this.activeSphere = sphere;

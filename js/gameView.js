@@ -91,3 +91,5 @@ A2B.GameView.createRenderer = function() {
 	return renderer;
 
 };
+
+

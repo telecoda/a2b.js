@@ -1,9 +1,9 @@
 {
-    "name": "Tutorial Level One",
-    "objective" : "This level introduces the concept of getting from 'A' to 'B'. Move the ball forwards using the 'w' key.",
-    "completedMessage" : "You have mastered the basic controls of moving the ball forwards, let's see what challenge awaits you next...",
+	"name": "Tutorial Level Two",
+    "objective" : "This level introduces the concept of getting from 'A' to 'B'. Move the ball using the 'w','a','s','d' keys. Click and drag the mouse to rotate the view.",
+    "completedMessage" : "You have mastered the basic controls of moving the ball from 'A' to 'B', let's see what challenge awaits you next...",
     "author": "telecoda",
-    "textures": [
+       "textures": [
         {
             "name": "rocks",
             "file": "tex_rocks.jpg"
@@ -63,19 +63,6 @@
             "restitution": 0.4
         }
     ],
-    "camera" : 
-	   	{
-            "position": {
-                "x": 120,
-                "y": 70,
-                "z": 120
-        		},
-             "lookAtPosition": {
-                "x": -35,
-                "y": 5,
-                "z": -35
-				}
-    	},
     "spheres": [
         {
             "name": "mainSphere",
@@ -86,9 +73,9 @@
                 "segmentsHeight": 16
             },
             "position": {
-                "x": 35,
-                "y": 15,
-                "z": 35
+                "x": 0,
+                "y": 10,
+                "z": 0
             },
             "rotation": {
                 "x": 0,
