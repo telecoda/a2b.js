@@ -23,7 +23,7 @@ var gameModel, gameView;
 var LEVEL_PATH = "levelData/";
 var MENU_PATH = "menuData/";
 
-var TOTAL_LEVELS = 1;
+var TOTAL_LEVELS = 2;
 
 // scene object names
 var MAIN_SPHERE = "mainSphere";
@@ -33,12 +33,16 @@ var END_BLOCK = "endBlock";
 A2B.GameController = function() {
 };
 
-A2B.GameController.createCameraControls = function(camera) {
+A2B.GameController.createCameraControls = function(camera,position,lookAtPosition) {
 
 	var cameraControls = new THREE.TrackballControls(camera);
 
-	cameraControls.target.set(0, 0, 0);
-
+	if(lookAtPosition==undefined) {
+		cameraControls.target.set(0, 0, 0);
+	} else {
+		cameraControls.object.position.copy(position);
+		cameraControls.target=lookAtPosition;
+	}
 	return cameraControls;
 };
 
@@ -62,14 +66,9 @@ A2B.GameController.createGameController = function(displayGraphicStats, displayG
 	A2B.GameController.initFullscreenCapability();
 	gameController.mouse = A2B.GameController.initMouseMoveListener();
 	
-	
-	//var woodMaterial = A2B.GameController.materials['wood'];
-	//A2B.GameController.player = new A2B.Player(woodMaterial);
 	A2B.GameController._currentEventListener = null;
 
-
 	A2B.GameController.startMainMenu();
-	//A2B.GameController.changeMode(MAINMENU_MODE);
 
 	A2B.GameController.startRenderCallback();
 	
@@ -271,10 +270,11 @@ A2B.GameController.onLevelInitialised = function(levelModel) {
 
 		gameView.camera = A2B.GameView.createCamera();
 		gameView.scene.add(gameView.camera);
-		// position camera
-		gameView.camera.lookAt(gameView.scene.position);
 
-		gameController.cameraControls = A2B.GameController.createCameraControls(gameView.camera);
+		// position camera
+		gameController.cameraControls = A2B.GameController.createCameraControls(gameView.camera,
+				levelModel.levelData.camera.position,
+				levelModel.levelData.camera.lookAtPosition);
 
 		// set active sphere
 		gameModel.currentLevel.setActiveSphere(gameModel.currentLevel.getMainSphere());
@@ -344,16 +344,6 @@ A2B.GameController.startMainMenu = function() {
 		    console.log("onMenuInitialised.onActionButton method");
 			A2B.GameController.startNewGame();
 		}
-
-		/*
-		$("#startDialogHeading").text("Welcome to A2B"); 
-		$("#startDialogSubHeading").text("Mission directive:");
-		$("#startDialogParagraph").text("Get the ball from point A to point B. That's it!"); 
-		$("#startDialogActionButton").text("Play"); 
-		$("#startDialogBox").modal();    
-		
-		$("#startDialogActionButton").click(onActionButton);
-		*/
 		
 		// display start game dialog
 		
@@ -362,14 +352,6 @@ A2B.GameController.startMainMenu = function() {
 		var paragraph = "Get the ball from point A to point B. That's it!";
 		var actionButtonText = "Play";
 		A2B.GameController.initStatusDialog(onActionButton, heading, subHeading, paragraph, actionButtonText);
-
-		
-		//A2B.GameController.startNewGame();
-		
-		
-		// change to level running
-		//A2B.MenuController.mainMenuModeInitScene(scope.scene);
-		//gameView._currentEventListener = A2B.GameController.mainMenuModeBindKeys();
 
 	}
 	// load details of the main menu
@@ -386,7 +368,7 @@ A2B.GameController.startNewLevel = function() {
 }
 
 A2B.GameController.startRenderCallback = function() {
-	
+	 
 	var render = function() {
 
 		// update camera controls
