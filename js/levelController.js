@@ -34,7 +34,7 @@ A2B.LevelController.createLevelScene = function(levelData,materials) {
 	// position camera
 	//gameView.camera.position=levelData.camera.position;
 	// pan camera to position
-	gameController.cameraControls.panCamera(levelData.camera.position);
+	//gameController.cameraControls.panCamera(levelData.camera.position);
 	
 	return scene; 
 };

@@ -1,7 +1,7 @@
 {
 	"name": "Tutorial Level Two",
-    "objective" : "This level introduces the concept of getting from 'A' to 'B'. Move the ball using the 'w','a','s','d' keys. Click and drag the mouse to rotate the view.",
-    "completedMessage" : "You have mastered the basic controls of moving the ball from 'A' to 'B', let's see what challenge awaits you next...",
+    "objective" : "This level introduces the concept of moving left and right. Move the ball using the 'a','d' keys.",
+    "completedMessage" : "You now know how to move left and right, what's next?",
     "author": "telecoda",
        "textures": [
         {
@@ -63,6 +63,19 @@
             "restitution": 0.4
         }
     ],
+    "camera" : 
+	   	{
+            "position": {
+                "x": 120,
+                "y": 70,
+                "z": 120
+        		},
+             "lookAtPosition": {
+                "x": -35,
+                "y": 5,
+                "z": -35
+				}
+    	},
     "spheres": [
         {
             "name": "mainSphere",
@@ -73,9 +86,9 @@
                 "segmentsHeight": 16
             },
             "position": {
-                "x": 0,
-                "y": 10,
-                "z": 0
+                "x": 35,
+                "y": 15,
+                "z": -35
             },
             "rotation": {
                 "x": 0,
@@ -101,7 +114,7 @@
             "position": {
                 "x": 35,
                 "y": 5,
-                "z": 35
+                "z": -35
             },
             "rotation": {
                 "x": 0,
@@ -125,7 +138,7 @@
             "position": {
                 "x": -35,
                 "y": 5,
-                "z": -35
+                "z": 35
             },
             "rotation": {
                 "x": 0,
