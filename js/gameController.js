@@ -23,7 +23,9 @@ var gameModel, gameView;
 var LEVEL_PATH = "levelData/";
 var MENU_PATH = "menuData/";
 
-var TOTAL_LEVELS = 2;
+var START_FROM_LEVEL = 3;
+
+var TOTAL_LEVELS = 3;
 
 // scene object names
 var MAIN_SPHERE = "mainSphere";

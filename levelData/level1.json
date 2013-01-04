@@ -1,6 +1,6 @@
 {
     "name": "Tutorial Level One",
-    "objective" : "This level introduces the concept of getting from 'A' to 'B'. Move the ball forwards using the 'w' key.",
+    "objective" : "To complete a level you must move your ball from point 'A' to point 'B'. Move the ball forwards using the 'w' key.",
     "completedMessage" : "You have mastered the basic controls of moving the ball forwards, let's see what challenge awaits you next...",
     "author": "telecoda",
     "textures": [

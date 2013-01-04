@@ -16,7 +16,7 @@ A2B.GameModel.createGameModel = function() {
 	var gameModel = {};
 	
 	gameModel.lives=3;
-	gameModel.levelNum=1;
+	gameModel.levelNum=START_FROM_LEVEL;
 	gameModel.score=0;
 	gameModel.currentLevel=null;
 	
