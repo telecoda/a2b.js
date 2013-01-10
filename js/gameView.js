@@ -30,7 +30,7 @@ A2B.GameView.createGameView = function(displayGraphicStats, displayGameStats) {
 		// game stats
 		gameView.gameStats = A2B.GameView.createGameStats();
 	}
-
+	
 
 	return gameView;
 };
@@ -72,6 +72,8 @@ A2B.GameView.createGraphicStats = function() {
 };
 
 
+
+
 A2B.GameView.createRenderer = function() {
 
 	var renderer = new THREE.WebGLRenderer({
@@ -86,6 +88,11 @@ A2B.GameView.createRenderer = function() {
 
 	renderer.shadowMapEnabled = true;
 	renderer.shadowMapSoft = true;
+	renderer.domElement.style.position = 'absolute';
+	renderer.domElement.style.top = '0px';
+	renderer.domElement.style.left = '300px';
+	renderer.domElement.style.zIndex = 100;
+	
 	document.getElementById('viewport').appendChild(renderer.domElement);
 
 	return renderer;

@@ -409,6 +409,8 @@ A2B.GameController.startRenderCallback = function() {
 		gameView.scene.simulate(undefined, 2);
 		requestAnimationFrame(render);
 		gameView.renderer.render(gameView.scene, gameView.camera);
+
+		// update side-bar with scores
 		
 		if(gameView.graphicStats != undefined) {
 			gameView.graphicStats.update();	
@@ -417,6 +419,7 @@ A2B.GameController.startRenderCallback = function() {
 		if(gameView.gameStats != undefined) {
 			gameView.gameStats.update(gameModel,gameView, gameController);	
 		}
+		
 	};
 	requestAnimationFrame(render);
 
