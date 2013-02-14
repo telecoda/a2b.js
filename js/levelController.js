@@ -170,7 +170,7 @@ A2B.LevelController.saveLevelToFile = function(path, levelName) {
 
 A2B.LevelController.validateLevel = function(levelData) {
 	/* this method is to validate that the levelData has all the mandatory attributes */
-	var errors = [];
+	var errors = []; 
 	var i=0;
 	// name check
 	if(levelData.name==undefined) {

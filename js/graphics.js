@@ -466,6 +466,7 @@ A2B.Graphics.loadTexture = function(path, filename) {
 
 	var loadStatus = "not loaded";
 	console.log("Starting loading texture.");
+	console.log("path:"+path+" filename:"+filename);
 	
 	var texture = THREE.ImageUtils.loadTexture(fullPath,null, onLoad, onError);
 	

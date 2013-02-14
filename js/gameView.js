@@ -40,6 +40,7 @@ A2B.GameView.createCamera = function() {
 	var camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 1, 1000);
 
 	camera.position.set(0, 50, 120);
+	//camera.position.set(0, 50, 0);
 
 	return camera;
 };
@@ -98,5 +99,6 @@ A2B.GameView.createRenderer = function() {
 	return renderer;
 
 };
+
 
 

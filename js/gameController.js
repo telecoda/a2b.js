@@ -2,17 +2,7 @@
 /** @namespace */
 var A2B = A2B || {};
 
-// game modes
-var ATTRACT_MODE = 1;
-var MAINMENU_MODE = 2;
-var LEVEL_INTRO_MODE = 3;
-var LEVEL_RUNNING_MODE = 4;
-var LEVEL_COMPLETE_MODE = 5;
-var GAME_OVER_MODE = 6;
-var GAME_COMPLETE_MODE = 7;
-var ENTER_HIGHSCORE_MODE = 8;
-var DISPLAY_CREDITS_MODE = 9;
-var DISPLAY_HIGHSCORES_MODE = 10;
+
 
 var INTERSECTED;
 
@@ -23,7 +13,7 @@ var gameModel, gameView;
 var LEVEL_PATH = "levelData/";
 var MENU_PATH = "menuData/";
 
-var START_FROM_LEVEL = 4;
+var START_FROM_LEVEL = 1;
 
 var TOTAL_LEVELS = 4;
 
@@ -57,7 +47,8 @@ A2B.GameController.createGameController = function(displayGraphicStats, displayG
  */
 	var gameController = {};
 
-	gameModel = A2B.GameModel.createGameModel();
+	//gameModel = A2B.GameModel.createGameModel();
+	gameModel = new A2B.GameModel();
 
 	gameView = A2B.GameView.createGameView(displayGameStats, displayGraphicStats);
 	
@@ -79,9 +70,7 @@ A2B.GameController.createGameController = function(displayGraphicStats, displayG
 }
 
 
-A2B.GameController.getLives = function() {
-	return A2B.GameController.lives;
-}
+
 
 
 A2B.GameController.initFullscreenCapability = function() {
@@ -318,7 +307,7 @@ A2B.GameController.setMousePosition = function(event) {
  */
 A2B.GameController.startNewGame = function() {
 	// init variables for a new game
-	gameModel = new A2B.GameModel.createGameModel();
+	gameModel = new A2B.GameModel();
 
 	A2B.GameController.startNewLevel();
 
@@ -376,41 +365,15 @@ A2B.GameController.startRenderCallback = function() {
 		// update camera controls
 		gameController.cameraControls.update();
 	
-		// check for intersects
-		var vector = new THREE.Vector3(gameController.mouse.x, gameController.mouse.y, 1);
-		gameView.projector.unprojectVector(vector, gameView.camera);
+		A2B.GameController.checkMouseCollision();
 	
-		var ray = new THREE.Ray(gameView.camera.position, vector.subSelf(gameView.camera.position).normalize());
-	
-		var intersects = ray.intersectObjects(gameView.scene.children);
-	
-		if (intersects.length > 0) {
-	
-			if (INTERSECTED != intersects[0].object) {
-	
-				if (INTERSECTED)
-					INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
-	
-				INTERSECTED = intersects[0].object;
-				INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
-				INTERSECTED.material.emissive.setHex(0xff0000);
-	
-			}
-	
-		} else {
-	
-			if (INTERSECTED)
-				INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
-	
-			INTERSECTED = null;
-	
-		}
-	
+		// update object physics
 		gameView.scene.simulate(undefined, 2);
 		requestAnimationFrame(render);
 		gameView.renderer.render(gameView.scene, gameView.camera);
 
-		// update side-bar with scores
+		// update side-bar
+		A2B.GameController.updateSidebar();
 		
 		if(gameView.graphicStats != undefined) {
 			gameView.graphicStats.update();	
@@ -423,6 +386,47 @@ A2B.GameController.startRenderCallback = function() {
 	};
 	requestAnimationFrame(render);
 
-
 };
 
+A2B.GameController.checkMouseCollision = function() {
+	// check for intersects
+	var vector = new THREE.Vector3(gameController.mouse.x, gameController.mouse.y, 1);
+	gameView.projector.unprojectVector(vector, gameView.camera);
+
+	
+	var ray = new THREE.Ray(gameView.camera.position, vector.subSelf(gameView.camera.position).normalize());
+
+	var intersects = ray.intersectObjects(gameView.scene.children);
+
+	if (intersects.length > 0) {
+
+		if (INTERSECTED != intersects[0].object) {
+
+			if (INTERSECTED)
+				INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
+
+			INTERSECTED = intersects[0].object;
+			INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
+			INTERSECTED.material.emissive.setHex(0xff0000);
+
+		}
+
+	} else {
+
+		if (INTERSECTED)
+			INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
+
+		INTERSECTED = null;
+
+	}
+	
+}
+
+A2B.GameController.updateSidebar = function() {
+	
+	// update level name
+	$("#panel-level-name").text(gameModel.currentLevel.levelData.name);
+	
+	// update score etc
+	
+};
