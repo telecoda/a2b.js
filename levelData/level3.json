@@ -3,6 +3,7 @@
     "objective" : "This level shows you how to navigate obstacles. Move the ball around the block to reach point 'B'. Using keys 'w','a','s' & 'd'.",
     "completedMessage" : "You have mastered the basic controls of moving the ball. Now for something a little more challenging",
     "author": "telecoda",
+    "timeLimit" : 60,
     "textures": [
         {
             "name": "rocks",

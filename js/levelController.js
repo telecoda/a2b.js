@@ -177,6 +177,11 @@ A2B.LevelController.validateLevel = function(levelData) {
 		// level must have a name
 		errors[i++]="Level does not have a name";
 	}
+	if(levelData.timeLimit==undefined) {
+		// level must have a time limit
+		errors[i++]="Level does not have a time limit";
+	}
+
 	// lights
 	if(levelData.lights==undefined) {
 		// level must have at least one light

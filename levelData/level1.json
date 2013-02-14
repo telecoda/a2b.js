@@ -3,6 +3,7 @@
     "objective" : "To complete a level you must move your ball from point 'A' to point 'B'. Move the ball forwards using the 'w' key.",
     "completedMessage" : "You have mastered the basic controls of moving the ball forwards, let's see what challenge awaits you next...",
     "author": "telecoda",
+    "timeLimit" : 120,
     "textures": [
         {
             "name": "rocks",

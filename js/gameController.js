@@ -256,6 +256,7 @@ A2B.GameController.onLevelInitialised = function(levelModel) {
 		// this function is called when a new scene has been initialised
 
 		gameModel.currentLevel = levelModel;
+		gameModel.timeRemaining = levelModel.levelData.timeLimit;
 		// replace current scene with new level
 		gameView.scene = gameModel.currentLevel.scene;
 
@@ -424,9 +425,11 @@ A2B.GameController.checkMouseCollision = function() {
 
 A2B.GameController.updateSidebar = function() {
 	
-	// update level name
-	$("#panel-level-name").text(gameModel.currentLevel.levelData.name);
-	
-	// update score etc
-	
+	// update HUD 
+	if(gameModel.currentLevel) {
+		$("#panel-level-name").text(gameModel.currentLevel.levelData.name);
+		$("#panel-lives").text(gameModel.lives);
+		$("#panel-score").text(gameModel.score);	
+		$("#panel-time-remaining").text(gameModel.timeRemaining + ' seconds');			
+	}
 };

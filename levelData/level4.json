@@ -3,6 +3,7 @@
     "objective" : "This level shows you how to manipulate the view. Click and drag the mouse to rotate the view and find the exit.",
     "completedMessage" : "You know how to rotate the view so the exits are going to get a little harder to find from now on...",
     "author": "telecoda",
+    "timeLimit" : 60,
     "textures": [
         {
             "name": "rocks",

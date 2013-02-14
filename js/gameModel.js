@@ -25,19 +25,8 @@ A2B.GameModel = function() {
 	this.levelNum=START_FROM_LEVEL;
 	this.score=0;
 	this.currentLevel=null;
+	this.timeRemaining = 60;
 };
-
-A2B.GameModel.getLevelName = function ( ) {
-	return this.currentLevel.levelData.name;
-}
-
-A2B.GameModel.getScore = function ( ) {
-	return this.score;
-}
-
-A2B.GameModel.getLives = function() {
-	return this.lives;
-}
 
 
 

@@ -3,6 +3,7 @@
     "objective" : "This level introduces the concept of moving left and right. Move the ball using the 'a','d' keys.",
     "completedMessage" : "You now know how to move left and right, what's next?",
     "author": "telecoda",
+    "timeLimit" : 60,
        "textures": [
         {
             "name": "rocks",
