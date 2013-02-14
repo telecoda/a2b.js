@@ -25,7 +25,8 @@ A2B.GameModel = function() {
 	this.levelNum=START_FROM_LEVEL;
 	this.score=0;
 	this.currentLevel=null;
-	this.timeRemaining = 60;
+	this.timeRemaining = 0;
+	this.timerRunning = false;
 };
 
 

@@ -278,6 +278,7 @@ A2B.GameController.onLevelInitialised = function(levelModel) {
 		var onActionButton2 = function(event) {
 		    // do stuff here after click "play" button on level info box
 			// perhaps start level timer?
+			A2B.GameController.startLevelTimer();
 			var string = "stuff";
 		}
 		
@@ -290,6 +291,33 @@ A2B.GameController.onLevelInitialised = function(levelModel) {
 		A2B.GameController.initStatusDialog(onActionButton2, heading, subHeading, paragraph, actionButtonText);
 				
 	}
+
+A2B.GameController.startLevelTimer = function() {
+	// 
+	if(gameModel.timerRunning) {
+		console.log("ERROR: level timer already running...");
+	} else {
+		gameModel.timerRunning = true;
+		setTimeout(A2B.GameController.updateLevelTimer,1000);
+	}
+};
+
+A2B.GameController.updateLevelTimer = function() {
+	// decrease timer by 1 second
+	gameModel.timeRemaining--;
+	
+	// check for end of time
+	if(gameModel.timeRemaining > 0  && gameModel.timerRunning) {
+		// submit again
+		setTimeout(A2B.GameController.updateLevelTimer,1000);
+	}
+}
+
+A2B.GameController.stopLevelTimer = function() {
+	// 
+	gameModel.timerRunning = false;
+};
+
 
 A2B.GameController.onPlayerDied = function() {
 		// this player has died
