@@ -4,6 +4,7 @@
     "completedMessage" : "You now know how to move left and right, what's next?",
     "author": "telecoda",
     "timeLimit" : 60,
+    "minimumBallHeight" : -5,
        "textures": [
         {
             "name": "rocks",

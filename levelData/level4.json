@@ -4,6 +4,7 @@
     "completedMessage" : "You know how to rotate the view so the exits are going to get a little harder to find from now on...",
     "author": "telecoda",
     "timeLimit" : 60,
+    "minimumBallHeight" : -5,
     "textures": [
         {
             "name": "rocks",

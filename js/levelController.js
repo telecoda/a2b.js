@@ -179,7 +179,12 @@ A2B.LevelController.validateLevel = function(levelData) {
 	}
 	if(levelData.timeLimit==undefined) {
 		// level must have a time limit
-		errors[i++]="Level does not have a time limit";
+		errors[i++]="Level does not have a timeLimit";
+	}
+
+	if(levelData.minimumBallHeight==undefined) {
+		// level must have a minimum ball height
+		errors[i++]="Level does not have a minimumBallHeight";
 	}
 
 	// lights
@@ -196,7 +201,7 @@ A2B.LevelController.validateLevel = function(levelData) {
 
 	if(levelData.camera.position==undefined) {
 		// level must have a camera postion
-		errors[i++]="Level does not have a camera defined";
+		errors[i++]="Level does not have a camera.position defined";
 	}
 
 	if(levelData.camera.lookAtPosition==undefined) {

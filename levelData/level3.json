@@ -4,6 +4,7 @@
     "completedMessage" : "You have mastered the basic controls of moving the ball. Now for something a little more challenging",
     "author": "telecoda",
     "timeLimit" : 60,
+    "minimumBallHeight" : -5,
     "textures": [
         {
             "name": "rocks",

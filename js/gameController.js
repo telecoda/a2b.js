@@ -183,6 +183,8 @@ A2B.GameController.levelRunningBindKeys = function(opts) {
 A2B.GameController.onGameCompleted = function() {
 	console.log("onGameCompleted started");
 
+	gameModel.mode = GAME_COMPLETED_MODE;
+
 	// the player has completed the game
 	var onActionButton2 = function(event) {
 		// do stuff here after click "Next" button on end of game dialog
@@ -209,6 +211,8 @@ A2B.GameController.onLevelCompleted = function() {
 
 	A2B.GameController.stopLevelTimer();
 	
+	gameModel.mode = LEVEL_COMPLETED_MODE;
+
 	var onActionButton2 = function(event) {
 		// do stuff here after click "Next" button on end of level dialog
 
@@ -239,6 +243,8 @@ A2B.GameController.onLevelCompleted = function() {
 A2B.GameController.onLevelInitialised = function(levelModel) {
 	// this function is called when a new scene has been initialised
 
+	gameModel.mode = LEVEL_INTRO_MODE;
+
 	gameModel.currentLevel = levelModel;
 	gameModel.timeRemaining = levelModel.levelData.timeLimit;
 	// replace current scene with new level
@@ -261,7 +267,9 @@ A2B.GameController.onLevelInitialised = function(levelModel) {
 		// do stuff here after click "play" button on level info box
 		// perhaps start level timer?
 		A2B.GameController.startLevelTimer();
-		var string = "stuff";
+		
+		gameModel.mode = LEVEL_RUNNING_MODE;		
+
 	}
 	var heading = "Level:" + gameModel.levelNum;
 	var subHeading = "Name:" + levelModel.levelData.name;
@@ -304,6 +312,9 @@ A2B.GameController.updateLevelTimer = function() {
 A2B.GameController.onLevelTimeExpired = function() {
 
 	// time up dialog
+	
+	gameModel.mode = PLAYER_TIMEUP_MODE;
+
 	A2B.GameController.stopLevelTimer();
 	gameModel.decreaseLives();
 
@@ -322,7 +333,7 @@ A2B.GameController.onLevelTimeExpired = function() {
 	}
 	var heading = "Time Up!";
 	var subHeading = "You have run out of time:";
-	var paragraph = "That has cost you one of your lives. You have " + gameModel.lives + " remaining. Try to be a little faster next time..";
+	var paragraph = "That has cost you one of your lives. You have " + gameModel.lives + " lives remaining. Try to be a little faster next time..";
 	var actionButtonText = "Next";
 	A2B.GameController.initStatusDialog(onActionButton, heading, subHeading, paragraph, actionButtonText);
 
@@ -331,6 +342,7 @@ A2B.GameController.onLevelTimeExpired = function() {
 A2B.GameController.onGameOver = function() {
 
 	// game over dialog
+	gameModel.mode = GAME_OVER_MODE;
 
 	// the player has lost all their lives
 	var onActionButton = function(event) {
@@ -351,11 +363,37 @@ A2B.GameController.onGameOver = function() {
 A2B.GameController.stopLevelTimer = function() {
 	//
 	gameModel.timerRunning = false;
+	
 };
 
 A2B.GameController.onPlayerDied = function() {
+	
+	gameModel.mode = PLAYER_DIED_MODE;
+
 	// this player has died
+	A2B.GameController.stopLevelTimer();
+	gameModel.decreaseLives();
+
+	// the player has died
+	var onActionButton = function(event) {
+		// do stuff here after clicking "Next"
+		console.log("onPlayerDied action clicked");
+
+		if (gameModel.lives > 0) {
+			// restart level
+			A2B.GameController.startNewLevel();
+		} else {
+			// game over
+			A2B.GameController.onGameOver();
+		}
+	}
+	var heading = "Arrrggghhhhh!";
+	var subHeading = "You have died:";
+	var paragraph = "You must not fall off the platforms. You have " + gameModel.lives + " lives remaining. Try to stay on the platforms next time..";
+	var actionButtonText = "Next";
+	A2B.GameController.initStatusDialog(onActionButton, heading, subHeading, paragraph, actionButtonText);
 };
+
 
 A2B.GameController.setMousePosition = function(event) {
 	// Find where mouse cursor intersects the ground plane
@@ -380,6 +418,7 @@ A2B.GameController.startMainMenu = function() {
 	var onMenuInitialised = function(menuScene) {
 		// this function is called when the menu scene has been initialised
 
+		gameModel.mode = MAIN_MENU_MODE;
 		// replace current scene with new scene
 		gameView.scene = menuScene;
 
@@ -411,6 +450,8 @@ A2B.GameController.startMainMenu = function() {
 A2B.GameController.startNewLevel = function() {
 
 	// load details of the level
+	gameModel.mode = LEVEL_INTRO_MODE;
+
 	A2B.LevelController.initLevel(gameModel.levelNum, A2B.GameController.onLevelInitialised, A2B.GameController.onLevelCompleted, A2B.GameController.onPlayerDied);
 
 }
@@ -423,6 +464,11 @@ A2B.GameController.startRenderCallback = function() {
 		gameController.cameraControls.update();
 
 		A2B.GameController.checkMouseCollision();
+
+		if(gameModel.mode == LEVEL_RUNNING_MODE) {
+			// check falling ball
+			A2B.GameController.checkFallingBall();
+		}
 
 		// update object physics
 		gameView.scene.simulate(undefined, 2);
@@ -444,6 +490,19 @@ A2B.GameController.startRenderCallback = function() {
 	requestAnimationFrame(render);
 
 };
+
+
+A2B.GameController.checkFallingBall = function() {
+	// this method checks if a ball has fallen below a certain threshold
+	// for the level data.  If so the player dies
+	
+	if(gameModel.currentLevel) {
+		if(gameModel.currentLevel.activeSphere.position.y < gameModel.currentLevel.levelData.minimumBallHeight) {
+		// 
+		A2B.GameController.onPlayerDied();
+		}
+	}
+}
 
 A2B.GameController.checkMouseCollision = function() {
 	// check for intersects
