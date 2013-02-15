@@ -149,21 +149,26 @@ A2B.GameController.levelRunningBindKeys = function(opts) {
 		};
 	};
 	var onKeyPress = __bind(function(event) {
-		// return now if the KeyPress isnt for the proper charCode
-		switch(event.which) {
-			case downKey:
-				gameModel.currentLevel.moveBackwards(gameView.camera.position);
-				break;
-			case upKey:
-				gameModel.currentLevel.moveForwards(gameView.camera.position);
-				break;
-			case leftKey:
-				gameModel.currentLevel.moveLeft(gameView.camera.position);
-				break;
-			case rightKey:
-				gameModel.currentLevel.moveRight(gameView.camera.position);
-				break;
-
+		
+		if(LEVEL_RUNNING_MODE == gameModel.mode) {
+		
+			// return now if the KeyPress isnt for the proper charCode
+			switch(event.which) {
+				case downKey:
+					gameModel.currentLevel.moveBackwards(gameView.camera.position);
+					break;
+				case upKey:
+					gameModel.currentLevel.moveForwards(gameView.camera.position);
+					break;
+				case leftKey:
+					gameModel.currentLevel.moveLeft(gameView.camera.position);
+					break;
+				case rightKey:
+					gameModel.currentLevel.moveRight(gameView.camera.position);
+					break;
+	
+			}
+			
 		}
 		return;
 
