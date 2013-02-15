@@ -333,7 +333,12 @@ A2B.GameController.onLevelTimeExpired = function() {
 	}
 	var heading = "Time Up!";
 	var subHeading = "You have run out of time:";
-	var paragraph = "That has cost you one of your lives. You have " + gameModel.lives + " lives remaining. Try to be a little faster next time..";
+	
+	var lifeText = " lives ";
+	if (gameModel.lives == 1) {
+		lifeText=" life ";
+	}
+	var paragraph = "That has cost you one of your lives. You have " + gameModel.lives + lifeText +" remaining. Try to be a little faster next time..";
 	var actionButtonText = "Next";
 	A2B.GameController.initStatusDialog(onActionButton, heading, subHeading, paragraph, actionButtonText);
 
@@ -389,7 +394,13 @@ A2B.GameController.onPlayerDied = function() {
 	}
 	var heading = "Arrrggghhhhh!";
 	var subHeading = "You have died:";
-	var paragraph = "You must not fall off the platforms. You have " + gameModel.lives + " lives remaining. Try to stay on the platforms next time..";
+	var lifeText = " lives ";
+	
+	if (gameModel.lives == 1) {
+		lifeText=" life ";
+	}
+
+	var paragraph = "You must not fall off the platforms. You have " + gameModel.lives + lifeText +"remaining. Try to stay on the platforms next time..";
 	var actionButtonText = "Next";
 	A2B.GameController.initStatusDialog(onActionButton, heading, subHeading, paragraph, actionButtonText);
 };
