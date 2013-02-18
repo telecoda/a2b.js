@@ -7,6 +7,10 @@
 /** @namespace */
 var A2B = A2B || {};
 
+//pointers to callback funcs
+var onLevelInitialised;
+var onLevelCompleted;
+var onPlayerDied;
  
 A2B.LevelController = function() {
 };
@@ -52,11 +56,14 @@ A2B.LevelController.handleActiveSphereCollision = function( collided_with, linea
 	{
 		this.material.color.setHex(0xff0000);
 		// level has ended!
-		if(onLevelCompleted != undefined) {
+		if(gameModel.mode == LEVEL_RUNNING_MODE) {
+			onLevelCompleted();
+		}
+		/*if(onLevelCompleted != undefined) {
 			onLevelCompleted();
 			// disable repeated env of level calls
 			onLevelCompleted = undefined;
-		}
+		}*/
 	}
 	/*switch ( ++this.collisions ) {
 		
@@ -86,10 +93,7 @@ A2B.LevelController.handleActiveSphereCollision = function( collided_with, linea
 	}*/
 };
 
-// pointers to callback funcs
-var onLevelInitialised = null;
-var onLevelCompleted = null;
-var onPlayerDied = null;
+
 
 A2B.LevelController.initLevel = function(levelNum, onLevelInitialisedCallback, onLevelCompletedCallBack , onPlayerDiedCallBack) {
 	// this method initialises a level from the json file describing the level.
