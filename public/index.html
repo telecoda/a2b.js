@@ -10,6 +10,7 @@
 		<!-- physicjs https://github.com/chandlerprall/Physijs -->
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<script src="vendor/jquery/jquery-1.8.2.js"></script>
 		<script src="vendor/three.js/Three.js"></script>
 		<script src="vendor/three.js/Detector.js"></script>
 		<!-- https://github.com/mrdoob/stats.js -->
@@ -81,7 +82,9 @@
 					</ul>
 				</div>
 			</div>
-			<div id="viewport" style="width:600px; padding: 8px 0;"></div>
+			<div id="viewport" style="width:600px; padding: 8px 0;">
+				<canvas id="test-canvas"></canvas>
+			</div>
 		</div>
 		<div class="bottom" id="inlineDoc" ></div>
 		<script type="text/javascript">
@@ -91,7 +94,7 @@
 			Physijs.scripts.ammo = 'ammo.js';
 
 			// methods
-			var startGame, gameController
+			var startGame, gameController, enableStartButton, disableStartButton;
 
 			startGame = function() {
 
@@ -106,6 +109,51 @@
 				gameController = A2B.GameController.createGameController(displayGameStats, displayGameStats);
 
 			};
+			
+			enableStartButton = function() {
+				$("#startGameButton").removeClass("hide");
+				$("#noWebGLButton").addClass("hide");
+				$("#startGameButton").click(function() {
+					startGame();
+				});
+			}
+
+			disableStartButton = function() {
+				$("#startGameButton").addClass("hide");
+				$("#noWebGLButton").removeClass("hide");
+				$("#noWebGLButton").click(function() {
+					// show no webGL dialog
+					$("#noWebGLDialogBox").modal("show");
+
+				});
+			}
+			
+			$(document).ready(function() {
+			    var testCanvas = document.getElementById("test-canvas");
+			    var experimental = false;
+			    try {
+			        var gl = testCanvas.getContext("webgl");
+			    } 
+			    catch (x) {
+			        gl = null;
+			    }
+			    if (gl == null) {
+			        try {
+			            gl = testCanvas.getContext("experimental-webgl");
+			            experimental = true;
+			        } 
+			        catch (x) {
+			            gl = null;
+			        }
+			    }
+			    if (gl) {
+			       // yes its supported
+					enableStartButton();
+			    } else {
+			    	// no its not
+					disableStartButton();
+			    }
+			});
 		</script>
 		<div class="container-narrow" id="main-page">
 
@@ -115,10 +163,7 @@
 						<a href="#">Home</a>
 					</li>
 					<li>
-						<a href="#">About</a>
-					</li>
-					<li>
-						<a href="#">Contact</a>
+						<a href="mailto:madeupemail@here.com">Contact</a>
 					</li>
 				</ul>
 				<h3 class="muted">A2B.js</h3>
@@ -131,7 +176,8 @@
 				<p class="lead">
 					A2B.js is a 3D game in your browser using Three.js and Physi.js libraries
 				</p>
-				<a class="btn btn-large btn-success" href="#" onclick="startGame()">Show me the game!</a>
+				<a id="startGameButton" class="btn btn-large btn-success hide" href="#">Show me the game!</a>
+				<a id="noWebGLButton" class="btn btn-large hide btn-danger" href="#">WebGL Not Supported</a>
 			</div>
 
 			<hr>
@@ -177,7 +223,6 @@
 		<!-- dialog stuff that is not initially displayed -->
 		<div id="startDialogBox" class="modal hide fade in" style="display: none; " data-backdrop="static" data-keyboard="false">
 			<div class="modal-header">
-				<!--<a class="close" data-dismiss="modal">‚Äö√Ñ√∂‚àö√ë‚àö‚àÇ‚Äö√†√∂‚àö√´‚Äö√†√∂‚Äö√†√á‚Äö√Ñ√∂‚àö‚Ä†‚àö‚àÇ‚Äö√Ñ√∂‚àö√ë‚Äö√Ñ‚Ä†‚Äö√Ñ√∂‚àö‚Ä†‚àö‚àÇ‚Äö√Ñ√∂‚àö‚Ä†‚àö√°‚Äö√Ñ√∂‚àö√ë‚àö‚àÇ‚Äö√†√∂‚Äö√Ñ‚Ä†‚Äö√†√∂‚Äö√†√á‚Äö√Ñ√∂‚àö√ë‚àö‚àÇ‚Äö√†√∂¬¨¬¢‚Äö√Ñ√∂‚àö√ë¬¨¬¢</a>-->
 				<h3 id="startDialogHeading">This is a Modal Heading</h3>
 			</div>
 			<div class="modal-body">
@@ -188,13 +233,11 @@
 			</div>
 			<div class="modal-footer">
 				<a href="#" class="btn btn-success" id="startDialogActionButton">Call to action</a>
-				<!--<a href="#" class="btn" data-dismiss="modal" id="dialogCloseButton">Close</a>-->
 			</div>
 		</div>
 
 		<div id="statusDialogBox" class="modal hide fade in" style="display: none; " data-backdrop="static" data-keyboard="false">
 			<div class="modal-header">
-				<!--<a class="close" data-dismiss="modal">‚Äö√Ñ√∂‚àö√ë‚àö‚àÇ‚Äö√†√∂‚àö√´‚Äö√†√∂‚Äö√†√á‚Äö√Ñ√∂‚àö‚Ä†‚àö‚àÇ‚Äö√Ñ√∂‚àö√ë‚Äö√Ñ‚Ä†‚Äö√Ñ√∂‚àö‚Ä†‚àö‚àÇ‚Äö√Ñ√∂‚àö‚Ä†‚àö√°‚Äö√Ñ√∂‚àö√ë‚àö‚àÇ‚Äö√†√∂‚Äö√Ñ‚Ä†‚Äö√†√∂‚Äö√†√á‚Äö√Ñ√∂‚àö√ë‚àö‚àÇ‚Äö√†√∂¬¨¬¢‚Äö√Ñ√∂‚àö√ë¬¨¬¢</a>-->
 				<h3 id="statusDialogHeading">This is a Modal Heading</h3>
 			</div>
 			<div class="modal-body">
@@ -205,9 +248,24 @@
 			</div>
 			<div class="modal-footer">
 				<a href="#" class="btn btn-success" id="statusDialogActionButton">Call to action</a>
-				<!--<a href="#" class="btn" data-dismiss="modal" id="dialogCloseButton">Close</a>-->
 			</div>
 		</div>
+
+		<div id="noWebGLDialogBox" class="modal hide fade in" style="display: none; " data-backdrop="static" data-keyboard="false">
+			<div class="modal-header">
+				<h3 id="noWebGLDialogHeading">Your browser does not support Web G/L</h3>
+			</div>
+			<div class="modal-body">
+				<h4 id="noWebGLSubHeading">Unfortunately your browser does not appear to support WebGL</h4>
+				<p id="noWebGLDialogParagraph">
+					You will be unable to play A2B unless you use a different browser.  Try visiting this site for more details <a href="http://get.webgl.org/">http://get.webgl.org/</a>
+				</p>
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn" data-dismiss="modal" id="noWebGLDialogActionButton">Close</a>
+			</div>
+		</div>
+
 		<script src="vendor/jquery/jquery-1.8.2.js"></script>
 		<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 	</body>
