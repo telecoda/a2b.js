@@ -1,9 +1,8 @@
-<!doctype html>
 <html>
 	<head>
 		<title>A2B in three.js</title>
 		<!--A2B game by Telecoda
-		threejs & physic.js game -->
+		threejs & physic.js game --> 
 
 		<!-- using -->
 		<!-- three.js by Mr Doob https://github.com/mrdoob/three.js.git -->
@@ -11,12 +10,12 @@
 		<!-- physicjs https://github.com/chandlerprall/Physijs -->
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<script src="vendor/jquery/jquery-1.8.2.js"></script>
 		<script src="vendor/three.js/Three.js"></script>
 		<script src="vendor/three.js/Detector.js"></script>
 		<!-- https://github.com/mrdoob/stats.js -->
 		<script src="vendor/three.js/tween.js"></script>
 		<script src="vendor/three.js/Stats.js"></script>
-
 		<script src="vendor/threex/THREEx.screenshot.js"></script>
 		<script src="vendor/threex/THREEx.FullScreen.js"></script>
 		<script src="vendor/threex/THREEx.WindowResize.js"></script>
@@ -31,7 +30,6 @@
 		<script type="text/javascript" src="js/gamestats.js"></script>
 		<script type="text/javascript" src="js/graphics.js"></script>
 		<script type="text/javascript" src="js/utils.js"></script>
-
 		<script type="text/javascript" src="fonts/gentilis_bold.typeface.js"></script>
 		<script type="text/javascript" src="fonts/gentilis_regular.typeface.js"></script>
 		<script type="text/javascript" src="fonts/optimer_bold.typeface.js"></script>
@@ -45,14 +43,50 @@
 		<link href="css/main.css" rel="stylesheet">
 		<link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
 		<link href="vendor/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
-
 	</head>
 	<body>
 		<!-- three.js container -->
-		<div id="container"></div>
-		<div id="viewport"></div>
+		<!-- game view start NOT displayed -->
+		<div id="game-page" style="display: none">
+			<div class="sidebar-nav">
+				<div class="well" style="position: absolute; width:300px; top:80px; padding: 8px 0; p">
+					
+					<ul class="nav nav-list">
+						<li class="nav-header">
+							A2B
+						</li>
+						<li>
+							<a href="index"><i class="icon-home"></i> A2B</a>
+						</li>
+						<li class="divider"></li>
+						<li class="nav-header">
+							Level
+						</li>
+						<li>
+							<a href="#">Level: <span id="panel-level-name" class="badge badge-info"></span></a>
+						</li>
+						<li>
+							<a href="#">Time remaining: <span id="panel-time-remaining" class="badge badge-important"></span></a>
+						</li>
+						<li class="divider"></li>
+						<li>
+							<a href="#"><i class="icon-user"></i> Lives: <span id="panel-lives" class="badge badge-info"></span></a>
+						</li>
+						<li>
+							<a href="#"><i class="icon-star"></i> Score: <span id="panel-score" class="badge badge-info"></span></a>
+						</li>
+						<li class="divider"></li>
+						<li>
+							<a href="#"><i class="icon-cog"></i> Settings</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div id="viewport" style="width:600px; padding: 8px 0;">
+				<canvas id="test-canvas"></canvas>
+			</div>
+		</div>
 		<div class="bottom" id="inlineDoc" ></div>
-
 		<script type="text/javascript">
 			'use strict';
 
@@ -60,12 +94,14 @@
 			Physijs.scripts.ammo = 'ammo.js';
 
 			// methods
-			var startGame, gameController
+			var startGame, gameController, enableStartButton, disableStartButton;
 
 			startGame = function() {
 
-				// hide start button
+				// hide main-page
 				document.getElementById('main-page').style.display = 'none';
+				// display
+				document.getElementById('game-page').style.display = 'block';
 
 				var displayGraphicStats = true;
 				var displayGameStats = true;
@@ -73,6 +109,51 @@
 				gameController = A2B.GameController.createGameController(displayGameStats, displayGameStats);
 
 			};
+			
+			enableStartButton = function() {
+				$("#startGameButton").removeClass("hide");
+				$("#noWebGLButton").addClass("hide");
+				$("#startGameButton").click(function() {
+					startGame();
+				});
+			}
+
+			disableStartButton = function() {
+				$("#startGameButton").addClass("hide");
+				$("#noWebGLButton").removeClass("hide");
+				$("#noWebGLButton").click(function() {
+					// show no webGL dialog
+					$("#noWebGLDialogBox").modal("show");
+
+				});
+			}
+			
+			$(document).ready(function() {
+			    var testCanvas = document.getElementById("test-canvas");
+			    var experimental = false;
+			    try {
+			        var gl = testCanvas.getContext("webgl");
+			    } 
+			    catch (x) {
+			        gl = null;
+			    }
+			    if (gl == null) {
+			        try {
+			            gl = testCanvas.getContext("experimental-webgl");
+			            experimental = true;
+			        } 
+			        catch (x) {
+			            gl = null;
+			        }
+			    }
+			    if (gl) {
+			       // yes its supported
+					enableStartButton();
+			    } else {
+			    	// no its not
+					disableStartButton();
+			    }
+			});
 		</script>
 		<div class="container-narrow" id="main-page">
 
@@ -82,10 +163,7 @@
 						<a href="#">Home</a>
 					</li>
 					<li>
-						<a href="#">About</a>
-					</li>
-					<li>
-						<a href="#">Contact</a>
+						<a href="mailto:madeupemail@here.com">Contact</a>
 					</li>
 				</ul>
 				<h3 class="muted">A2B.js</h3>
@@ -98,7 +176,8 @@
 				<p class="lead">
 					A2B.js is a 3D game in your browser using Three.js and Physi.js libraries
 				</p>
-				<a class="btn btn-large btn-success" href="#" onclick="startGame()">Show me the game!</a>
+				<a id="startGameButton" class="btn btn-large btn-success hide" href="#">Show me the game!</a>
+				<a id="noWebGLButton" class="btn btn-large hide btn-danger" href="#">WebGL Not Supported</a>
 			</div>
 
 			<hr>
@@ -142,9 +221,8 @@
 		</div>
 
 		<!-- dialog stuff that is not initially displayed -->
-		<div id="startDialogBox" class="modal hide fade in" style="display: none; ">
+		<div id="startDialogBox" class="modal hide fade in" style="display: none; " data-backdrop="static" data-keyboard="false">
 			<div class="modal-header">
-				<!--<a class="close" data-dismiss="modal">‚àö√≥</a>-->
 				<h3 id="startDialogHeading">This is a Modal Heading</h3>
 			</div>
 			<div class="modal-body">
@@ -155,13 +233,11 @@
 			</div>
 			<div class="modal-footer">
 				<a href="#" class="btn btn-success" id="startDialogActionButton">Call to action</a>
-				<!--<a href="#" class="btn" data-dismiss="modal" id="dialogCloseButton">Close</a>-->
 			</div>
 		</div>
 
-		<div id="statusDialogBox" class="modal hide fade in" style="display: none; ">
+		<div id="statusDialogBox" class="modal hide fade in" style="display: none; " data-backdrop="static" data-keyboard="false">
 			<div class="modal-header">
-				<!--<a class="close" data-dismiss="modal">‚àö√≥</a>-->
 				<h3 id="statusDialogHeading">This is a Modal Heading</h3>
 			</div>
 			<div class="modal-body">
@@ -172,9 +248,24 @@
 			</div>
 			<div class="modal-footer">
 				<a href="#" class="btn btn-success" id="statusDialogActionButton">Call to action</a>
-				<!--<a href="#" class="btn" data-dismiss="modal" id="dialogCloseButton">Close</a>-->
 			</div>
 		</div>
+
+		<div id="noWebGLDialogBox" class="modal hide fade in" style="display: none; " data-backdrop="static" data-keyboard="false">
+			<div class="modal-header">
+				<h3 id="noWebGLDialogHeading">Your browser does not support Web G/L</h3>
+			</div>
+			<div class="modal-body">
+				<h4 id="noWebGLSubHeading">Unfortunately your browser does not appear to support WebGL</h4>
+				<p id="noWebGLDialogParagraph">
+					You will be unable to play A2B unless you use a different browser.  Try visiting this site for more details <a href="http://get.webgl.org/">http://get.webgl.org/</a>
+				</p>
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn" data-dismiss="modal" id="noWebGLDialogActionButton">Close</a>
+			</div>
+		</div>
+
 		<script src="vendor/jquery/jquery-1.8.2.js"></script>
 		<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 	</body>

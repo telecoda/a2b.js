@@ -1,9 +1,11 @@
 {
-    "name": "Tutorial Level One",
-    "objective" : "This level introduces the concept of getting from 'A' to 'B'. Move the ball forwards using the 'w' key.",
-    "completedMessage" : "You have mastered the basic controls of moving the ball forwards, let's see what challenge awaits you next...",
+	"name": "Tutorial Level Two",
+    "objective" : "This level introduces the concept of moving left and right. Move the ball using the 'a','d' keys.",
+    "completedMessage" : "You now know how to move left and right, what's next?",
     "author": "telecoda",
-    "textures": [
+    "timeLimit" : 60,
+    "minimumBallHeight" : -5,
+       "textures": [
         {
             "name": "rocks",
             "file": "tex_rocks.jpg"
@@ -71,9 +73,9 @@
                 "z": 120
         		},
              "lookAtPosition": {
-                "x": -35,
+                "x": 0,
                 "y": 5,
-                "z": -35
+                "z": 0
 				}
     	},
     "spheres": [
@@ -88,7 +90,7 @@
             "position": {
                 "x": 35,
                 "y": 15,
-                "z": 35
+                "z": -35
             },
             "rotation": {
                 "x": 0,
@@ -114,7 +116,7 @@
             "position": {
                 "x": 35,
                 "y": 5,
-                "z": 35
+                "z": -35
             },
             "rotation": {
                 "x": 0,
@@ -138,7 +140,7 @@
             "position": {
                 "x": -35,
                 "y": 5,
-                "z": -35
+                "z": 35
             },
             "rotation": {
                 "x": 0,

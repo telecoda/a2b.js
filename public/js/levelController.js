@@ -7,6 +7,10 @@
 /** @namespace */
 var A2B = A2B || {};
 
+//pointers to callback funcs
+var onLevelInitialised;
+var onLevelCompleted;
+var onPlayerDied;
  
 A2B.LevelController = function() {
 };
@@ -34,7 +38,7 @@ A2B.LevelController.createLevelScene = function(levelData,materials) {
 	// position camera
 	//gameView.camera.position=levelData.camera.position;
 	// pan camera to position
-	gameController.cameraControls.panCamera(levelData.camera.position);
+	//gameController.cameraControls.panCamera(levelData.camera.position);
 	
 	return scene; 
 };
@@ -52,11 +56,14 @@ A2B.LevelController.handleActiveSphereCollision = function( collided_with, linea
 	{
 		this.material.color.setHex(0xff0000);
 		// level has ended!
-		if(onLevelCompleted != undefined) {
+		if(gameModel.mode == LEVEL_RUNNING_MODE) {
+			onLevelCompleted();
+		}
+		/*if(onLevelCompleted != undefined) {
 			onLevelCompleted();
 			// disable repeated env of level calls
 			onLevelCompleted = undefined;
-		}
+		}*/
 	}
 	/*switch ( ++this.collisions ) {
 		
@@ -86,10 +93,7 @@ A2B.LevelController.handleActiveSphereCollision = function( collided_with, linea
 	}*/
 };
 
-// pointers to callback funcs
-var onLevelInitialised = null;
-var onLevelCompleted = null;
-var onPlayerDied = null;
+
 
 A2B.LevelController.initLevel = function(levelNum, onLevelInitialisedCallback, onLevelCompletedCallBack , onPlayerDiedCallBack) {
 	// this method initialises a level from the json file describing the level.
@@ -170,13 +174,23 @@ A2B.LevelController.saveLevelToFile = function(path, levelName) {
 
 A2B.LevelController.validateLevel = function(levelData) {
 	/* this method is to validate that the levelData has all the mandatory attributes */
-	var errors = [];
+	var errors = []; 
 	var i=0;
 	// name check
 	if(levelData.name==undefined) {
 		// level must have a name
 		errors[i++]="Level does not have a name";
 	}
+	if(levelData.timeLimit==undefined) {
+		// level must have a time limit
+		errors[i++]="Level does not have a timeLimit";
+	}
+
+	if(levelData.minimumBallHeight==undefined) {
+		// level must have a minimum ball height
+		errors[i++]="Level does not have a minimumBallHeight";
+	}
+
 	// lights
 	if(levelData.lights==undefined) {
 		// level must have at least one light
@@ -191,7 +205,7 @@ A2B.LevelController.validateLevel = function(levelData) {
 
 	if(levelData.camera.position==undefined) {
 		// level must have a camera postion
-		errors[i++]="Level does not have a camera defined";
+		errors[i++]="Level does not have a camera.position defined";
 	}
 
 	if(levelData.camera.lookAtPosition==undefined) {
