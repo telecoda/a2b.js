@@ -431,36 +431,37 @@ A2B.GameController.startNewGame = function() {
 
 A2B.GameController.startMainMenu = function() {
 
-	var onMenuInitialised = function(menuScene) {
-		// this function is called when the menu scene has been initialised
-
-		gameModel.mode = MAIN_MENU_MODE;
-		// replace current scene with new scene
-		gameView.scene = menuScene;
-
-		gameView.camera = A2B.GameView.createCamera();
-		gameView.scene.add(gameView.camera);
-		// position camera
-		gameView.camera.lookAt(gameView.scene.position);
-
-		gameController.cameraControls = A2B.GameController.createCameraControls(gameView.camera);
-
-		var onActionButton = function(event) {
-			console.log("onMenuInitialised.onActionButton method");
-			A2B.GameController.startNewGame();
-		}
-		// display start game dialog
-
-		var heading = "Welcome to A2B";
-		var subHeading = "Mission directive:";
-		var paragraph = "Get the ball from point A to point B. That's it!";
-		var actionButtonText = "Play";
-		A2B.GameController.initStatusDialog(onActionButton, heading, subHeading, paragraph, actionButtonText);
-
-	}
 	// load details of the main menu
-	var menuScene = A2B.MenuController.initMenu("mainMenu", onMenuInitialised);
+	var menuScene = A2B.MenuController.initMenuData("mainMenu", A2B.GameController.onMenuInitialised);
 
+}
+
+A2B.GameController.onMenuInitialised = function(menuScene) {
+	// this function is called when the menu scene has been initialised
+
+	gameModel.mode = MAIN_MENU_MODE;
+	// replace current scene with new scene
+	gameView.scene = menuScene;
+
+	gameView.camera = A2B.GameView.createCamera();
+	gameView.scene.add(gameView.camera);
+	// position camera
+	gameView.camera.lookAt(gameView.scene.position);
+
+	gameController.cameraControls = A2B.GameController.createCameraControls(gameView.camera);
+
+	//var onActionButton = function(event) {
+	//	console.log("onMenuInitialised.onActionButton method");
+	//	A2B.GameController.startNewGame();
+	//}
+	// display start game dialog
+
+	//var heading = "Welcome to A2B";
+	//var subHeading = "Mission directive:";
+	//var paragraph = "Get the ball from point A to point B. That's it!";
+	//var actionButtonText = "Play";
+	//A2B.GameController.initStatusDialog(onActionButton, heading, subHeading, paragraph, actionButtonText);
+	A2B.MenuController.initMainMenuDialog();
 }
 
 A2B.GameController.startNewLevel = function() {

@@ -94,9 +94,9 @@
 			Physijs.scripts.ammo = 'ammo.js';
 
 			// methods
-			var startGame, gameController, enableStartButton, disableStartButton;
+			var showGame, gameController, enableStartButton, disableStartButton;
 
-			startGame = function() {
+			showGame = function() {
 
 				// hide main-page
 				document.getElementById('main-page').style.display = 'none';
@@ -111,15 +111,15 @@
 			};
 			
 			enableStartButton = function() {
-				$("#startGameButton").removeClass("hide");
+				$("#showGameButton").removeClass("hide");
 				$("#noWebGLButton").addClass("hide");
-				$("#startGameButton").click(function() {
-					startGame();
+				$("#showGameButton").click(function() {
+					showGame();
 				});
 			}
 
 			disableStartButton = function() {
-				$("#startGameButton").addClass("hide");
+				$("#showGameButton").addClass("hide");
 				$("#noWebGLButton").removeClass("hide");
 				$("#noWebGLButton").click(function() {
 					// show no webGL dialog
@@ -176,7 +176,7 @@
 				<p class="lead">
 					A2B.js is a 3D game in your browser using Three.js and Physi.js libraries
 				</p>
-				<a id="startGameButton" class="btn btn-large btn-success hide" href="#">Show me the game!</a>
+				<a id="showGameButton" class="btn btn-large btn-success hide" href="#">Show me the game!</a>
 				<a id="noWebGLButton" class="btn btn-large hide btn-danger" href="#">WebGL Not Supported</a>
 			</div>
 
@@ -221,18 +221,21 @@
 		</div>
 
 		<!-- dialog stuff that is not initially displayed -->
-		<div id="startDialogBox" class="modal hide fade in" style="display: none; " data-backdrop="static" data-keyboard="false">
+		<div id="mainMenuDialogBox" class="modal hide fade in" style="display: none; " data-backdrop="static" data-keyboard="false">
 			<div class="modal-header">
-				<h3 id="startDialogHeading">This is a Modal Heading</h3>
+				<h3 id="mainMenuDialogHeading">Welcome to A2B</h3>
 			</div>
 			<div class="modal-body">
-				<h4 id="startDialogSubHeading">Text in a modal</h4>
-				<p id="startDialogParagraph">
+				<h4 id="mainMenuDialogSubHeading">Options:-</h4>
+				<p id="mainMenuDialogParagraph">
 					You can add some text here.
 				</p>
+				<ul  class="unstyled">
+					<li><a href="#" class="btn btn-primary btn-success span5" id="startGameActionButton">Start Game</a></li>
+					<li><a href="#" class="btn btn-primary span5" id="editLevelActionButton">Edit Level</a></li>
+				</ul>
 			</div>
 			<div class="modal-footer">
-				<a href="#" class="btn btn-success" id="startDialogActionButton">Call to action</a>
 			</div>
 		</div>
 

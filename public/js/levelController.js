@@ -15,6 +15,10 @@ var onPlayerDied;
 A2B.LevelController = function() {
 };
 
+A2B.LevelController.startLevelEditor = function() {
+	
+	alert("Level editor selected!");
+}
 
 
 A2B.LevelController.createLevelScene = function(levelData,materials) {

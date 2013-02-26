@@ -29,7 +29,7 @@ A2B.MenuController.createMenuScene = function(menuData,materials) {
 };
 
 
-A2B.MenuController.initMenu = function(menuName, onMenuInitialised) {
+A2B.MenuController.initMenuData = function(menuName, onMenuInitialised) {
 	// this method initialises a menu from the json file describing the menu.
 	// it goes through the following steps:-
 	// i.) read menu definition from json file and parse into "menuData" object.
@@ -79,6 +79,7 @@ A2B.MenuController.initMenu = function(menuName, onMenuInitialised) {
 		// create materials
 		var materials = A2B.Graphics.createMaterials(menuData.materials, textures);
 		var menuScene = A2B.MenuController.createMenuScene(menuData,materials);
+		
 		onMenuInitialised(menuScene);	
 	}
 
@@ -92,6 +93,35 @@ A2B.MenuController.initMenu = function(menuName, onMenuInitialised) {
 
 	A2B.Utils.asyncFileLoad(url, onMenuLoaded, onMenuError);
 	
+	
+}
+
+A2B.MenuController.initMainMenuDialog = function() {
+	
+	var onStartGameClick = function(event) {
+		console.log("mainMenuDialog.onStartGameClick method");
+		$("#mainMenuDialogBox").modal('hide');
+		// delay action callback to allow previous fade in/out to complete cleanly
+		setTimeout(A2B.GameController.startNewGame(), 1000);
+		
+ 
+	}
+
+	var onEditLevelClick = function(event) {
+		console.log("mainMenuDialog.onEditLevelClick method");
+		$("#mainMenuDialogBox").modal('hide');
+		// delay action callback to allow previous fade in/out to complete cleanly
+		setTimeout(A2B.LevelController.startLevelEditor(), 1000);
+
+	}
+
+	
+	$("#startGameActionButton").unbind('click');
+	$("#startGameActionButton").click(onStartGameClick);
+	$("#editLevelActionButton").unbind('click');
+	$("#editLevelActionButton").click(onEditLevelClick);
+	$("#mainMenuDialogBox").modal("show");
+
 	
 }
 
@@ -174,7 +204,9 @@ A2B.MenuController.mainMenuModeInitScene = function() {
 
 	return scene;
 };
+
 */
+
 
 A2B.MenuController.validateMenu = function(menuData) {
 	/* this method is to validate that the menuData has all the mandatory attributes */
