@@ -70,7 +70,7 @@ A2B.GameController.initFullscreenCapability = function() {
 	// allow 'f' to go fullscreen where this feature is supported
 	if (THREEx.FullScreen.available()) {
 		THREEx.FullScreen.bindKey();
-		document.getElementById('inlineDoc').innerHTML += "- <i>f</i> for fullscreen";
+		//document.getElementById('inlineDoc').innerHTML += "- <i>f</i> for fullscreen";
 	}
 
 };
@@ -450,17 +450,6 @@ A2B.GameController.onMenuInitialised = function(menuScene) {
 
 	gameController.cameraControls = A2B.GameController.createCameraControls(gameView.camera);
 
-	//var onActionButton = function(event) {
-	//	console.log("onMenuInitialised.onActionButton method");
-	//	A2B.GameController.startNewGame();
-	//}
-	// display start game dialog
-
-	//var heading = "Welcome to A2B";
-	//var subHeading = "Mission directive:";
-	//var paragraph = "Get the ball from point A to point B. That's it!";
-	//var actionButtonText = "Play";
-	//A2B.GameController.initStatusDialog(onActionButton, heading, subHeading, paragraph, actionButtonText);
 	A2B.MenuController.initMainMenuDialog();
 }
 

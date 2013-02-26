@@ -91,8 +91,8 @@ A2B.GameView.createRenderer = function() {
 	renderer.shadowMapSoft = true;
 	renderer.domElement.style.position = 'absolute';
 	renderer.domElement.style.top = '0px';
-	renderer.domElement.style.left = '300px';
-	renderer.domElement.style.zIndex = 100;
+	renderer.domElement.style.left = '0px';
+	renderer.domElement.style.zIndex = -100;
 	
 	document.getElementById('viewport').appendChild(renderer.domElement);
 
