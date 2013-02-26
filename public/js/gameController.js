@@ -424,6 +424,10 @@ A2B.GameController.setMousePosition = function(event) {
 A2B.GameController.startNewGame = function() {
 	// init variables for a new game
 	gameModel = new A2B.GameModel();
+	
+	// display game hud
+	$("#game-hud").removeClass("hide");
+	$("#editing-menu").addClass("hide");
 
 	A2B.GameController.startNewLevel();
 

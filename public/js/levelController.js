@@ -17,7 +17,34 @@ A2B.LevelController = function() {
 
 A2B.LevelController.startLevelEditor = function() {
 	
-	alert("Level editor selected!");
+	// display editing menu
+	$("#editing-menu").removeClass("hide");
+	$("#game-hud").addClass("hide");
+
+	// bind click handlers
+	$("#new-level-button").click(A2B.LevelController.createNewLevel);
+	$("#load-level-button").click(A2B.LevelController.loadLevel);
+	$("#save-level-button").click(A2B.LevelController.saveLevel);
+
+	
+}
+
+A2B.LevelController.createNewLevel = function() {
+	
+	// selected from menu
+	alert("Create new level selected!");
+}
+
+A2B.LevelController.loadLevel = function() {
+	
+	// selected from menu
+	alert("Load level selected!");
+}
+
+A2B.LevelController.saveLevel = function() {
+	
+	// selected from menu
+	alert("Save level selected!");
 }
 
 

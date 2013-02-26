@@ -48,7 +48,7 @@
 		<!-- three.js container -->
 		<!-- game view start NOT displayed -->
 		<div id="game-page" style="display: none">
-			<div class="sidebar-nav">
+			<div id="game-hud" class="sidebar-nav hide">
 				<div class="well" style="position: absolute; width:300px; top:80px; padding: 8px 0; p">
 					<ul class="nav nav-list">
 						<li class="nav-header">
@@ -73,6 +73,33 @@
 						</li>
 						<li>
 							<a href="#"><i class="icon-star"></i> Score: <span id="panel-score" class="badge badge-info"></span></a>
+						</li>
+						<li class="divider"></li>
+						<li>
+							<a href="#"><i class="icon-cog"></i> Settings</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div id="editing-menu" class="sidebar-nav hide">
+				<div class="well" style="position: absolute; width:300px; top:80px; padding: 8px 0; p">
+					<ul class="nav nav-list">
+						<li class="nav-header">
+							A2B
+						</li>
+					<a href="#" id="new-level-button" class="btn btn-small">New</a>
+					<a href="#" id="load-level-button" class="btn btn-small">Load</a>
+					<a href="#" id="save-level-button" class="btn btn-small">Save</a>
+						<li class="divider"></li>
+						<li class="nav-header">
+							Level Editor
+						</li>
+						<li>
+							<a href="#">Level: <span id="edit-level-name" class="badge badge-info"></span></a>
+						</li>
+						<li class="divider"></li>
+						<li>
+							<a href="#">Level: <span id="edit-level-name" class="badge badge-info"></span></a>
 						</li>
 						<li class="divider"></li>
 						<li>
@@ -230,7 +257,7 @@
 				</p>
 				<ul  class="unstyled">
 					<li><a href="#" class="btn btn-primary btn-success span5" id="startGameActionButton">Start Game</a></li>
-					<li><a href="#" class="btn btn-primary span5" id="editLevelActionButton">Edit Level</a></li>
+					<li><a href="#" class="btn btn-primary span5" id="editLevelActionButton">Level Editor</a></li>
 				</ul>
 			</div>
 			<div class="modal-footer">
