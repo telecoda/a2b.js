@@ -17,6 +17,11 @@ A2B.LevelController = function() {
 
 A2B.LevelController.startLevelEditor = function() {
 	
+	// init variables for a new game
+	gameModel = new A2B.GameModel();
+	
+	gameModel.mode = LEVEL_EDIT_MODE;
+	
 	// display editing menu
 	$("#editing-menu").removeClass("hide");
 	$("#game-hud").addClass("hide");
@@ -38,7 +43,9 @@ A2B.LevelController.createNewLevel = function() {
 A2B.LevelController.loadLevel = function() {
 	
 	// selected from menu
-	alert("Load level selected!");
+	// load details of the level
+	A2B.LevelController.initLevel(gameModel.levelNum, A2B.LevelController.onLevelLoaded, null,null);
+
 }
 
 A2B.LevelController.saveLevel = function() {
@@ -47,6 +54,11 @@ A2B.LevelController.saveLevel = function() {
 	alert("Save level selected!");
 }
 
+A2B.LevelController.onLevelLoaded = function(levelModel) {
+
+	alert("Level loading complete!");
+	
+}
 
 A2B.LevelController.createLevelScene = function(levelData,materials) {
 	// This method will create a new scene object from the level data and return it
