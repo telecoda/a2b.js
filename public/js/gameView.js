@@ -31,6 +31,15 @@ A2B.GameView.createGameView = function(displayGraphicStats, displayGameStats) {
 		gameView.gameStats = A2B.GameView.createGameStats();
 	}
 	
+	gameView.setSceneToRender = function(currentScene) {
+		gameView.scene = currentScene;
+
+		gameView.camera = A2B.GameView.createCamera();
+		gameView.scene.add(gameView.camera);
+		
+	};
+	
+
 
 	return gameView;
 };

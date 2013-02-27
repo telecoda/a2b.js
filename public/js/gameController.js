@@ -250,14 +250,11 @@ A2B.GameController.onLevelInitialised = function(levelModel) {
 
 	gameModel.mode = LEVEL_INTRO_MODE;
 
-	gameModel.currentLevel = levelModel;
-	gameModel.timeRemaining = levelModel.levelData.timeLimit;
+	gameModel.setCurrentLevel(levelModel);
+	
 	// replace current scene with new level
-	gameView.scene = gameModel.currentLevel.scene;
-
-	gameView.camera = A2B.GameView.createCamera();
-	gameView.scene.add(gameView.camera);
-
+	gameView.setSceneToRender(gameModel.currentLevel.scene);
+		
 	// position camera
 	gameController.cameraControls = A2B.GameController.createCameraControls(gameView.camera, levelModel.levelData.camera.position, levelModel.levelData.camera.lookAtPosition);
 
@@ -480,8 +477,10 @@ A2B.GameController.startRenderCallback = function() {
 			A2B.GameController.checkFallingBall();
 		}
 
-		// update object physics
-		gameView.scene.simulate(undefined, 2);
+		// do not update physics when editing a leve
+		if(gameModel.mode != LEVEL_EDIT_MODE) {
+			gameView.scene.simulate(undefined, 2);
+		}
 		requestAnimationFrame(render);
 		gameView.renderer.render(gameView.scene, gameView.camera);
 

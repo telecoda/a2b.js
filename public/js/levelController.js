@@ -56,7 +56,14 @@ A2B.LevelController.saveLevel = function() {
 
 A2B.LevelController.onLevelLoaded = function(levelModel) {
 
-	alert("Level loading complete!");
+	gameModel.setCurrentLevel(levelModel);
+	
+	// replace current scene with new level
+	gameView.setSceneToRender(gameModel.currentLevel.scene);
+	
+	// position camera
+	gameController.cameraControls = A2B.GameController.createCameraControls(gameView.camera, levelModel.levelData.camera.position, levelModel.levelData.camera.lookAtPosition);
+
 	
 }
 

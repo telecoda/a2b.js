@@ -37,6 +37,11 @@ A2B.GameModel = function() {
 	this.decreaseLives = function () {
 		this.lives--;
 	}
+	
+	this.setCurrentLevel = function(levelModel) {
+		gameModel.currentLevel = levelModel;
+		gameModel.timeRemaining = levelModel.levelData.timeLimit;
+	}
 };
 
 
