@@ -10,7 +10,9 @@
 		<!-- physicjs https://github.com/chandlerprall/Physijs -->
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
 		<script src="vendor/jquery/jquery-1.8.2.js"></script>
+		<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 		<script src="vendor/three.js/Three.js"></script>
 		<script src="vendor/three.js/Detector.js"></script>
 		<!-- https://github.com/mrdoob/stats.js -->
@@ -112,74 +114,6 @@
 				<canvas id="test-canvas"></canvas>
 			</div>
 		</div>
-		<script type="text/javascript">
-			'use strict';
-
-			Physijs.scripts.worker = 'vendor/physi.js/physijs_worker.js';
-			Physijs.scripts.ammo = 'ammo.js';
-
-			// methods
-			var showGame, gameController, enableStartButton, disableStartButton;
-
-			showGame = function() {
-
-				// hide main-page
-				document.getElementById('main-page').style.display = 'none';
-				// display
-				document.getElementById('game-page').style.display = 'block';
-
-				var displayGraphicStats = true;
-				var displayGameStats = true;
-
-				gameController = A2B.GameController.createGameController(displayGameStats, displayGameStats);
-
-			};
-			
-			enableStartButton = function() {
-				$("#showGameButton").removeClass("hide");
-				$("#noWebGLButton").addClass("hide");
-				$("#showGameButton").click(function() {
-					showGame();
-				});
-			}
-
-			disableStartButton = function() {
-				$("#showGameButton").addClass("hide");
-				$("#noWebGLButton").removeClass("hide");
-				$("#noWebGLButton").click(function() {
-					// show no webGL dialog
-					$("#noWebGLDialogBox").modal("show");
-
-				});
-			}
-			
-			$(document).ready(function() {
-			    var testCanvas = document.getElementById("test-canvas");
-			    var experimental = false;
-			    try {
-			        var gl = testCanvas.getContext("webgl");
-			    } 
-			    catch (x) {
-			        gl = null;
-			    }
-			    if (gl == null) {
-			        try {
-			            gl = testCanvas.getContext("experimental-webgl");
-			            experimental = true;
-			        } 
-			        catch (x) {
-			            gl = null;
-			        }
-			    }
-			    if (gl) {
-			       // yes its supported
-					enableStartButton();
-			    } else {
-			    	// no its not
-					disableStartButton();
-			    }
-			});
-		</script>
 		<div class="container-narrow" id="main-page">
 
 			<div class="masthead">
@@ -216,7 +150,7 @@
 
 					<h4>Level Editor</h4>
 					<p>
-						There are plans later on to release a level editor for the game to allow people to develop their own levels.
+						There is a level editor now under development.
 					</p>
 
 				</div>
@@ -293,9 +227,74 @@
 				<a href="#" class="btn" data-dismiss="modal" id="noWebGLDialogActionButton">Close</a>
 			</div>
 		</div>
+		<script type="text/javascript">
+			'use strict';
 
-		<script src="vendor/jquery/jquery-1.8.2.js"></script>
-		<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+			Physijs.scripts.worker = 'vendor/physi.js/physijs_worker.js';
+			Physijs.scripts.ammo = 'ammo.js';
+
+			// methods
+			var showGame, gameController, enableStartButton, disableStartButton;
+
+			showGame = function() {
+
+				// hide main-page
+				document.getElementById('main-page').style.display = 'none';
+				// display
+				document.getElementById('game-page').style.display = 'block';
+
+				var displayGraphicStats = true;
+				var displayGameStats = true;
+
+				gameController = A2B.GameController.createGameController(displayGameStats, displayGameStats);
+
+			};
+			
+			enableStartButton = function() {
+				$("#showGameButton").removeClass("hide");
+				$("#noWebGLButton").addClass("hide");
+				$("#showGameButton").click(function() {
+					showGame();
+				});
+			}
+
+			disableStartButton = function() {
+				$("#showGameButton").addClass("hide");
+				$("#noWebGLButton").removeClass("hide");
+				$("#noWebGLButton").click(function() {
+					// show no webGL dialog
+					$("#noWebGLDialogBox").modal("show");
+
+				});
+			}
+			
+			$(document).ready(function() {
+			    var testCanvas = document.getElementById("test-canvas");
+			    var experimental = false;
+			    try {
+			        var gl = testCanvas.getContext("webgl");
+			    } 
+			    catch (x) {
+			        gl = null;
+			    }
+			    if (gl == null) {
+			        try {
+			            gl = testCanvas.getContext("experimental-webgl");
+			            experimental = true;
+			        } 
+			        catch (x) {
+			            gl = null;
+			        }
+			    }
+			    if (gl) {
+			       // yes its supported
+					enableStartButton();
+			    } else {
+			    	// no its not
+					disableStartButton();
+			    }
+			});
+		</script>
 	</body>
 
 </html>
