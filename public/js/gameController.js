@@ -25,8 +25,9 @@ A2B.GameController = function() {
 
 A2B.GameController.createCameraControls = function(camera, position, lookAtPosition) {
 
-	var cameraControls = new THREE.TrackballControls(camera);
-
+	//var cameraControls = new THREE.DomElementTrackballControls(camera,gameView.renderer.domElement);
+	var cameraControls = new THREE.TrackballControls(camera,gameView.renderer.domElement);
+	
 	if (lookAtPosition == undefined) {
 		cameraControls.target.set(0, 0, 0);
 	} else {
@@ -52,8 +53,8 @@ A2B.GameController.createGameController = function(displayGraphicStats, displayG
 	gameController.cameraControls = A2B.GameController.createCameraControls(gameView.camera);
 
 	A2B.GameController.initWindowResize();
-	A2B.GameController.initScreenshotCapability();
-	A2B.GameController.initFullscreenCapability();
+	//A2B.GameController.initScreenshotCapability();
+	//A2B.GameController.initFullscreenCapability();
 	gameController.mouse = A2B.GameController.initMouseMoveListener();
 
 	A2B.GameController._currentEventListener = null;

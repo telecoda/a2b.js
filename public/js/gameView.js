@@ -101,10 +101,11 @@ A2B.GameView.createRenderer = function() {
 	renderer.domElement.style.position = 'absolute';
 	renderer.domElement.style.top = '0px';
 	renderer.domElement.style.left = '0px';
-	renderer.domElement.style.zIndex = -100;
+	//renderer.domElement.style.zIndex = 10;
+	renderer.domElement.id = "gameCanvas";
 	
 	document.getElementById('viewport').appendChild(renderer.domElement);
-
+	
 	return renderer;
 
 };
