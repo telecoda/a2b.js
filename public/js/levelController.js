@@ -44,7 +44,7 @@ A2B.LevelController.loadLevel = function() {
 	
 	// selected from menu
 	// load details of the level
-	A2B.LevelController.initLevel(gameModel.levelNum, A2B.LevelController.onLevelLoaded, null,null);
+	A2B.LevelController.initLevel(gameModel.levelNum, A2B.LevelController.onLevelToEditLoaded, null,null);
 
 }
 
@@ -54,7 +54,7 @@ A2B.LevelController.saveLevel = function() {
 	alert("Save level selected!");
 }
 
-A2B.LevelController.onLevelLoaded = function(levelModel) {
+A2B.LevelController.onLevelToEditLoaded = function(levelModel) {
 
 	gameModel.setCurrentLevel(levelModel);
 	
@@ -64,8 +64,21 @@ A2B.LevelController.onLevelLoaded = function(levelModel) {
 	// position camera
 	gameController.cameraControls = A2B.GameController.createCameraControls(gameView.camera, levelModel.levelData.camera.position, levelModel.levelData.camera.lookAtPosition);
 
+	A2B.LevelController.bindLevelDataToEditorUI(gameModel.currentLevel.levelData);
 	
 }
+
+A2B.LevelController.bindLevelDataToEditorUI = function(levelData) {
+	
+	$("#edit-level-name").val(levelData.name);
+	$("#edit-level-author").val(levelData.author);
+	$("#edit-level-objective").val(levelData.objective);
+	$("#edit-level-completedMessage").val(levelData.completedMessage);
+	$("#edit-level-timeLimit").val(levelData.timeLimit);
+	$("#edit-level-minimumBallHeight").val(levelData.minimumBallHeight);
+	
+};
+
 
 A2B.LevelController.createLevelScene = function(levelData,materials) {
 	// This method will create a new scene object from the level data and return it

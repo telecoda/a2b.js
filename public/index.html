@@ -22,8 +22,6 @@
 		<script src="vendor/threex/THREEx.FullScreen.js"></script>
 		<script src="vendor/threex/THREEx.WindowResize.js"></script>
 		<script type="text/javascript" src="vendor/physi.js/physi.js"></script>
-		<!-- customised ThreeJS -->
-		<script type="text/javascript" src="js/DomElementTrackballControls.js"></script>
 		<!-- game specific scripts -->
 		<script type="text/javascript" src="js/gameView.js"></script>
 		<script type="text/javascript" src="js/gameController.js"></script>
@@ -86,24 +84,26 @@
 				</div>
 			</div>
 			<div id="editing-menu" class="sidebar-nav hide">
-				<div class="well" style="position: absolute; z-index:10;width:300px; top:80px; padding: 8px 0; p">
+				<div class="well" style="position: absolute; z-index:10;width:300px; top:20px; padding: 8px 0; p">
 					<ul class="nav nav-list">
 						<li class="nav-header">
-							A2B
+							A2B - Level Editor
 						</li>
-					<a href="#" id="new-level-button" class="btn btn-small">New</a>
-					<a href="#" id="load-level-button" class="btn btn-small">Load</a>
-					<a href="#" id="save-level-button" class="btn btn-small">Save</a>
-						<li class="divider"></li>
-						<li class="nav-header">
-							Level Editor
-						</li>
-						<li>
-							<a href="#">Level: <span id="edit-level-name" class="badge badge-info"></span></a>
-						</li>
-						<li class="divider"></li>
-					</ul>	
-							<a href="#">Level name:</a><input type="text" id="edit-level-name">
+						<form id="edit-level-form" class="form-inline">
+							<a href="#" id="new-level-button" class="btn btn-small">New</a>
+							<a href="#" id="load-level-button" class="btn btn-small">Load</a>
+							<a href="#" id="save-level-button" class="btn btn-small">Save</a>
+							<ul class="nav nav-list">
+								<li class="divider"></li>
+								<li><a href="#">Level name:</a><input type="text" id="edit-level-name"></li>
+								<li><a href="#">Author:</a><input type="text" id="edit-level-author"></li>
+								<li><a href="#">Objective:</a><textarea rows="3" id="edit-level-objective"></textarea></li>
+								<li><a href="#">Completed message:</a><textarea rows="3" id="edit-level-completedMessage"></textarea></li>
+								<li><a href="#">Time limit:</a><input type="number" min=1 max=600 id="edit-level-timeLimit"></li>
+								<li><a href="#">Minimum ball height:</a><input type="number" min=-20 max=0 id="edit-level-minimumBallHeight"></li>
+							</ul>
+						</form>
+					</ul>
 					
 				</div>
 			</div>
