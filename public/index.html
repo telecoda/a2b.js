@@ -93,7 +93,19 @@
 							<a href="#" id="new-level-button" class="btn btn-small">New</a>
 							<a href="#" id="load-level-button" class="btn btn-small">Load</a>
 							<a href="#" id="save-level-button" class="btn btn-small">Save</a>
-							<ul class="nav nav-list" style="padding: 0px 0; ">
+							
+						</form>
+					</ul>
+					<div class="accordion" id="levelEditAccordion">
+					  <div class="accordion-group">
+					    <div class="accordion-heading">
+					      <a class="accordion-toggle" data-toggle="collapse" data-parent="#levelEditAccordion" href="#levelDetails">
+					        Level Details +
+					      </a>
+					    </div>
+					    <div id="levelDetails" class="accordion-body collapse">
+					      <div class="accordion-inner">
+					   		<ul class="nav nav-list" style="padding: 0px 0; ">
 								<li class="divider"></li>
 								<li><a href="#">Level name:</a><input type="text" id="edit-level-name"></li>
 								<li><a href="#">Author:</a><input type="text" id="edit-level-author"></li>
@@ -102,9 +114,82 @@
 								<li><a href="#">Time limit:</a><input style="padding: 0px 0px" type="number" min=1 max=600 id="edit-level-timeLimit"></li>
 								<li><a href="#">Minimum ball height:</a><input style="padding: 0px 0px"type="number" min=-20 max=0 id="edit-level-minimumBallHeight"></li>
 							</ul>
-						</form>
-					</ul>
-					
+					      </div>
+					    </div>
+					  </div>
+					  <div class="accordion-group">
+					    <div class="accordion-heading">
+					      <a class="accordion-toggle" data-toggle="collapse" data-parent="#levelEditAccordion" href="#textureDetails">
+					        Textures +
+					      </a>
+					    </div>
+					    <div id="textureDetails" class="accordion-body collapse">
+					      <div class="accordion-inner">
+					        Texture details here
+					      </div>
+					    </div>
+					  </div>
+					  <div class="accordion-group">
+					    <div class="accordion-heading">
+					      <a class="accordion-toggle" data-toggle="collapse" data-parent="#levelEditAccordion" href="#materialDetails">
+					        Materials +
+					      </a>
+					    </div>
+					    <div id="materialDetails" class="accordion-body collapse">
+					      <div class="accordion-inner">
+					        Material details here
+					      </div>
+					    </div>
+					  </div>
+					  <div class="accordion-group">
+					    <div class="accordion-heading">
+					      <a class="accordion-toggle" data-toggle="collapse" data-parent="#levelEditAccordion" href="#lightDetails">
+					        Lights +
+					      </a>
+					    </div>
+					    <div id="lightDetails" class="accordion-body collapse">
+					      <div class="accordion-inner">
+					        Light details here
+					      </div>
+					    </div>
+					  </div>
+					  <div class="accordion-group">
+					    <div class="accordion-heading">
+					      <a class="accordion-toggle" data-toggle="collapse" data-parent="#levelEditAccordion" href="#sphereDetails">
+					        Spheres +
+					      </a>
+					    </div>
+					    <div id="sphereDetails" class="accordion-body collapse">
+					      <div class="accordion-inner">
+					        Sphere details here
+					      </div>
+					    </div>
+					  </div>
+					  <div class="accordion-group">
+					    <div class="accordion-heading">
+					      <a class="accordion-toggle" data-toggle="collapse" data-parent="#levelEditAccordion" href="#blockDetails">
+					        Blocks +
+					      </a>
+					    </div>
+					    <div id="blockDetails" class="accordion-body collapse">
+					      <div class="accordion-inner">
+					        Block details here
+					      </div>
+					    </div>
+					  </div>
+					  <div class="accordion-group">
+					    <div class="accordion-heading">
+					      <a class="accordion-toggle" data-toggle="collapse" data-parent="#levelEditAccordion" href="#cameraDetails">
+					        Camera +
+					      </a>
+					    </div>
+					    <div id="cameraDetails" class="accordion-body collapse">
+					      <div class="accordion-inner">
+					        Camera details here
+					      </div>
+					    </div>
+					  </div>
+					</div>
 				</div>
 			</div>
 			<canvas id="test-canvas"></canvas>
