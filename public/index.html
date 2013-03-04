@@ -42,9 +42,9 @@
 		<script type="text/javascript" src="fonts/droid/droid_sans_bold.typeface.js"></script>
 		<script type="text/javascript" src="fonts/droid/droid_serif_regular.typeface.js"></script>
 		<script type="text/javascript" src="fonts/droid/droid_serif_bold.typeface.js"></script>
-		<link href="css/main.css" rel="stylesheet">
 		<link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
 		<link href="vendor/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+		<link href="css/main.css" rel="stylesheet">
 	</head>
 	<body>
 		<!-- three.js container -->
@@ -84,7 +84,7 @@
 				</div>
 			</div>
 			<div id="editing-menu" class="sidebar-nav hide">
-				<div class="well" style="position: absolute; z-index:10;width:300px; top:20px; padding: 8px 0; p">
+				<div class="well" style="position: absolute; z-index:10;width:300px; top:20px; padding: 0px 0; ">
 					<ul class="nav nav-list">
 						<li class="nav-header">
 							A2B - Level Editor
@@ -93,14 +93,14 @@
 							<a href="#" id="new-level-button" class="btn btn-small">New</a>
 							<a href="#" id="load-level-button" class="btn btn-small">Load</a>
 							<a href="#" id="save-level-button" class="btn btn-small">Save</a>
-							<ul class="nav nav-list">
+							<ul class="nav nav-list" style="padding: 0px 0; ">
 								<li class="divider"></li>
 								<li><a href="#">Level name:</a><input type="text" id="edit-level-name"></li>
 								<li><a href="#">Author:</a><input type="text" id="edit-level-author"></li>
 								<li><a href="#">Objective:</a><textarea rows="3" id="edit-level-objective"></textarea></li>
 								<li><a href="#">Completed message:</a><textarea rows="3" id="edit-level-completedMessage"></textarea></li>
-								<li><a href="#">Time limit:</a><input type="number" min=1 max=600 id="edit-level-timeLimit"></li>
-								<li><a href="#">Minimum ball height:</a><input type="number" min=-20 max=0 id="edit-level-minimumBallHeight"></li>
+								<li><a href="#">Time limit:</a><input style="padding: 0px 0px" type="number" min=1 max=600 id="edit-level-timeLimit"></li>
+								<li><a href="#">Minimum ball height:</a><input style="padding: 0px 0px"type="number" min=-20 max=0 id="edit-level-minimumBallHeight"></li>
 							</ul>
 						</form>
 					</ul>
@@ -209,6 +209,25 @@
 				<a href="#" class="btn btn-success" id="statusDialogActionButton">Call to action</a>
 			</div>
 		</div>
+		
+		<div id="saveLevelDialogBox" class="modal hide fade in" style="display: none; " data-backdrop="static" data-keyboard="false">
+			<div class="modal-header">
+				<h3 id="saveLevelDialogHeading">Save Level</h3>
+			</div>
+			<div class="modal-body">
+				<h4 id="saveLevelDialogSubHeading">Save this JSON data to a level file</h4>
+				<p id="saveLevelDialogParagraph">
+					For now level editing does not allow you to save levels to a server.  Copy and paste this JSON into a level file for loading in the game.
+				</p>
+				<textarea id="saveLevelJSONData" class="span5" rows="15"></textarea>
+				<ul  class="unstyled">
+					<a href="#" class="btn pull-right" data-dismiss="modal" id="saveLevelDialogActionButton">Close</a>
+				</ul>
+			</div>
+			<div class="modal-footer">
+			</div>
+		</div>
+
 
 		<div id="noWebGLDialogBox" class="modal hide fade in" style="display: none; " data-backdrop="static" data-keyboard="false">
 			<div class="modal-header">

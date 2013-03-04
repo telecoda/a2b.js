@@ -4,7 +4,7 @@ body {
 	margin		: 0;
 
 	color		: #222;
-	background-color: #BBB;
+	background-color: #fff;
 	font-family	: arial;
 	font-size	: 100%;
 	padding-top: 20px;
@@ -103,4 +103,9 @@ body {
    color: rgba(0,0,0,1);
 }
 .button:active {
+}
+
+.no-pad {
+	background-color: #ff0000;
+	padding: 0px 0px;
 }

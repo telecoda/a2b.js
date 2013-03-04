@@ -50,9 +50,28 @@ A2B.LevelController.loadLevel = function() {
 
 A2B.LevelController.saveLevel = function() {
 	
+	// display JSON to save to file in a dialog box
 	// selected from menu
-	alert("Save level selected!");
+	A2B.LevelController.initSaveDialog();
 }
+
+A2B.LevelController.initSaveDialog = function(onActionCallback) {
+
+	var onActionClick = function(event) {
+		console.log("saveLevelDialog.onActionClick method");
+		$("#saveLevelDialogBox").modal('hide');
+		// delay action callback to allow previous fade in/out to complete cleanly
+		setTimeout(onActionCallback, 1000);
+
+	}
+	
+	//levelModel.levelData = JSON.parse(levelJSONData );
+	
+	var jsonData = JSON.stringify(gameModel.currentLevel.levelData);
+	$("#saveLevelJSONData").text(jsonData);
+	$("#saveLevelDialogBox").modal("show");
+
+};
 
 A2B.LevelController.onLevelToEditLoaded = function(levelModel) {
 
