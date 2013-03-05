@@ -89,12 +89,19 @@ A2B.LevelController.onLevelToEditLoaded = function(levelModel) {
 
 A2B.LevelController.bindLevelDataToEditorUI = function(levelData) {
 	
+	// Level details
 	$("#edit-level-name").val(levelData.name);
 	$("#edit-level-author").val(levelData.author);
 	$("#edit-level-objective").val(levelData.objective);
 	$("#edit-level-completedMessage").val(levelData.completedMessage);
 	$("#edit-level-timeLimit").val(levelData.timeLimit);
 	$("#edit-level-minimumBallHeight").val(levelData.minimumBallHeight);
+	
+	// Texture data
+	$("#edit-textures-list").empty();
+	for(var i=0;i<levelData.textures.length;i++) {
+		//$("#edit-textures-list").appendHTML("<li>aaa</li>");
+	}
 	
 };
 

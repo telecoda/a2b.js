@@ -51,7 +51,7 @@
 		<!-- game view start NOT displayed -->
 		<div id="game-page" style="display: none">
 			<div id="game-hud" class="sidebar-nav hide">
-				<div class="well" style="position: absolute; width:300px; top:80px; padding: 8px 0; p">
+				<div class="well" style="position: absolute; z-index:10; width:300px; top:80px; padding: 8px 0; p">
 					<ul class="nav nav-list">
 						<li class="nav-header">
 							A2B
@@ -126,6 +126,8 @@
 					    <div id="textureDetails" class="accordion-body collapse">
 					      <div class="accordion-inner">
 					        Texture details here
+					        <ul id="edit-textures-list" class="unstyled">
+					        </ul>
 					      </div>
 					    </div>
 					  </div>
