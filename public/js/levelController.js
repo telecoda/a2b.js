@@ -98,13 +98,33 @@ A2B.LevelController.bindLevelDataToEditorUI = function(levelData) {
 	$("#edit-level-minimumBallHeight").val(levelData.minimumBallHeight);
 	
 	// Texture data
-	$("#edit-textures-list").empty();
-	for(var i=0;i<levelData.textures.length;i++) {
-		//$("#edit-textures-list").appendHTML("<li>aaa</li>");
-	}
+	
+	A2B.LevelController.bindTexturesToUI(levelData.textures);
+	
 	
 };
 
+A2B.LevelController.bindTexturesToUI = function(textures) {
+	$("#edit-textures-list").empty();
+	
+	var listHTML = "<ul class=\"unstyled\">";
+	
+	
+	for(var i=0;i<textures.length;i++) {
+		var texture = textures[i];
+		listHTML += "<li id=\""+texture.id +"\" >"
+			+ "<a href\"#\">"
+			+ "Name:" + texture.name 
+			+ " File:" + texture.file 
+			+ "</a>"
+			+ "</li>";
+	}
+	
+	listHTML += "</ul>";
+	
+	$("#edit-textures-list").html(listHTML);	
+	
+}; 
 
 A2B.LevelController.createLevelScene = function(levelData,materials) {
 	// This method will create a new scene object from the level data and return it
@@ -278,6 +298,26 @@ A2B.LevelController.validateLevel = function(levelData) {
 	if(levelData.minimumBallHeight==undefined) {
 		// level must have a minimum ball height
 		errors[i++]="Level does not have a minimumBallHeight";
+	}
+
+	// textures
+	if(levelData.textures==undefined) {
+		// level must have textures
+		errors[i++]="Level does not have any textures";
+	}
+	
+	// textures must have id's
+	if(levelData.textures) {
+		// textures must be valid
+		var len=levelData.textures.length;
+
+		for(var i=0; i<len; i++) {
+			var texture = levelData.textures[i];
+			if(texture.id==undefined) {
+				errors[i++]="Texture does not have id defined";
+			}
+		}
+	
 	}
 
 	// lights
