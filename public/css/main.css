@@ -105,7 +105,17 @@ body {
 .button:active {
 }
 
+.edit-item {
+	padding: 5px 5px;
+}
+
+.edit-item:hover {
+	background-color: #dddddd;
+}
+.edit-button {
+	padding: 0px 5px;
+}
+
 .no-pad {
-	background-color: #ff0000;
 	padding: 0px 0px;
 }

@@ -112,19 +112,54 @@ A2B.LevelController.bindTexturesToUI = function(textures) {
 	
 	for(var i=0;i<textures.length;i++) {
 		var texture = textures[i];
-		listHTML += "<li id=\""+texture.id +"\" >"
-			+ "<a href\"#\">"
-			+ "Name:" + texture.name 
-			+ " File:" + texture.file 
-			+ "</a>"
+		listHTML += "<li class=\"edit-item\">" + texture.name
+			+ "<a class=\"edit-texture-button edit-button btn btn-small btn-primary pull-right\" href\"#\" id=\""+texture.id +"\" >edit</a>"
+			+ "<a class=\"delete-texture-button edit-button btn btn-small btn-primary pull-right\" href\"#\" id=\""+texture.id +"\" >delete</a>"
 			+ "</li>";
 	}
+	
+	listHTML += "<li class=\"edit-item\">New texture->" 
+	+ "<a class=\"add-texture-button edit-button btn btn-small btn-primary pull-right\" href\"#\" id=\"texture-xx\" >add</a>"
+	+ "</li>";
 	
 	listHTML += "</ul>";
 	
 	$("#edit-textures-list").html(listHTML);	
 	
+	// bind callbacks to buttons
+	$(".edit-texture-button").click(function () {
+		//alert("edit clicked:"+this.id);
+		A2B.LevelController.initTextureDialog(this.id);
+	});
+
+	$(".delete-texture-button").click(function () {
+		alert("delete clicked:"+this.id);
+	});
+
+	$(".add-texture-button").click(function () {
+		alert("add clicked:"+this.id);
+	});
+
+	
 }; 
+
+A2B.LevelController.initTextureDialog = function(textureId) {
+
+	$("#editTextureDialogSaveButton").click(function () {
+		// save new details
+		$("#editTextureDialogBox").hide();
+	
+	});
+
+	$("#editTextureDialogCloseButton").click(function () {
+	
+		$("#editTextureDialogBox").hide();
+	
+	});
+
+	$("#editTextureDialogBox").show();
+	
+};
 
 A2B.LevelController.createLevelScene = function(levelData,materials) {
 	// This method will create a new scene object from the level data and return it
