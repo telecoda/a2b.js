@@ -119,3 +119,9 @@ body {
 .no-pad {
 	padding: 0px 0px;
 }
+
+.preview-texture-image {
+	width: 300px;
+	height: 300px;
+	float: right;
+}

@@ -113,8 +113,8 @@ A2B.LevelController.bindTexturesToUI = function(textures) {
 	for(var i=0;i<textures.length;i++) {
 		var texture = textures[i];
 		listHTML += "<li class=\"edit-item\">" + texture.name
-			+ "<a class=\"edit-texture-button edit-button btn btn-small btn-primary pull-right\" href\"#\" id=\""+texture.id +"\" >edit</a>"
 			+ "<a class=\"delete-texture-button edit-button btn btn-small btn-primary pull-right\" href\"#\" id=\""+texture.id +"\" >delete</a>"
+			+ "<a class=\"edit-texture-button edit-button btn btn-small btn-primary pull-right\" href\"#\" id=\""+texture.id +"\" >edit</a>"
 			+ "</li>";
 	}
 	
