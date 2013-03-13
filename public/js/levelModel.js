@@ -26,6 +26,18 @@ A2B.LevelModel = function(levelNum) {
 
 };
 
+A2B.LevelModel.prototype.getTextureById = function(id) {
+	// This method returns a texture by it's id
+	for(var i=0;i<this.levelData.textures.length;i++) {
+		var texture = this.levelData.textures[i];
+		if(texture.id==id) {
+			return texture;
+		}
+	}
+	
+	return undefined;
+}
+
 A2B.LevelModel.prototype.getMainSphere = function() {
 	// This method returns the mainSphere object in the current level ThreeJS scene
 	

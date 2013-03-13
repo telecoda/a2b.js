@@ -157,6 +157,18 @@ A2B.LevelController.initTextureDialog = function(textureId) {
 	
 	});
 
+	// fetch texture
+	var texture = gameModel.currentLevel.getTextureById(textureId);
+	
+	$("#edit-texture-id").val(texture.id);
+	$("#edit-texture-name").val(texture.name);
+	$("#edit-texture-file").val(texture.file);
+		
+	$("#edit-texture-preview-image").attr("src","textures/"+texture.file);
+	
+	//<img id="edit-texture-preview-image" class="preview-texture-image" src="textures/tex_a_block.png"></img>
+	
+	
 	$("#editTextureDialogBox").show();
 	
 };
