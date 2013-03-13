@@ -7,18 +7,22 @@
     "minimumBallHeight" : -5,
        "textures": [
         {
+        	"id": "texture-01",
             "name": "rocks",
             "file": "tex_rocks.jpg"
         },
         {
+        	"id": "texture-02",
             "name": "wood",
             "file": "tex_wood.jpg"
         },
         {
+        	"id": "texture-03",
             "name": "aBlock",
             "file": "tex_a_block.png"
         },
         {
+        	"id": "texture-04",
             "name": "bBlock",
             "file": "tex_b_block.png"
         }
